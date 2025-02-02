@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ dialogData.title }}</h2>
+<mat-dialog-content>
+    <p>{{ dialogData.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            [disabled]="loading"
+    >
+        Cancel
+    </button>
+    <button mat-button
+            [disabled]="loading"
+            (click)="dialogData.onConfirm()"
+    >
+        @if (loading) {
+            <mat-progress-spinner mode="indeterminate" diameter="20"/>
+        } @else {
+            Confirm
+        }
+    </button>
+</mat-dialog-actions>

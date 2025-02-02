@@ -1,0 +1,36 @@
+<mat-toolbar style="position: fixed">
+    <a mat-button routerLink="/">
+        <mat-icon>home</mat-icon>
+        Home
+    </a>
+    <span style="flex: 1"></span>
+    @if (isRegPage) {
+        @if (max320) {
+            <a mat-icon-button matTooltip="Login" routerLink="login">
+                <mat-icon>login</mat-icon>
+            </a>
+        } @else {
+            <a mat-stroked-button routerLink="login">
+                <mat-icon>login</mat-icon>
+                Login
+            </a>
+        }
+    } @else if (isLoginPage) {
+        @if (max320) {
+            <a mat-icon-button matTooltip="Registration" routerLink="registration">
+                <mat-icon>how_to_reg</mat-icon>
+            </a>
+        } @else {
+            <a mat-stroked-button routerLink="registration">
+                <mat-icon>how_to_reg</mat-icon>
+                Registration
+            </a>
+        }
+    }
+    <app-google-button style="margin-left: 0.5rem"/>
+</mat-toolbar>
+<mat-toolbar/>
+<section style="height: 100vh">
+    <router-outlet/>
+</section>
+<mat-toolbar/>

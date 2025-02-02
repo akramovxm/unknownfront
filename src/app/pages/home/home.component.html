@@ -1,0 +1,56 @@
+<mat-toolbar style="position: fixed">
+    <span style="flex: 1"></span>
+    @if (!auth) {
+        @if (max320) {
+            <a mat-icon-button matTooltip="Login" routerLink="login">
+                <mat-icon>login</mat-icon>
+            </a>
+        } @else {
+            <a mat-stroked-button routerLink="login">
+                <mat-icon>login</mat-icon>
+                Login
+            </a>
+        }
+        <app-google-button style="margin-left: 0.5rem"/>
+    } @else {
+        @if (role === Role.ADMIN) {
+            @if (max320) {
+                <a mat-icon-button matTooltip="Admin" routerLink="/admin">
+                    <mat-icon>shield</mat-icon>
+                </a>
+            } @else {
+                <a mat-stroked-button routerLink="/admin">
+                    <mat-icon>shield</mat-icon>
+                    Admin
+                </a>
+            }
+        } @else {
+            @if (max320) {
+                <a mat-icon-button matTooltip="Profile" routerLink="/profile">
+                    <mat-icon>person</mat-icon>
+                </a>
+            } @else {
+                <a mat-stroked-button routerLink="/profile">
+                    <mat-icon>person</mat-icon>
+                    Profile
+                </a>
+            }
+        }
+        @if (max320) {
+            <button mat-icon-button matTooltip="Logout" (click)="logout()">
+                <mat-icon>logout</mat-icon>
+            </button>
+        } @else {
+            <button mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Logout
+            </button>
+        }
+    }
+</mat-toolbar>
+<section>
+    <div class="app-name-container">
+        <h1 [class]="titleClass" style="margin-bottom: 0">UNKNOWN</h1>
+        <p [class]="subTitleClass" style="margin-bottom: 2rem">Online Learning Platform</p>
+    </div>
+</section>
