@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnDestroy, signal} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
@@ -10,11 +10,12 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "@services/auth.service";
 import {ErrorService} from "@services/error.service";
-import {UpdatePasswordRequest} from "@requests/update-password-request";
+import {SetPasswordRequest} from "@requests/set-password-request";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
-    selector: 'app-update-password',
+    selector: 'app-set-password',
     imports: [
         MatButton,
         MatError,
@@ -27,43 +28,52 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         NgxTrimDirectiveModule,
         ReactiveFormsModule,
         MatSuffix,
+        TranslatePipe,
     ],
-    templateUrl: './update-password.component.html',
-    styleUrl: './update-password.component.css'
+    templateUrl: './set-password.component.html',
+    styleUrl: './set-password.component.css'
 })
-export class UpdatePasswordComponent {
+export class SetPasswordComponent implements OnDestroy {
     router = inject(Router);
     formBuilder = inject(FormBuilder);
     authService = inject(AuthService);
     errorService = inject(ErrorService);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
     loading = false;
 
-    email = sessionStorage.getItem('email') ?? '';
+    email = sessionStorage.getItem('email');
 
-    updatePasswordForm = this.formBuilder.group({
+    setPasswordForm = this.formBuilder.group({
         email: [this.email, [Validators.required, Validators.email]],
         password: ['', [Validators.required]]
     });
 
-    submitUpdatePasswordForm() {
-        if (this.updatePasswordForm.invalid) return;
+    ngOnDestroy() {
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('verify');
+        sessionStorage.removeItem('verifyType');
+    }
+
+    submitSetPasswordForm() {
+        if (this.setPasswordForm.invalid) return;
 
         this.loading = true;
-        this.updatePasswordForm.disable();
-        this.authService.updatePassword(<UpdatePasswordRequest>this.updatePasswordForm.value)
+        this.setPasswordForm.disable();
+        this.authService.setPassword(<SetPasswordRequest>this.setPasswordForm.value)
             .subscribe({
                 next: res => {
                     this.loading = false;
-                    this.updatePasswordForm.enable();
+                    this.setPasswordForm.enable();
                     sessionStorage.removeItem('email');
-                    sessionStorage.removeItem("emailType");
+                    sessionStorage.removeItem('verify');
+                    sessionStorage.removeItem('verifyType');
                     this.router.navigate(['/login']);
                 },
                 error: err => {
                     this.loading = false;
-                    this.updatePasswordForm.enable();
+                    this.setPasswordForm.enable();
                     this.errorService.onError(err);
                 }
             });
@@ -81,11 +91,11 @@ export class UpdatePasswordComponent {
     }
 
     get passwordError() {
-        const password = this.updatePasswordForm.controls.password;
+        const password = this.setPasswordForm.controls.password;
         const errors = password.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Password is required";
+            error = this.translate.instant('PASSWORD_REQUIRED');
         }
         return error;
     }

@@ -18,6 +18,18 @@ export class BreakpointObserverService implements OnDestroy {
     max1440 = false;
     max2560 = false;
 
+    get containerWidth() {
+        let width = "95%";
+        if (this.max425) {
+            width = "95%";
+        } else if (this.max1440) {
+            width = "85%";
+        } else if (this.max2560) {
+            width = "75%";
+        }
+        return width;
+    }
+
     constructor() {
         this.breakpointObserver
             .observe([

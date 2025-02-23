@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
@@ -16,6 +16,7 @@ import {RegistrationRequest} from "@requests/registration-request";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-registration',
@@ -34,7 +35,9 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         MatDatepickerToggle,
         MatDatepicker,
         MatSuffix,
-        MatProgressSpinner
+        MatProgressSpinner,
+        MatIconButton,
+        TranslatePipe
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'en'},
@@ -49,6 +52,7 @@ export class RegistrationComponent {
     authService = inject(AuthService);
     errorService = inject(ErrorService);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
     registrationForm = this.formBuilder.group({
         firstName: ['', [Validators.required]],
@@ -71,7 +75,7 @@ export class RegistrationComponent {
                     this.registrationForm.enable();
                     if (this.registrationForm.value.email) {
                         sessionStorage.setItem('email', this.registrationForm.value.email);
-                        sessionStorage.setItem('emailType', "registration");
+                        sessionStorage.setItem('verifyType', 'registration');
                     }
                     this.router.navigate(['/verify']);
                 },
@@ -111,7 +115,7 @@ export class RegistrationComponent {
         const errors = firstName.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "First name is required";
+            error = this.translate.instant('FIRST_NAME_REQUIRED');
         }
         return error;
     }
@@ -121,7 +125,7 @@ export class RegistrationComponent {
         const errors = lastName.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Last name is required";
+            error = this.translate.instant('LAST_NAME_REQUIRED');
         }
         return error;
     }
@@ -131,9 +135,9 @@ export class RegistrationComponent {
         const errors = phoneNumber.errors;
         let error = '';
         if (errors?.['mask']) {
-            error = "Phone is invalid";
+            error = this.translate.instant('PHONE_NUMBER_INVALID');
         } else if (errors?.['exists']) {
-            error = "Phone number is already taken"
+            error = this.translate.instant('PHONE_NUMBER_EXISTS');
         }
         return error;
     }
@@ -143,7 +147,7 @@ export class RegistrationComponent {
         const errors = birthDate.errors;
         let error = '';
         if (errors?.['matDatepickerParse']) {
-            error = "Birth date is invalid";
+            error = this.translate.instant('BIRTH_DATE_INVALID');
         }
         return error;
     }
@@ -153,11 +157,11 @@ export class RegistrationComponent {
         const errors = email.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Email is required";
+            error = this.translate.instant('EMAIL_REQUIRED');
         } else if (errors?.['email']) {
-            error = "Email is invalid";
+            error = this.translate.instant('EMAIL_INVALID');
         } else if (errors?.['exists']) {
-            error = "Email is already taken"
+            error = this.translate.instant('EMAIL_EXISTS');
         }
         return error;
     }
@@ -167,7 +171,7 @@ export class RegistrationComponent {
         const errors = password.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Password is required";
+            error = this.translate.instant('PASSWORD_REQUIRED');
         }
         return error;
     }

@@ -9,7 +9,7 @@ import {RegistrationRequest} from "@requests/registration-request";
 import {VerifyRequest} from "@requests/verify-request";
 import {DecodedToken} from "@entities/decoded-token";
 import {jwtDecode} from "jwt-decode";
-import {UpdatePasswordRequest} from "@requests/update-password-request";
+import {SetPasswordRequest} from "@requests/set-password-request";
 
 @Injectable({
     providedIn: 'root'
@@ -66,11 +66,11 @@ export class AuthService {
     }
 
     resendCode(email: string | undefined | null) {
-        return this.http.post<AuthResponse>(this.baseUrl + '/auth/resend-code', {email});
+        return this.http.post<AuthResponse>(this.baseUrl + '/auth/send-code', {email});
     }
 
-    updatePassword(data: UpdatePasswordRequest) {
-        return this.http.post<AuthResponse>(this.baseUrl + '/auth/update-password', data);
+    setPassword(data: SetPasswordRequest) {
+        return this.http.post<AuthResponse>(this.baseUrl + '/auth/set-password', data);
     }
 
     getToken() {

@@ -1,13 +1,22 @@
 <h2 mat-dialog-title>{{ dialogData.title }}</h2>
 <mat-dialog-content>
     <p>{{ dialogData.message }}</p>
+    @if (dialogData.elements && dialogData.elements.length > 0) {
+        <mat-list>
+            <mat-list-item *ngFor="let element of dialogData.elements">
+                <mat-icon matListItemIcon>{{ element.icon }}</mat-icon>
+                <div matListItemTitle>{{ element.title }}</div>
+                <div matListItemLine>{{ element.subTitle }}</div>
+            </mat-list-item>
+        </mat-list>
+    }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button
             mat-dialog-close
             [disabled]="loading"
     >
-        Cancel
+        {{ 'CANCEL' | translate }}
     </button>
     <button mat-button
             [disabled]="loading"
@@ -16,7 +25,7 @@
         @if (loading) {
             <mat-progress-spinner mode="indeterminate" diameter="20"/>
         } @else {
-            Confirm
+            {{ 'CONFIRM' | translate }}
         }
     </button>
 </mat-dialog-actions>

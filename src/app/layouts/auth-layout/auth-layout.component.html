@@ -1,33 +1,34 @@
 <mat-toolbar style="position: fixed">
     <a mat-button routerLink="/">
         <mat-icon>home</mat-icon>
-        Home
+        {{ 'HOME' | translate }}
     </a>
     <span style="flex: 1"></span>
+    <app-language-menu/>
     @if (isRegPage) {
         @if (max320) {
-            <a mat-icon-button matTooltip="Login" routerLink="login">
+            <a mat-icon-button [matTooltip]="'LOGIN' | translate" routerLink="login">
                 <mat-icon>login</mat-icon>
             </a>
         } @else {
-            <a mat-stroked-button routerLink="login">
+            <a mat-button routerLink="login">
                 <mat-icon>login</mat-icon>
-                Login
+                {{ 'LOGIN' | translate }}
             </a>
         }
     } @else if (isLoginPage) {
         @if (max320) {
-            <a mat-icon-button matTooltip="Registration" routerLink="registration">
+            <a mat-icon-button [matTooltip]="'REGISTRATION' | translate" routerLink="registration">
                 <mat-icon>how_to_reg</mat-icon>
             </a>
         } @else {
-            <a mat-stroked-button routerLink="registration">
+            <a mat-button routerLink="registration">
                 <mat-icon>how_to_reg</mat-icon>
-                Registration
+                {{ 'REGISTRATION' | translate }}
             </a>
         }
     }
-    <app-google-button style="margin-left: 0.5rem"/>
+    <app-google-button style="margin: 0 0.5rem"/>
 </mat-toolbar>
 <mat-toolbar/>
 <section style="height: 100vh">

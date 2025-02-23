@@ -1,31 +1,20 @@
 import {Component, inject} from '@angular/core';
-import {Router, RouterLink, RouterOutlet} from '@angular/router';
-import {MatAnchor, MatButton} from "@angular/material/button";
-import {NgIf} from "@angular/common";
-import {MatTooltip} from "@angular/material/tooltip";
+import {Router, RouterOutlet} from '@angular/router';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, MatButton, MatAnchor, RouterLink, NgIf, MatTooltip],
+    imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
 export class AppComponent {
     router = inject(Router);
+    translate = inject(TranslateService);
 
-    get isVerifyPage() {
-        return this.router.url === '/verify';
-    }
-
-    get isUpdatePasswordPage() {
-        return this.router.url === '/update-password';
-    }
-
-    get email() {
-        return sessionStorage.getItem('email') ?? '';
-    }
-
-    get emailType() {
-        return sessionStorage.getItem('emailType') ?? '';
+    constructor() {
+        const savedLang = localStorage.getItem('lang') || 'en';
+        this.translate.setDefaultLang(savedLang);
+        this.translate.use(savedLang);
     }
 }

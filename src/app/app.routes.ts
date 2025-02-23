@@ -12,8 +12,11 @@ import {ProfileComponent} from "@pages/profile/profile.component";
 import {authGuard} from "@guards/auth.guard";
 import {Oauth2RedirectComponent} from "@pages/oauth2-redirect/oauth2-redirect.component";
 import {AccountRecoveryComponent} from "@pages/account-recovery/account-recovery.component";
-import {UpdatePasswordComponent} from "@pages/update-password/update-password.component";
-import {updatePasswordGuard} from "@guards/update-password.guard";
+import {UsersComponent as AdminUsersComponent} from "@pages/admin/users/users.component";
+import {CreateComponent as UserCreateComponent} from "@pages/admin/users/create/create.component";
+import {SetPasswordComponent} from "@pages/set-password/set-password.component";
+import {setPasswordGuard} from "@guards/set-password.guard";
+import {UpdateComponent as UserUpdateComponent} from "@pages/admin/users/update/update.component";
 
 const appName = 'Unknown | ';
 
@@ -54,10 +57,10 @@ export const routes: Routes = [
                 canActivate: [verifyGuard]
             },
             {
-                path: 'update-password',
-                title: appName + "Update Password",
-                component: UpdatePasswordComponent,
-                canActivate: [updatePasswordGuard]
+                path: 'set-password',
+                title: appName + "Set Password",
+                component: SetPasswordComponent,
+                canActivate: [setPasswordGuard]
             }
         ]
     },
@@ -65,7 +68,24 @@ export const routes: Routes = [
         path: 'admin',
         title: appName + 'Admin',
         component: AdminComponent,
-        canActivate: [adminGuard]
+        canActivate: [adminGuard],
+        children: [
+            {
+                path: 'users',
+                title: appName + 'Users',
+                component: AdminUsersComponent
+            },
+            {
+                path: 'users/create',
+                title: appName + 'Create User',
+                component: UserCreateComponent
+            },
+            {
+                path: 'users/update',
+                title: appName + 'Update User',
+                component: UserUpdateComponent
+            }
+        ]
     },
     {
         path: 'profile',

@@ -1,49 +1,50 @@
 <mat-toolbar style="position: fixed">
     <span style="flex: 1"></span>
+    <app-language-menu/>
     @if (!auth) {
-        @if (max320) {
-            <a mat-icon-button matTooltip="Login" routerLink="login">
+        @if (max425) {
+            <a mat-icon-button [matTooltip]="'LOGIN' | translate" routerLink="login">
                 <mat-icon>login</mat-icon>
             </a>
         } @else {
-            <a mat-stroked-button routerLink="login">
+            <a mat-button routerLink="login">
                 <mat-icon>login</mat-icon>
-                Login
+                {{ 'LOGIN' | translate }}
             </a>
         }
-        <app-google-button style="margin-left: 0.5rem"/>
+        <app-google-button style="margin: 0 0.5rem"/>
     } @else {
         @if (role === Role.ADMIN) {
-            @if (max320) {
-                <a mat-icon-button matTooltip="Admin" routerLink="/admin">
+            @if (max425) {
+                <a mat-icon-button [matTooltip]="'ADMIN' | translate" routerLink="/admin">
                     <mat-icon>shield</mat-icon>
                 </a>
             } @else {
-                <a mat-stroked-button routerLink="/admin">
+                <a mat-button routerLink="/admin">
                     <mat-icon>shield</mat-icon>
-                    Admin
+                    {{ 'ADMIN' | translate }}
                 </a>
             }
         } @else {
-            @if (max320) {
-                <a mat-icon-button matTooltip="Profile" routerLink="/profile">
+            @if (max425) {
+                <a mat-icon-button [matTooltip]="'PROFILE' | translate" routerLink="/profile">
                     <mat-icon>person</mat-icon>
                 </a>
             } @else {
-                <a mat-stroked-button routerLink="/profile">
+                <a mat-button routerLink="/profile">
                     <mat-icon>person</mat-icon>
-                    Profile
+                    {{ 'PROFILE' | translate }}
                 </a>
             }
         }
-        @if (max320) {
-            <button mat-icon-button matTooltip="Logout" (click)="logout()">
+        @if (max425) {
+            <button mat-icon-button [matTooltip]="'LOGOUT' | translate" (click)="logout()">
                 <mat-icon>logout</mat-icon>
             </button>
         } @else {
             <button mat-button (click)="logout()">
                 <mat-icon>logout</mat-icon>
-                Logout
+                {{ 'LOGOUT' | translate }}
             </button>
         }
     }
@@ -51,6 +52,6 @@
 <section>
     <div class="app-name-container">
         <h1 [class]="titleClass" style="margin-bottom: 0">UNKNOWN</h1>
-        <p [class]="subTitleClass" style="margin-bottom: 2rem">Online Learning Platform</p>
+        <p [class]="subTitleClass" style="margin-bottom: 2rem">{{ 'OLP' | translate }}</p>
     </div>
 </section>

@@ -1,0 +1,194 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"/>
+<div [style]="'margin: auto; width: ' + breakpointObserverService.containerWidth">
+    <h2 [class]="titleClass">{{ 'USERS' | translate }}</h2>
+
+    <div class="action-container">
+        <mat-form-field appearance="outline" class="search-input">
+            <input matInput type="text" [placeholder]="('SEARCH' | translate) + '...'" [formControl]="search" trim="blur" name="search"/>
+            <button
+                    *ngIf="search.value"
+                    mat-icon-button
+                    matSuffix
+                    (click)="onSearchClick($event)"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <div>
+            <a
+                    mat-button
+                    routerLink="/admin/users/create"
+            >
+                <mat-icon>add</mat-icon>
+                {{ 'CREATE' | translate }}
+            </a>
+            <a
+                    mat-button
+                    [disabled]="loading || selection.selected.length ===0"
+                    routerLink="/admin/users/update"
+                    (click)="onUpdateClick()"
+            >
+                <mat-icon>edit</mat-icon>
+                {{ 'UPDATE' | translate }}
+            </a>
+            <button
+                    mat-button
+                    [disabled]="loading || selection.selected.length ===0"
+                    (click)="onDeleteClick()"
+            >
+                <mat-icon>delete</mat-icon>
+                {{ 'DELETE' | translate }}
+            </button>
+            <button
+                    mat-button
+                    [disabled]="loading || selection.selected.length ===0"
+                    (click)="onLockClick()"
+            >
+                <mat-icon>lock</mat-icon>
+                {{ 'LOCK' | translate }}
+            </button>
+            <button
+                    mat-button
+                    [disabled]="loading || selection.selected.length ===0"
+                    (click)="onUnlockClick()"
+            >
+                <mat-icon>lock_open</mat-icon>
+                {{ 'UNLOCK' | translate }}
+            </button>
+        </div>
+    </div>
+
+    <div style="overflow: auto">
+        <table
+                mat-table
+                matSort
+                [dataSource]="dataSource"
+                [matSortActive]="sortActive"
+                [matSortDirection]="sortDirection"
+                (matSortChange)="onSortChange()"
+        >
+
+            <ng-container matColumnDef="select" sticky>
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox [disabled]="loading" (change)="$event ? toggleAllRows() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox [disabled]="loading" (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="locked">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'LOCKED' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon [style]="element.locked ? 'color: orangered' : 'color: limegreen'">
+                        {{ element.locked ? "lock" : "lock_open" }}
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ID' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FIRST_NAME' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.firstName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'LAST_NAME' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.lastName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'EMAIL' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.email }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="enabled">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ENABLED' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon
+                            [style]="(element.enabled ? 'color: limegreen;' : 'color: orange;') + 'margin-right: 0.25rem'">
+                        {{ element.enabled ? "check_circle" : "pending" }}
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNumber">
+                <th mat-header-cell *matHeaderCellDef>{{ 'PHONE_NUMBER' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.phoneNumber ? "+998" + element.phoneNumber : "" }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="birthDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BIRTH_DATE' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.birthDate | date: 'dd.MM.yyyy' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef>{{ 'ROLE' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    <span>
+                        <mat-icon style="margin-right: 0.25rem">
+                            {{ element.role === Role.ADMIN ? 'shield_person' : 'school' }}
+                        </mat-icon>
+                        {{ element.role }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CREATED_AT' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.createdAt | date: 'dd.MM.yyyy hh:mm' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="updatedAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'UPDATED_AT' | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element.updatedAt | date: 'dd.MM.yyyy hh:mm' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdBy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CREATED_BY' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.createdBy ? element.createdBy.firstName + " " + element.createdBy.lastName : "" }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="updatedBy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'UPDATED_BY' | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.updatedBy ? element.updatedBy.firstName + " " + element.updatedBy.lastName : "" }}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <mat-paginator *ngIf="dataSource.data.length > 0"
+                   [disabled]="loading"
+                   [pageSizeOptions]="[5, 10, 20, 30]"
+                   showFirstLastButtons
+                   [length]="totalElements"
+                   [pageIndex]="page"
+                   [pageSize]="size"
+                   (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+
+    <h3 *ngIf="dataSource.data.length === 0 && !loading" class="mat-headline-3">{{ 'NO_DATA' | translate }}</h3>
+</div>

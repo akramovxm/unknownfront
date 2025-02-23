@@ -6,6 +6,8 @@ import {MatIcon} from "@angular/material/icon";
 import {GoogleButtonComponent} from "@components/google-button/google-button.component";
 import {MatTooltip} from "@angular/material/tooltip";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe} from "@ngx-translate/core";
+import {LanguageMenuComponent} from "@components/language-menu/language-menu.component";
 
 @Component({
     selector: 'app-auth-layout',
@@ -17,7 +19,9 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         RouterLink,
         GoogleButtonComponent,
         MatIconAnchor,
-        MatTooltip
+        MatTooltip,
+        TranslatePipe,
+        LanguageMenuComponent
     ],
     templateUrl: './auth-layout.component.html',
     styleUrl: './auth-layout.component.css'

@@ -1,16 +1,16 @@
 <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
-    <h2 [class]="titleClass">Login</h2>
+    <h2 [class]="titleClass">{{ 'LOGIN' | translate }}</h2>
     <mat-form-field>
-        <mat-label>Email</mat-label>
+        <mat-label>{{ 'EMAIL' | translate }}</mat-label>
         <input matInput required type="text" formControlName="email" trim="blur" name="email"/>
         <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
     </mat-form-field>
     <mat-form-field>
-        <mat-label>Password</mat-label>
+        <mat-label>{{ 'PASSWORD' | translate }}</mat-label>
         <input matInput required [type]="hide() ? 'password' : 'text'" formControlName="password" trim="blur"/>
-            <mat-icon matSuffix (click)="clickEvent($event)" style="cursor: pointer">
-                {{hide() ? 'visibility_off' : 'visibility'}}
-            </mat-icon>
+        <button mat-icon-button matSuffix (click)="clickEvent($event)" type="button">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
     </mat-form-field>
 
@@ -22,7 +22,7 @@
             [disabled]="loading"
             routerLink="/account-recovery"
     >
-        Forgot password?
+        {{ 'DONT_NOW_THE_PASSWORD' | translate }}
     </a>
     <button mat-flat-button
             class="form-button"
@@ -35,6 +35,6 @@
                 login
             }
         </mat-icon>
-        Login
+        {{ 'LOGIN' | translate }}
     </button>
 </form>

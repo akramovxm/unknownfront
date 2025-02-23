@@ -5,6 +5,7 @@ export const verifyGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     const email = sessionStorage.getItem('email');
+    const verify = sessionStorage.getItem('verify');
 
-    return !!email || router.navigate(['/']);
+    return (!!email && !verify) || router.navigate(['/']);
 };

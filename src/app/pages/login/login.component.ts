@@ -11,8 +11,8 @@ import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MediaMatcher} from "@angular/cdk/layout";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-login',
@@ -29,8 +29,9 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         MatProgressSpinner,
         MatAnchor,
         RouterLink,
+        MatSuffix,
         MatIconButton,
-        MatSuffix
+        TranslatePipe
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
@@ -41,6 +42,7 @@ export class LoginComponent {
     authService = inject(AuthService);
     errorService = inject(ErrorService);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
     loginForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
@@ -86,9 +88,9 @@ export class LoginComponent {
         const errors = email.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Email is required";
+            error = this.translate.instant('EMAIL_REQUIRED');
         } else if (errors?.['email']) {
-            error = "Email is invalid";
+            error = this.translate.instant('EMAIL_INVALID');
         }
         return error;
     }
@@ -98,7 +100,7 @@ export class LoginComponent {
         const errors = password.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Password is required";
+            error = this.translate.instant('PASSWORD_REQUIRED');
         }
         return error;
     }

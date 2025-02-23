@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 import {AuthService} from "@services/auth.service";
 import {ErrorService} from "@services/error.service";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-account-recovery',
@@ -24,7 +25,8 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         MatProgressSpinner,
         NgIf,
         ReactiveFormsModule,
-        NgxTrimDirectiveModule
+        NgxTrimDirectiveModule,
+        TranslatePipe
     ],
     templateUrl: './account-recovery.component.html',
     styleUrl: './account-recovery.component.css'
@@ -35,6 +37,7 @@ export class AccountRecoveryComponent {
     authService = inject(AuthService);
     errorService = inject(ErrorService);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
     resendLoading = false;
 
@@ -54,7 +57,7 @@ export class AccountRecoveryComponent {
                     this.recoveryForm.enable();
                     if (this.recoveryForm.value.email) {
                         sessionStorage.setItem('email', this.recoveryForm.value.email);
-                        sessionStorage.setItem('emailType', "recovery");
+                        sessionStorage.setItem('verifyType', 'recovery');
                     }
                     this.router.navigate(['/verify']);
                 },
@@ -83,11 +86,11 @@ export class AccountRecoveryComponent {
         const errors = email.errors;
         let error = '';
         if (errors?.['required']) {
-            error = "Email is required";
+            error = this.translate.instant('EMAIL_REQUIRED');
         } else if (errors?.['email']) {
-            error = "Email is invalid";
+            error = this.translate.instant('EMAIL_INVALID');
         } else if (errors?.['notFound']) {
-            error = "Email is not found";
+            error = this.translate.instant('EMAIL_NOT_FOUND');
         }
         return error;
     }

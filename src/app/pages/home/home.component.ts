@@ -9,6 +9,8 @@ import {MatToolbar} from "@angular/material/toolbar";
 import {GoogleButtonComponent} from "@components/google-button/google-button.component";
 import {MatTooltip} from "@angular/material/tooltip";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import {LanguageMenuComponent} from "@components/language-menu/language-menu.component";
 
 @Component({
     selector: 'app-home',
@@ -21,7 +23,9 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         GoogleButtonComponent,
         MatIconAnchor,
         MatTooltip,
-        MatIconButton
+        MatIconButton,
+        TranslatePipe,
+        LanguageMenuComponent
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
@@ -30,9 +34,10 @@ export class HomeComponent {
     authService = inject(AuthService);
     confirmDialogService = inject(ConfirmDialogService);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
-    get max320() {
-        return this.breakpointObserverService.max320;
+    get max425() {
+        return this.breakpointObserverService.max425;
     }
 
     get titleClass() {
@@ -53,8 +58,8 @@ export class HomeComponent {
 
     logout() {
         this.confirmDialogService.open(
-            'Quit',
-            'Do you want to logout?',
+            this.translate.instant('LOGOUT'),
+            this.translate.instant('LOGOUT_CONFIRM'),
             () => {
                 this.authService.logout();
                 if (this.confirmDialogService.dialogRef) {

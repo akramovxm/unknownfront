@@ -1,8 +1,8 @@
 <form [formGroup]="verifyForm" (ngSubmit)="submitVerifyForm()">
-    <h2 [class]="titleClass">Verify</h2>
+    <h2 [class]="titleClass">{{ 'VERIFY' | translate }}</h2>
     <p class="mat-headline-6">{{ email }}</p>
     <mat-form-field>
-        <mat-label>Verify code</mat-label>
+        <mat-label>{{ 'VERIFY_CODE' | translate }}</mat-label>
         <input matInput required type="text" maxlength="4" formControlName="verifyCode"/>
         <mat-error *ngIf="codeError">{{ codeError }}</mat-error>
     </mat-form-field>
@@ -16,7 +16,7 @@
         @if (resendLoading) {
             <mat-progress-spinner mode="indeterminate" diameter="18"/>
         } @else {
-            Resend code
+            {{ 'RESEND_CODE' | translate }}
         }
     </button>
     <button class="form-button"
@@ -31,6 +31,6 @@
                 pin
             }
         </mat-icon>
-        Verify
+        {{ 'VERIFY' | translate }}
     </button>
 </form>

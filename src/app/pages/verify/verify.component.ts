@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "@services/auth.service";
 import {Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {MatInput} from "@angular/material/input";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-verify',
@@ -24,20 +25,22 @@ import {BreakpointObserverService} from "@services/breakpoint-observer.service";
         MatError,
         MatButton,
         MatProgressSpinner,
-        NgIf
+        NgIf,
+        TranslatePipe
     ],
     templateUrl: './verify.component.html',
     styleUrl: './verify.component.css'
 })
-export class VerifyComponent implements OnInit {
+export class VerifyComponent {
     formBuilder = inject(FormBuilder);
     authService = inject(AuthService);
     errorService = inject(ErrorService);
     router = inject(Router);
     snackbar = inject(MatSnackBar);
     breakpointObserverService = inject(BreakpointObserverService);
+    translate = inject(TranslateService);
 
-    email = sessionStorage.getItem('email') ?? '';
+    email = sessionStorage.getItem('email');
 
     resendLoading = false;
 
@@ -45,10 +48,6 @@ export class VerifyComponent implements OnInit {
         email: [this.email, [Validators.required]],
         verifyCode: ['', [Validators.required]]
     });
-
-    ngOnInit() {
-        this.verifyForm.controls.email.setValue(this.email);
-    }
 
     submitVerifyForm() {
         if (this.verifyForm.invalid) return;
@@ -60,14 +59,18 @@ export class VerifyComponent implements OnInit {
                 next: res => {
                     this.authService.verifyLoading = false;
                     this.verifyForm.enable();
-                    if (sessionStorage.getItem("emailType") === "recovery") {
-                        this.router.navigate(['/update-password']);
+                    this.translate.get(['VERIFY_SUCCESS', 'CLOSE']).subscribe(messages => {
+                        this.snackbar.open(messages['VERIFY_SUCCESS'], messages['CLOSE'], {duration: 5000});
+                    })
+                    if (sessionStorage.getItem('verifyType') === 'recovery') {
+                        sessionStorage.setItem('verify', String(true));
+                        this.router.navigate(['/set-password']);
                     } else {
-                        this.router.navigate(['/login']);
                         sessionStorage.removeItem('email');
-                        sessionStorage.removeItem("emailType");
+                        sessionStorage.removeItem('verify');
+                        sessionStorage.removeItem('verifyType');
+                        this.router.navigate(['/login']);
                     }
-                    this.snackbar.open(res.message, 'Close', { duration: 5000 });
                 },
                 error: err => {
                     this.authService.verifyLoading = false;
@@ -79,11 +82,13 @@ export class VerifyComponent implements OnInit {
 
     submitResendCode() {
         this.resendLoading = true;
-        this.authService.resendCode(this.email)
+        this.authService.resendCode(this.verifyForm.value.email)
             .subscribe({
                 next: res => {
                     this.resendLoading = false;
-                    this.snackbar.open(res.message, 'Yopish', { duration: 5000 })
+                    this.translate.get(['SEND_CODE_SUCCESS', 'CLOSE']).subscribe(messages => {
+                        this.snackbar.open(messages['SEND_CODE_SUCCESS'], messages['CLOSE'], {duration: 5000});
+                    })
                 },
                 error: err => {
                     this.resendLoading = false;
@@ -105,7 +110,7 @@ export class VerifyComponent implements OnInit {
         const errors = verifyCode.errors;
         let error = '';
         if (errors?.['required']) {
-            error = 'Code is required';
+            error = this.translate.instant('CODE_REQUIRED');;
         }
         return error;
     }

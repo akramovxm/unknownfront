@@ -1,8 +1,8 @@
 <div>
     <form [formGroup]="recoveryForm" (ngSubmit)="submitRecoveryForm()">
-        <h2 [class]="titleClass">Account Recovery</h2>
+        <h2 [class]="titleClass">{{ 'ACCOUNT_RECOVERY' | translate }}</h2>
         <mat-form-field>
-            <mat-label>Email</mat-label>
+            <mat-label>{{ "EMAIL" | translate }}</mat-label>
             <input matInput required type="text" formControlName="email" trim="blur" name="email"/>
             <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
         </mat-form-field>
@@ -18,7 +18,7 @@
                     send
                 }
             </mat-icon>
-            Send
+            {{ 'SEND' | translate }}
         </button>
     </form>
 </div>

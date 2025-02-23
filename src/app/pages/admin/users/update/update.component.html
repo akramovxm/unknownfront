@@ -1,0 +1,7 @@
+<mat-tab-group headerPosition="below" dynamicHeight>
+    <mat-tab *ngFor="let user of users" [label]="user.email + ' (' + user.firstName + ')'">
+        <div [style]="'margin: auto; width: ' + breakpointObserverService.containerWidth">
+            <app-update-user-form [user]="user"/>
+        </div>
+    </mat-tab>
+</mat-tab-group>
