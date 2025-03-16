@@ -1,0 +1,33 @@
+<mat-toolbar style="position: fixed">
+    <span style="flex: 1"></span>
+    @if (!auth) {
+        <a mat-button routerLink="login">
+            <mat-icon>login</mat-icon>
+            {{ 'LOGIN' | translate }}
+        </a>
+    } @else {
+        @if (role === Role.ADMIN) {
+            <a mat-button routerLink="/admin">
+                <mat-icon>shield</mat-icon>
+                {{ 'ADMIN' | translate }}
+            </a>
+        } @else {
+            <a mat-button routerLink="/profile">
+                <mat-icon>person</mat-icon>
+                {{ 'PROFILE' | translate }}
+            </a>
+        }
+
+        <button mat-button (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            {{ 'LOGOUT' | translate }}
+        </button>
+    }
+    <app-language-menu/>
+</mat-toolbar>
+<section>
+    <div class="app-name-container">
+        <h1 [class]="titleClass" style="margin-bottom: 0">UNKNOWN</h1>
+        <p [class]="subTitleClass" style="margin-bottom: 2rem">{{ 'OLP' | translate }}</p>
+    </div>
+</section>

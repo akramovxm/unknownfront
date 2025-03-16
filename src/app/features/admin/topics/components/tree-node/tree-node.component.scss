@@ -1,0 +1,16 @@
+:host {
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+span {
+    flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

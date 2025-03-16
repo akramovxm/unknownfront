@@ -13,7 +13,7 @@ export class AppComponent {
     translate = inject(TranslateService);
 
     constructor() {
-        const savedLang = localStorage.getItem('lang') || 'en';
+        const savedLang = localStorage.getItem('lang') || 'ru';
         this.translate.setDefaultLang(savedLang);
         this.translate.use(savedLang);
     }

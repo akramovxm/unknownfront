@@ -1,0 +1,48 @@
+@use '@angular/material' as mat;
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.submit-button {
+    align-self: end;
+}
+
+.form-button {
+    align-self: end;
+    @include mat.button-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -3
+                            )
+                    ))
+    )
+}
+
+@media (min-width: 320px) {
+    form {
+        width: 300px;
+    }
+}
+@media (min-width: 375px) {
+    form {
+        width: 355px;
+    }
+}
+@media (min-width: 425px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
+}
+@media (min-width: 1440px) {
+
+}
+@media (min-width: 2560px) {
+
+}

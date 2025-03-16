@@ -1,0 +1,24 @@
+<div>
+    <h1>{{ 'ACCOUNT_RECOVERY' | translate }}</h1>
+    <form [formGroup]="recoveryForm" (ngSubmit)="submitRecoveryForm()">
+        <mat-form-field>
+            <mat-label>{{ "EMAIL" | translate }}</mat-label>
+            <input matInput required type="text" formControlName="email" trim="blur" name="email"/>
+            <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
+        </mat-form-field>
+        <button class="form-button"
+                mat-flat-button
+                type="submit"
+                [disabled]="resendLoading"
+        >
+            <mat-icon>
+                @if (resendLoading) {
+                    <mat-progress-spinner mode="indeterminate" diameter="18"/>
+                } @else {
+                    send
+                }
+            </mat-icon>
+            {{ 'SEND' | translate }}
+        </button>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+mat-form-field {
+    width: 100%;
+    @include mat.form-field-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -3
+                            )
+                    ))
+    )
+}

@@ -1,0 +1,22 @@
+<app-progress-bar [loading]="loading"/>
+<app-container>
+    <app-search-input [search]="search"/>
+
+    <div class="task-container">
+        <app-task-admin-card *ngFor="let task of tasks"
+                             [task]="task" [lang]="lang"
+                             [selected]="getSelected(task)"
+                             [disabled]="loading"
+                             (checkClick)="onCheckClick($event)"
+        />
+    </div>
+    <mat-paginator *ngIf="tasks.length > 0"
+                   [disabled]="loading"
+                   [length]="totalElements"
+                   [pageIndex]="page"
+                   [pageSize]="size"
+                   (page)="onPageChange($event)"
+                   [pageSizeOptions]="[10, 20, 30]"
+                   showFirstLastButtons>
+    </mat-paginator>
+</app-container>

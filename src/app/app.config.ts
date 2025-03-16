@@ -5,7 +5,7 @@ import {routes} from './app.routes';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideEnvironmentNgxMask} from "ngx-mask";
 import {HttpClient, provideHttpClient, withInterceptors} from "@angular/common/http";
-import {authInterceptor} from "@interceptors/auth.interceptor";
+import {authInterceptor} from "./core/interceptors/auth.interceptor";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 

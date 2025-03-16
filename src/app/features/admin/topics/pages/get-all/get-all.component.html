@@ -1,0 +1,30 @@
+<app-progress-bar [loading]="loading"/>
+<app-container>
+    <mat-tree #tree
+              [dataSource]="topics"
+              [childrenAccessor]="childrenAccessor"
+    >
+        <mat-tree-node *matTreeNodeDef="let topic"
+                       matTreeNodePadding
+        >
+            <button mat-icon-button disabled></button>
+            <app-tree-node [topic]="topic" [cdkDragHandleDisabled]="tree.isExpanded(topic)"/>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let topic; when: hasChild"
+                       matTreeNodePadding
+                       [cdkTreeNodeTypeaheadLabel]="topic.title"
+        >
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + topic.title">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{tree.isExpanded(topic) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            <app-tree-node [topic]="topic" [cdkDragHandleDisabled]="tree.isExpanded(topic)"/>
+        </mat-tree-node>
+    </mat-tree>
+    <button mat-button>
+        <mat-icon>add</mat-icon>
+        Create
+    </button>
+</app-container>

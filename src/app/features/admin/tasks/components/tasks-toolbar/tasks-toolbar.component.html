@@ -1,0 +1,71 @@
+<span class="title">{{ 'TASKS' | translate }}</span>
+<span style="flex: 1"></span>
+@if (boService.max425) {
+    <div>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/create"
+                [matTooltip]="'CREATE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </a>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/update"
+                [disabled]="disabled"
+                (click)="onUpdateClick()"
+                [matTooltip]="'UPDATE' | translate"
+        >
+            <mat-icon>edit</mat-icon>
+        </a>
+        <button
+                mat-icon-button
+                [disabled]="disabled"
+                (click)="onDeleteClick()"
+                [matTooltip]="'DELETE' | translate"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button
+                [disabled]="loading"
+                (click)="onAllCheckClick()"
+                [matTooltip]="checkButtonTitle | translate"
+        >
+            <mat-icon>{{ checkButtonTitle }}</mat-icon>
+        </button>
+    </div>
+} @else {
+    <div>
+        <a
+                mat-button
+                routerLink="/admin/tasks/create"
+        >
+            <mat-icon>add</mat-icon>
+            {{ 'CREATE' | translate }}
+        </a>
+        <a
+                mat-button
+                routerLink="/admin/tasks/update"
+                [disabled]="disabled"
+                (click)="onUpdateClick()"
+        >
+            <mat-icon>edit</mat-icon>
+            {{ 'UPDATE' | translate }}
+        </a>
+        <button
+                mat-button
+                [disabled]="disabled"
+                (click)="onDeleteClick()"
+        >
+            <mat-icon>delete</mat-icon>
+            {{ 'DELETE' | translate }}
+        </button>
+        <button mat-button
+                [disabled]="loading"
+                (click)="onAllCheckClick()"
+        >
+            <mat-icon>{{ checkButtonIcon }}</mat-icon>
+            {{ checkButtonTitle | translate }}
+        </button>
+    </div>
+}

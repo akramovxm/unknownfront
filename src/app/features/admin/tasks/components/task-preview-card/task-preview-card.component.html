@@ -1,0 +1,13 @@
+<mat-card>
+    <mat-card-content>
+        <p [innerHTML]="content()"></p>
+        <mat-list>
+            <mat-list-item *ngFor="let answer of answers()">
+                <mat-icon matListItemIcon [ngStyle]="{color: answer.correct ? 'var(--mat-sys-primary)' : ''}">
+                    {{ answer.correct ? 'check_circle' : 'radio_button_unchecked' }}
+                </mat-icon>
+                <i [innerHTML]="lang() === 'uz' ? answer.valueUz : answer.valueRu"></i>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

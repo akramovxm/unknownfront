@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ 'SELECT_TOPIC' | translate }}</h2>
+<mat-dialog-content>
+    <mat-tree #tree [dataSource]="treeTopics" [childrenAccessor]="childrenAccessor">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matRipple [matRippleTrigger]="span">
+            <button mat-icon-button disabled></button>
+            <span #span (click)="onTopicClick(node.id)">{{node.title}}</span>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matRipple [matRippleTrigger]="span"
+                       [cdkTreeNodeTypeaheadLabel]="node.name">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{tree.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            <span #span (click)="onTopicClick(node.id)">{{node.title}}</span>
+        </mat-tree-node>
+    </mat-tree>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button matDialogClose>{{ 'CANCEL' | translate }}</button>
+</mat-dialog-actions>

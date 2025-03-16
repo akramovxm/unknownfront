@@ -1,0 +1,47 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: 760px;
+    padding-top: 0.5rem;
+}
+
+.form-button {
+    align-self: end;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-slide-toggle {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 320px) {
+
+}
+@media (min-width: 375px) {
+
+}
+@media (min-width: 425px) {
+
+}
+@media (min-width: 768px) {
+    mat-form-field:nth-child(even) {
+        margin-right: 0.5rem;
+    }
+    mat-form-field {
+        width: calc(50% - 0.5rem);
+    }
+}
+@media (min-width: 1024px) {
+
+}
+@media (min-width: 1440px) {
+
+}
+@media (min-width: 2560px) {
+
+}

@@ -1,0 +1,11 @@
+<button mat-button [matMenuTriggerFor]="lang">
+    @if (currentLang === 'uz') {
+        🇺🇿 UZ
+    } @else {
+        🇷🇺 RU
+    }
+</button>
+<mat-menu #lang=matMenu>
+    <button mat-menu-item (click)="setLanguage('uz')">🇺🇿 {{ 'UZBEK' | translate }}</button>
+    <button mat-menu-item (click)="setLanguage('ru')">🇷🇺 {{ 'RUSSIAN' | translate }}</button>
+</mat-menu>

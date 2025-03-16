@@ -1,0 +1,45 @@
+.action-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
+app-search-input {
+    width: 100%;
+}
+
+.mat-column-firstName, .mat-column-lastName, .mat-column-email, .mat-column-phoneNumber,
+.mat-column-birthDate, .mat-column-createdAt, .mat-column-updatedAt, .mat-column-createdBy,
+.mat-column-updatedBy {
+    min-width: 150px;
+    max-width: 250px;
+    text-wrap: nowrap;
+}
+
+span {
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 320px) {
+
+}
+@media (min-width: 375px) {
+
+}
+@media (min-width: 425px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
+}
+@media (min-width: 1440px) {
+
+}
+@media (min-width: 2560px) {
+
+}

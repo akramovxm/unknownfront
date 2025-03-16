@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+p, i {
+    font-family: 'cmunrm', sans-serif;
+    font-size: 16px;
+}
+
+mat-list {
+    @include mat.list-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -2
+                            )
+                    ))
+    )
+}

@@ -1,0 +1,7 @@
+<mat-tab-group headerPosition="below" dynamicHeight (selectedIndexChange)="onIndexChange($event)">
+    <mat-tab *ngFor="let form of forms" [label]="'ID: ' + form.controls.id.value">
+        <app-container>
+            <app-task-form icon="edit" action="UPDATE" [submit]="onSubmit.bind(this)" [form]="form"/>
+        </app-container>
+    </mat-tab>
+</mat-tab-group>

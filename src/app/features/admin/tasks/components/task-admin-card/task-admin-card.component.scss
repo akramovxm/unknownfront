@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+
+.mathjax {
+    font-family: 'cmunrm', sans-serif;
+    font-size: 16px;
+}
+
+p {
+    margin-bottom: 0!important;
+}
+
+mat-list {
+    @include mat.list-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -2
+                            )
+                    ))
+    )
+}
+
+@media (min-width: 320px) {
+
+}
+@media (min-width: 375px) {
+
+}
+@media (min-width: 425px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
+}
+@media (min-width: 1440px) {
+
+}
+@media (min-width: 2560px) {
+
+}
