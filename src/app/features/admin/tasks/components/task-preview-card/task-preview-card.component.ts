@@ -1,7 +1,7 @@
 import {Component, inject, input, OnChanges, SimpleChanges} from '@angular/core';
 import {MathjaxService} from "@services/mathjax.service";
 import {NgForOf, NgStyle} from "@angular/common";
-import {MatCard, MatCardContent} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatList, MatListItem, MatListItemIcon} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 
@@ -15,7 +15,8 @@ import {MatIcon} from "@angular/material/icon";
         MatListItem,
         MatIcon,
         MatListItemIcon,
-        NgStyle
+        NgStyle,
+        MatCardHeader
     ],
     templateUrl: './task-preview-card.component.html',
     styleUrl: './task-preview-card.component.scss',

@@ -8,13 +8,13 @@ import {
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {TranslatePipe} from "@ngx-translate/core";
 import { TopicForm } from '../../models/topic-form';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { ErrorMessageService } from '@services/error-message.service';
 import { NgIf } from '@angular/common';
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-topic-form-dialog',
@@ -23,7 +23,6 @@ import { NgIf } from '@angular/common';
         MatDialogTitle,
         MatDialogActions,
         MatDialogClose,
-        MatProgressSpinner,
         MatButton,
         MatIcon,
         TranslatePipe,
@@ -32,7 +31,8 @@ import { NgIf } from '@angular/common';
         MatLabel,
         MatError,
         MatInput,
-        NgIf
+        NgIf,
+        ButtonProgressSpinnerComponent
     ],
     templateUrl: './topic-form-dialog.component.html',
     styleUrl: './topic-form-dialog.component.scss'

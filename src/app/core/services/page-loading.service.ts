@@ -4,7 +4,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 @Injectable({
     providedIn: 'root'
 })
-export class GlobalLoadingService {
+export class PageLoadingService {
     private readonly router = inject(Router);
 
     readonly loading = signal<boolean>(false);

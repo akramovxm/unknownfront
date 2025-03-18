@@ -13,7 +13,7 @@ export class ErrorService {
     authService = inject(AuthService);
     snackbarService = inject(SnackbarService);
 
-    onError(err: HttpErrorResponse, form?: FormGroup) {
+    onError(err: HttpErrorResponse, form?: FormGroup, errors?: string[]) {
         console.log(err);
         switch (err.status) {
             case 0:
@@ -23,7 +23,7 @@ export class ErrorService {
                 if (form) {
                     Object.entries(form.controls).forEach(([key, control]) => {
                         if (err.error.errors[key]) {
-                            control.setErrors({ 'exists': true });
+                            errors?.forEach(e => control.setErrors({ [e]: true }))
                         }
                     })
                 }

@@ -27,7 +27,7 @@
     >
         <mat-icon>
             @if (dialogData.loading()) {
-                <mat-progress-spinner mode="indeterminate" diameter="18"/>
+                <app-button-progress-spinner/>
             } @else {
                 {{ dialogData.buttonIcon }}
             }

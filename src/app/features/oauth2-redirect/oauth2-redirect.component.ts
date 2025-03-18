@@ -1,8 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "@services/auth.service";
-import {TranslateService} from "@ngx-translate/core";
+import {SnackbarService} from "@services/snackbar.service";
 
 @Component({
     selector: 'app-oauth2-redirect',
@@ -12,11 +11,10 @@ import {TranslateService} from "@ngx-translate/core";
     styleUrl: './oauth2-redirect.component.css'
 })
 export class Oauth2RedirectComponent implements OnInit {
-    route = inject(ActivatedRoute);
-    router = inject(Router);
-    snackbar = inject(MatSnackBar);
-    authService = inject(AuthService);
-    translate = inject(TranslateService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly authService = inject(AuthService);
+    private readonly snackbarService = inject(SnackbarService);
 
     ngOnInit() {
         this.route.queryParams.subscribe(value => {
@@ -25,9 +23,7 @@ export class Oauth2RedirectComponent implements OnInit {
             if (token) {
                 this.authService.onLoginSuccess(token);
             } else if (error) {
-                this.translate.get('CLOSE').subscribe(close => {
-                    this.snackbar.open(error, close, {duration: 5000});
-                })
+                this.snackbarService.open(error);
                 this.router.navigate(['/'])
             } else {
                 this.router.navigate(['/'])

@@ -6,7 +6,6 @@ import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/for
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from "@angular/material/core";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatSelect} from "@angular/material/select";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgIf} from "@angular/common";
@@ -16,6 +15,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {UserForm} from "@features/admin/users/models/user-form";
 import {ErrorMessageService} from "@services/error-message.service";
 import { UserStateService } from '../../services/user-state.service';
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-user-form',
@@ -31,7 +31,6 @@ import { UserStateService } from '../../services/user-state.service';
         MatInput,
         MatLabel,
         MatOption,
-        MatProgressSpinner,
         MatSelect,
         MatSlideToggle,
         MatSuffix,
@@ -39,7 +38,8 @@ import { UserStateService } from '../../services/user-state.service';
         NgxMaskDirective,
         NgxTrimDirectiveModule,
         ReactiveFormsModule,
-        TranslatePipe
+        TranslatePipe,
+        ButtonProgressSpinnerComponent
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'en'},

@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {ConfirmDialogService} from "../../../core/services/confirm-dialog.service";
+import {ConfirmDialogService} from "@services/confirm-dialog.service";
 import {
     MAT_DIALOG_DATA,
     MatDialogActions,
@@ -8,12 +8,12 @@ import {
     MatDialogTitle
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatList, MatListItem, MatListItemIcon, MatListItemLine, MatListItemTitle} from "@angular/material/list";
 import {NgForOf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {DialogElement} from "../../../core/models/dialog-element";
+import {DialogElement} from "@models/dialog-element";
 import {TranslatePipe} from "@ngx-translate/core";
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-confirm-dialog',
@@ -22,7 +22,6 @@ import {TranslatePipe} from "@ngx-translate/core";
         MatDialogActions,
         MatButton,
         MatDialogClose,
-        MatProgressSpinner,
         MatDialogTitle,
         MatList,
         MatListItem,
@@ -31,7 +30,8 @@ import {TranslatePipe} from "@ngx-translate/core";
         MatListItemIcon,
         MatListItemTitle,
         MatListItemLine,
-        TranslatePipe
+        TranslatePipe,
+        ButtonProgressSpinnerComponent
     ],
     templateUrl: './confirm-dialog.component.html',
     styleUrl: './confirm-dialog.component.scss'

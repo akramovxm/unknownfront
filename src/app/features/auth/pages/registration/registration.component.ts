@@ -13,9 +13,10 @@ import {AuthService} from "@services/auth.service";
 import {ErrorService} from "@services/error.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 import {RegistrationForm} from "@features/auth/models/registration-form";
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ErrorMessageService} from "@services/error-message.service";
 
 @Component({
     selector: 'app-registration',
@@ -34,9 +35,9 @@ import {RegistrationForm} from "@features/auth/models/registration-form";
         MatDatepickerToggle,
         MatDatepicker,
         MatSuffix,
-        MatProgressSpinner,
         MatIconButton,
-        TranslatePipe
+        TranslatePipe,
+        ButtonProgressSpinnerComponent
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'en'},
@@ -46,127 +47,94 @@ import {RegistrationForm} from "@features/auth/models/registration-form";
     styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
-    router = inject(Router);
-    formBuilder = inject(FormBuilder);
-    authService = inject(AuthService);
-    errorService = inject(ErrorService);
-    translate = inject(TranslateService);
+    private readonly router = inject(Router);
+    private readonly formBuilder = inject(FormBuilder);
+    private readonly authService = inject(AuthService);
+    private readonly errorService = inject(ErrorService);
+    private readonly errorMessageService = inject(ErrorMessageService);
 
-    registrationForm = this.formBuilder.group<RegistrationForm>({
+    readonly loading = signal<boolean>(false);
+    readonly hide = signal<boolean>(true);
+
+    readonly form = this.formBuilder.group<RegistrationForm>({
         firstName: this.formBuilder.control<string | null>(null, Validators.required),
         lastName: this.formBuilder.control<string | null>(null, Validators.required),
         email: this.formBuilder.control<string | null>(null, [Validators.required, Validators.email]),
         password: this.formBuilder.control<string | null>(null, Validators.required),
         phoneNumber: this.formBuilder.control<string | null>(null),
-        birthDate: this.formBuilder.control<string | null>(null, Validators.required)
+        birthDate: this.formBuilder.control<string | null>(null)
     });
 
-    submitRegistrationForm() {
-        if (this.registrationForm.invalid) return;
+    submit() {
+        if (this.form.invalid) return;
 
-        this.authService.loading.set(true);
-        this.registrationForm.disable();
-        this.authService.registration(this.registrationForm.value)
+        this.loading.set(true);
+        this.form.disable();
+        this.authService.registration(this.form.value)
             .subscribe({
                 next: res => {
-                    this.authService.loading.set(false);
-                    this.registrationForm.enable();
-                    if (this.registrationForm.value.email) {
-                        sessionStorage.setItem('email', this.registrationForm.value.email);
+                    this.loading.set(false);
+                    this.form.enable();
+                    if (this.form.value.email) {
+                        sessionStorage.setItem('email', this.form.value.email);
                         sessionStorage.setItem('verifyType', 'registration');
                     }
                     this.router.navigate(['/verify']);
                 },
                 error: (err: HttpErrorResponse) => {
-                    this.authService.loading.set(false);
-                    this.registrationForm.enable();
-                    if (err.status === 400) {
-                        Object.keys(this.registrationForm.value).forEach(value => {
-                            if (err.error.errors[value]) {
-                                this.registrationForm.get(value)?.setErrors({ 'exists': true });
-                            }
-                        })
-                        return;
-                    }
-                    this.errorService.onError(err);
+                    this.loading.set(false);
+                    this.form.enable();
+                    this.errorService.onError(err, this.form, ['exists']);
                 }
             });
     }
-
-    hide = signal(true);
 
     clickEvent(event: MouseEvent) {
         this.hide.set(!this.hide());
         event.stopPropagation();
     }
 
-    get loading() {
-        return this.authService.loading();
-    }
-
     get firstNameError() {
-        const firstName = this.registrationForm.controls.firstName;
-        const errors = firstName.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('FIRST_NAME_REQUIRED');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.firstName,
+            {error: 'required', message: 'FIRST_NAME_REQUIRED'}
+        );
     }
-
     get lastNameError() {
-        const lastName = this.registrationForm.controls.lastName;
-        const errors = lastName.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('LAST_NAME_REQUIRED');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.lastName,
+            {error: 'required', message: 'LAST_NAME_REQUIRED'}
+        );
     }
-
     get phoneNumberError() {
-        const phoneNumber = this.registrationForm.controls.phoneNumber;
-        const errors = phoneNumber.errors;
-        let error = '';
-        if (errors?.['mask']) {
-            error = this.translate.instant('PHONE_NUMBER_INVALID');
-        } else if (errors?.['exists']) {
-            error = this.translate.instant('PHONE_NUMBER_EXISTS');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.phoneNumber,
+            [
+                {error: 'mask', message: 'PHONE_NUMBER_INVALID'},
+                {error: 'exists', message: 'PHONE_NUMBER_EXISTS'}
+            ]
+        );
     }
-
     get birthDateError() {
-        const birthDate = this.registrationForm.controls.birthDate;
-        const errors = birthDate.errors;
-        let error = '';
-        if (errors?.['matDatepickerParse']) {
-            error = this.translate.instant('BIRTH_DATE_INVALID');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.birthDate,
+            {error: 'matDatepickerParse', message: 'BIRTH_DATE_INVALID'}
+        );
     }
-
     get emailError() {
-        const email = this.registrationForm.controls.email;
-        const errors = email.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('EMAIL_REQUIRED');
-        } else if (errors?.['email']) {
-            error = this.translate.instant('EMAIL_INVALID');
-        } else if (errors?.['exists']) {
-            error = this.translate.instant('EMAIL_EXISTS');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.email,
+            [
+                {error: 'required', message: 'EMAIL_REQUIRED'},
+                {error: 'email', message: 'EMAIL_INVALID'},
+                {error: 'exists', message: 'EMAIL_EXISTS'}
+            ]
+        );
     }
-
     get passwordError() {
-        const password = this.registrationForm.controls.password;
-        const errors = password.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('PASSWORD_REQUIRED');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.password,
+            {error: 'required', message: 'PASSWORD_REQUIRED'}
+        );
     }
 }

@@ -9,6 +9,11 @@
     font-style: normal;
 }
 
+.mathjax-text {
+    font-family: 'cmunrm', sans-serif;
+    font-size: 16px;
+}
+
 html {
     @include mat.theme((
             color: (
@@ -57,19 +62,18 @@ body {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 .mat-tree-node {
-    &.cdk-drag-preview { // while dragging
+    &.cdk-drag-preview {
         @include mat.elevation(12);
     }
-    &.cdk-drag-placeholder { // potential drop area
+    &.cdk-drag-placeholder {
         opacity: 0;
     }
 }
 
-/* items moving away to make room for drop */
 .cdk-drop-list-dragging .mat-tree-node:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
-/* item being dropped */
+
 .cdk-drag-animating {
     transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
 }

@@ -2,17 +2,19 @@ import {Component, inject, signal} from '@angular/core';
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {NgIf} from "@angular/common";
 import {MatInput} from "@angular/material/input";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from "@services/auth.service";
 import {ErrorService} from "@services/error.service";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {GoogleButtonComponent} from "@features/auth/components/google-button/google-button.component";
 import {LoginForm} from "@features/auth/models/login-form";
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {PageLoadingService} from "@services/page-loading.service";
+import {ErrorMessageService} from "@services/error-message.service";
 
 @Component({
     selector: 'app-login',
@@ -26,78 +28,73 @@ import {LoginForm} from "@features/auth/models/login-form";
         NgxTrimDirectiveModule,
         MatButton,
         MatIcon,
-        MatProgressSpinner,
         MatAnchor,
         RouterLink,
         MatSuffix,
         MatIconButton,
         TranslatePipe,
-        GoogleButtonComponent
+        GoogleButtonComponent,
+        ButtonProgressSpinnerComponent
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-    router = inject(Router);
-    formBuilder = inject(FormBuilder);
-    authService = inject(AuthService);
-    errorService = inject(ErrorService);
-    translate = inject(TranslateService);
+    private readonly formBuilder = inject(FormBuilder);
+    private readonly authService = inject(AuthService);
+    private readonly errorService = inject(ErrorService);
+    private readonly errorMessageService = inject(ErrorMessageService);
+    private readonly pageLoadingService = inject(PageLoadingService);
 
-    loginForm = this.formBuilder.group<LoginForm>({
+    readonly loading = signal<boolean>(false);
+    readonly hide = signal<boolean>(true);
+
+    readonly form = this.formBuilder.group<LoginForm>({
         email: this.formBuilder.control<string | null>(null, [Validators.required, Validators.email]),
         password: this.formBuilder.control<string | null>(null, Validators.required)
     });
 
-    submitLoginForm() {
-        if (this.loginForm.invalid) return;
+    submit() {
+        if (this.form.invalid) return;
 
-        this.authService.loading.set(true);
-        this.loginForm.disable();
-        this.authService.login(this.loginForm.value)
+        this.loading.set(true);
+        this.form.disable();
+        this.authService.login(this.form.value)
             .subscribe({
                 next: res => {
-                    this.loginForm.enable();
-                    this.authService.onLoginSuccess(res.token);
+                    this.form.enable();
+                    this.authService.onLoginSuccess(res.token, this.loading);
                 },
                 error: err => {
-                    this.authService.loading.set(false);
-                    this.loginForm.enable();
+                    this.loading.set(false);
+                    this.form.enable();
                     this.errorService.onError(err);
                 }
             });
     }
-
-    hide = signal(true);
 
     clickEvent(event: MouseEvent) {
         this.hide.set(!this.hide());
         event.stopPropagation();
     }
 
-    get loading() {
-        return this.authService.loading();
+    get pageLoading() {
+        return this.pageLoadingService.loading();
     }
 
     get emailError() {
-        const email = this.loginForm.controls.email;
-        const errors = email.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('EMAIL_REQUIRED');
-        } else if (errors?.['email']) {
-            error = this.translate.instant('EMAIL_INVALID');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.email,
+            [
+                {error: 'required', message: 'EMAIL_REQUIRED'},
+                {error: 'email', message: 'EMAIL_INVALID'}
+            ]
+        );
     }
-
     get passwordError() {
-        const password = this.loginForm.controls.password;
-        const errors = password.errors;
-        let error = '';
-        if (errors?.['required']) {
-            error = this.translate.instant('PASSWORD_REQUIRED');
-        }
-        return error;
+        return this.errorMessageService.getMessage(
+            this.form.controls.password,
+            {error: 'required', message: 'PASSWORD_REQUIRED'}
+        );
     }
 }

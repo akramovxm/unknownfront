@@ -100,7 +100,6 @@
                     </ng-container>
                 </div>
             </div>
-
             <div class="lang-item">
                 <p class="mat-body-1">{{ 'RUSSIAN' | translate }}</p>
                 <mat-form-field appearance="outline">
@@ -125,7 +124,6 @@
                     </ng-container>
                 </div>
             </div>
-
             <p class="mat-small"
                [ngStyle]="{display: 'flex', alignItems: 'center', color: submitted && correctError ? 'var(--mat-sys-error)' : '' }">
                 <mat-icon style="transform: scale(0.8)">info</mat-icon>
@@ -138,9 +136,9 @@
         >
             <mat-icon>
                 @if (loading) {
-                    <mat-progress-spinner mode="indeterminate" diameter="18"/>
+                    <app-button-progress-spinner/>
                 } @else {
-                    {{icon()}}
+                    {{ icon() }}
                 }
             </mat-icon>
             {{ action() | translate }}

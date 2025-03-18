@@ -1,5 +1,5 @@
 <h1>{{ 'VERIFY' | translate }}</h1>
-<form [formGroup]="verifyForm" (ngSubmit)="submitVerifyForm()">
+<form [formGroup]="form" (ngSubmit)="submit()">
     <p>{{ email }}</p>
     <mat-form-field>
         <mat-label>{{ 'VERIFY_CODE' | translate }}</mat-label>
@@ -11,9 +11,9 @@
             type="button"
             class="form-button mat-small"
             (click)="submitResendCode()"
-            [disabled]="resendLoading || loading"
+            [disabled]="resendLoading() || loading"
     >
-        @if (resendLoading) {
+        @if (resendLoading()) {
             <mat-progress-spinner mode="indeterminate" diameter="16"/>
         } @else {
             {{ 'RESEND_CODE' | translate }}
@@ -22,11 +22,11 @@
     <button class="submit-button"
             mat-flat-button
             type="submit"
-            [disabled]="loading || resendLoading"
+            [disabled]="loading || resendLoading()"
     >
         <mat-icon>
             @if (loading) {
-                <mat-progress-spinner mode="indeterminate" diameter="18"/>
+                <app-button-progress-spinner/>
             } @else {
                 pin
             }

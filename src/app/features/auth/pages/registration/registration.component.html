@@ -1,5 +1,5 @@
 <h1>{{ 'REGISTRATION' | translate }}</h1>
-<form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
+<form [formGroup]="form" (ngSubmit)="submit()">
     <mat-form-field>
         <mat-label>{{ 'FIRST_NAME' | translate }}</mat-label>
         <input matInput required type="text" formControlName="firstName" trim="blur" name="firstName"/>
@@ -39,11 +39,11 @@
 
     <button mat-flat-button
             class="form-button"
-            [disabled]="loading"
+            [disabled]="loading()"
     >
         <mat-icon>
-            @if (loading) {
-                <mat-progress-spinner mode="indeterminate" diameter="18"/>
+            @if (loading()) {
+                <app-button-progress-spinner/>
             } @else {
                 how_to_reg
             }

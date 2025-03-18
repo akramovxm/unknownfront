@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {GOOGLE_AUTH_URL} from "../../../../app.constants";
 import {TranslatePipe} from "@ngx-translate/core";
 
@@ -13,4 +13,6 @@ import {TranslatePipe} from "@ngx-translate/core";
 })
 export class GoogleButtonComponent {
     googleAuthUrl = GOOGLE_AUTH_URL;
+
+    readonly disabled = input.required<boolean>();
 }

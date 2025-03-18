@@ -108,38 +108,22 @@ export class AdminLayoutComponent {
         {
             title: this.translate.instant('DASHBOARD'),
             path: '/admin',
-            icon: 'dashboard',
-            children: []
+            icon: 'dashboard'
         },
         {
             title: this.translate.instant('USERS'),
             path: '/admin/users',
-            icon: 'person',
-            children: [
-                {
-                    title: this.translate.instant('CREATE_USER'),
-                    path: '/admin/users/create',
-                    icon: 'add'
-                }
-            ]
+            icon: 'person'
         },
         {
             title: this.translate.instant('TOPICS'),
             path: '/admin/topics',
-            icon: 'topic',
-            children: []
+            icon: 'topic'
         },
         {
             title: this.translate.instant('TASKS'),
             path: '/admin/tasks',
-            icon: 'task',
-            children: [
-                {
-                    title: this.translate.instant('CREATE_TASK'),
-                    path: '/admin/tasks/create',
-                    icon: 'add'
-                }
-            ]
+            icon: 'task'
         }
     ];
 

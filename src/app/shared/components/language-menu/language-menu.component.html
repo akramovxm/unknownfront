@@ -1,9 +1,13 @@
-<button mat-button [matMenuTriggerFor]="lang">
+<button mat-button [matMenuTriggerFor]="lang" [disabled]="loading()">
     <span style="display: flex; align-items: center;">
-        @if (currentLang === 'uz') {
-            <img src="assets/icons/uz.png" width="16" style="margin-right: 0.25rem;"/> UZ
+        @if (loading()) {
+            <app-button-progress-spinner/>
         } @else {
-            <img src="assets/icons/ru.png" width="16" style="margin-right: 0.25rem;"/> RU
+            @if (currentLang === 'uz') {
+                <img src="assets/icons/uz.png" width="16" style="margin-right: 0.25rem;"/> UZ
+            } @else {
+                <img src="assets/icons/ru.png" width="16" style="margin-right: 0.25rem;"/> RU
+            }
         }
     </span>
 </button>

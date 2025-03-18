@@ -62,7 +62,7 @@ export class TaskStateService {
             error: err => {
                 this.loading.set(false);
                 form.enable();
-                this.errorService.onError(err, form);
+                this.errorService.onError(err, form, ['exists']);
             }
         })
     }
@@ -85,7 +85,7 @@ export class TaskStateService {
             error: err => {
                 this.loading.set(false);
                 form.enable();
-                this.errorService.onError(err);
+                this.errorService.onError(err, form, ['exists']);
             }
         })
     }

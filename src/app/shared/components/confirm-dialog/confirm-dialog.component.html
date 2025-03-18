@@ -23,7 +23,7 @@
             (click)="dialogData.onConfirm()"
     >
         @if (loading) {
-            <mat-progress-spinner mode="indeterminate" diameter="20"/>
+            <app-button-progress-spinner/>
         } @else {
             {{ 'CONFIRM' | translate }}
         }

@@ -90,7 +90,7 @@ export class TopicStateService {
                 if (dialogRef) {
                     dialogRef.disableClose = false;
                 }
-                this.errorService.onError(err, form);
+                this.errorService.onError(err, form, ['exists']);
             }
         });
     }
@@ -129,7 +129,7 @@ export class TopicStateService {
                 if (dialogRef) {
                     dialogRef.disableClose = false;
                 }
-                this.errorService.onError(err, form);
+                this.errorService.onError(err, form, ['exists']);
             }
         });
     }

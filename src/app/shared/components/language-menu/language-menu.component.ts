@@ -1,8 +1,8 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
-import { GlobalLoadingService } from '@services/global-loading.service';
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-language-menu',
@@ -11,20 +11,22 @@ import { GlobalLoadingService } from '@services/global-loading.service';
         MatMenu,
         MatMenuItem,
         TranslatePipe,
-        MatMenuTrigger
+        MatMenuTrigger,
+        ButtonProgressSpinnerComponent
     ],
     templateUrl: './language-menu.component.html',
     styleUrl: './language-menu.component.scss'
 })
 export class LanguageMenuComponent {
-    private readonly globalLoadingService = inject(GlobalLoadingService);
     private readonly translate = inject(TranslateService);
 
+    readonly loading = signal<boolean>(false);
+
     setLanguage(lang: string) {
-        this.globalLoadingService.loading.set(true);
+        this.loading.set(true);
 
         this.translate.use(lang).subscribe(res => {
-            this.globalLoadingService.loading.set(false);
+            this.loading.set(false);
         });
         
         localStorage.setItem('lang', lang);

@@ -3,7 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {TranslateService} from "@ngx-translate/core";
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
-import { GlobalLoadingService } from '@services/global-loading.service';
+import { PageLoadingService } from '@services/page-loading.service';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +12,7 @@ import { GlobalLoadingService } from '@services/global-loading.service';
     styleUrl: './app.component.scss'
 })
 export class AppComponent {
-    private readonly globalLoadingService = inject(GlobalLoadingService);
+    private readonly pageLoadingService = inject(PageLoadingService);
     private readonly translate = inject(TranslateService);
 
     constructor() {
@@ -22,6 +22,6 @@ export class AppComponent {
     }
 
     get loading() {
-        return this.globalLoadingService.loading();
+        return this.pageLoadingService.loading();
     }
 }

@@ -24,6 +24,7 @@ import {TopicStateService} from "@features/admin/topics/services/topic-state.ser
 import {SourceStateService} from "@services/source-state.service";
 import {ErrorMessageService} from "@services/error-message.service";
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
+import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-task-form',
@@ -49,7 +50,8 @@ import {TaskSelectionService} from "@features/admin/tasks/services/task-selectio
         ReactiveFormsModule,
         TranslatePipe,
         NgStyle,
-        TaskPreviewCardComponent
+        TaskPreviewCardComponent,
+        ButtonProgressSpinnerComponent
     ],
     templateUrl: './task-form.component.html',
     styleUrl: './task-form.component.scss'

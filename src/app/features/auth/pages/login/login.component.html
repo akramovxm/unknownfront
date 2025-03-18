@@ -1,8 +1,8 @@
 <div class="container">
     <h1>{{ 'LOGIN' | translate }}</h1>
-    <app-google-button/>
+    <app-google-button [disabled]="loading() || pageLoading"/>
     <p style="margin: 1rem 0">{{ 'USE_YOUR_EMAIL' | translate }}</p>
-    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+    <form [formGroup]="form" (ngSubmit)="submit()">
         <mat-form-field>
             <mat-label>{{ 'EMAIL' | translate }}</mat-label>
             <input matInput required type="text" formControlName="email" trim="blur" name="email"/>
@@ -21,7 +21,7 @@
                 mat-button
                 class="form-button mat-caption"
                 style="margin-bottom: 1rem"
-                [disabled]="loading"
+                [disabled]="loading()"
                 routerLink="/account-recovery"
         >
             {{ 'DONT_NOW_THE_PASSWORD' | translate }}
@@ -30,18 +30,18 @@
                 mat-button
                 class="form-button mat-caption"
                 style="margin-bottom: 1rem"
-                [disabled]="loading"
+                [disabled]="loading()"
                 routerLink="/registration"
         >
             {{ 'DONT_HAVE_ACCOUNT' | translate }}
         </a>
         <button mat-flat-button
                 class="submit-button"
-                [disabled]="loading"
+                [disabled]="loading() || pageLoading"
         >
             <mat-icon>
-                @if (loading) {
-                    <mat-progress-spinner mode="indeterminate" diameter="18"/>
+                @if (loading()) {
+                    <app-button-progress-spinner/>
                 } @else {
                     login
                 }

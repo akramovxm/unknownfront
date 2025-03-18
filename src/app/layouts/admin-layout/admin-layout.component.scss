@@ -18,17 +18,6 @@ mat-sidenav-content {
     margin: 0 0.5rem;
 }
 
-.nested-list {
-    margin-left: 2rem;
-    @include mat.list-density((
-            mat.define-theme((
-                    density: (
-                            scale: -3
-                    )
-            ))
-    ))
-}
-
 .dense-toolbar {
     padding: 0;
     @include mat.toolbar-density((
