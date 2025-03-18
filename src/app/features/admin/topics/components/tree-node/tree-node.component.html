@@ -1,26 +1,22 @@
 <div class="container">
-    <span>{{ topic().title }}</span>
+    <span>{{ title }}</span>
     <button mat-icon-button
             [matMenuTriggerFor]="menu"
     >
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <a mat-menu-item [routerLink]="topic().path">
-            <mat-icon>open_in_new</mat-icon>
-            Mavzuga o'tish
-        </a>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onCreateClick()">
             <mat-icon>add</mat-icon>
-            Mavzu yaratish
+            {{ 'CREATE_TOPIC' | translate }}
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onUpdateClick()">
             <mat-icon>edit</mat-icon>
-            Tahrirlash
+            {{ 'UPDATE_TOPIC' | translate }}
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onDeleteClick()">
             <mat-icon>delete</mat-icon>
-            O'chirish
+            {{ 'DELETE_TOPIC' | translate }}
         </button>
     </mat-menu>
 </div>

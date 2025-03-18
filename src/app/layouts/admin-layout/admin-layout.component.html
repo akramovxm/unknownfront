@@ -9,14 +9,30 @@
                 {{ 'HOME' | translate }}
             </a>
         </mat-toolbar>
-        <mat-nav-list (click)="sidenav.toggle()">
-            <a mat-list-item
-               *ngFor="let nav of navList"
-               [routerLink]="nav.path"
-               [activated]="getActivated(nav.path)"
-            >
-                <span matListItemTitle>{{ nav.title | translate }}</span>
-            </a>
+        <mat-nav-list class="nav-list">
+            @for (nav of navList; track nav.title) {
+                <a mat-list-item
+                    [routerLink]="nav.path"
+                    [activated]="getActivated(nav.path)"
+                    (click)="sidenav.toggle()"
+                >
+                    <mat-icon matListItemIcon>{{nav.icon}}</mat-icon>
+                    <span matListItemTitle>{{ nav.title | translate }}</span>
+                </a>
+                <mat-nav-list class="nested-list" *ngIf="nav.children.length">
+                    <a mat-list-item
+                        *ngFor="let ch of nav.children"
+                        [routerLink]="ch.path"
+                        [activated]="getActivated(ch.path)"
+                        (click)="sidenav.toggle()"
+                    >
+                        <mat-icon matListItemIcon style="transform: scale(0.8);">{{ch.icon}}</mat-icon>
+                        <span matListItemTitle style="font: var(--mat-sys-body-small)">
+                            {{ ch.title | translate }}
+                        </span>
+                    </a>
+                </mat-nav-list>
+            }
         </mat-nav-list>
     </mat-sidenav>
 

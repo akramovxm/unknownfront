@@ -10,7 +10,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {TranslatePipe} from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
 import {AdminSource} from "@models/admin-source";
@@ -61,6 +61,7 @@ export class TaskFormComponent implements OnInit {
     private readonly taskSelectionService = inject(TaskSelectionService);
     private readonly errorMessageService = inject(ErrorMessageService);
     private readonly dialog = inject(MatDialog);
+    private readonly translate = inject(TranslateService);
 
     readonly form = input.required<FormGroup<TaskForm>>();
     readonly icon = input.required<string>();
@@ -133,7 +134,14 @@ export class TaskFormComponent implements OnInit {
 
     topicDisplayFn(id: number | null): string {
         const option = this.topics.find(item => item.id === Number(id));
-        return option ? option.title : '';
+        if (option) {
+            if (this.translate.currentLang === 'uz') {
+                return option.titleUz;
+            } else {
+                return option.titleRu;
+            }
+        }
+        return '';
     }
 
     sourceDisplayFn(id: number | null): string {
@@ -145,7 +153,7 @@ export class TaskFormComponent implements OnInit {
         const filterValue = this.topicInput()?.nativeElement.value.toLowerCase();
         if (filterValue) {
             const filtered = this.topics.filter(t =>
-                t.title.toLowerCase().includes(filterValue)
+                t.titleUz.toLowerCase().includes(filterValue) || t.titleRu.toLowerCase().includes(filterValue)
             );
             this.filteredTopics.set(filtered);
         }
@@ -189,6 +197,13 @@ export class TaskFormComponent implements OnInit {
                 }
             })
         }
+    }
+
+    getTopicTitle(topic: AdminTopic) {
+        if (this.translate.currentLang === 'uz') {
+            return topic.titleUz;
+        }
+        return topic.titleRu;
     }
 
     get loading() {

@@ -10,7 +10,7 @@ import {
 import {MatIcon} from "@angular/material/icon";
 import {MatTree, MatTreeNode, MatTreeNodeDef, MatTreeNodePadding, MatTreeNodeToggle} from "@angular/material/tree";
 import {MatRipple} from "@angular/material/core";
-import {TranslatePipe} from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {AdminTreeTopic} from "@features/admin/topics/models/admin-tree-topic";
 import {TopicStateService} from "@features/admin/topics/services/topic-state.service";
 
@@ -37,10 +37,18 @@ import {TopicStateService} from "@features/admin/topics/services/topic-state.ser
 })
 export class TopicSelectDialogComponent {
     topicStateService = inject(TopicStateService);
+    translate = inject(TranslateService);
     dialogRef = inject(MatDialogRef<TopicSelectDialogComponent>);
 
     onTopicClick(id: number) {
         this.dialogRef.close(id);
+    }
+
+    getTopicTitle(topic: AdminTreeTopic) {
+        if (this.translate.currentLang === 'uz') {
+            return topic.titleUz;
+        }
+        return topic.titleRu;
     }
 
     get treeTopics() {

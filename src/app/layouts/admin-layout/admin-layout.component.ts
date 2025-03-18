@@ -7,7 +7,7 @@ import {AuthService} from "@services/auth.service";
 import {ConfirmDialogService} from "@services/confirm-dialog.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
-import {MatListItem, MatNavList} from "@angular/material/list";
+import {MatListItem, MatListItemIcon, MatNavList} from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {LanguageMenuComponent} from "@components/language-menu/language-menu.component";
@@ -43,6 +43,7 @@ import {TopicToolbarComponent} from "@features/admin/topics/components/topic-too
         MatSidenavContainer,
         MatNavList,
         MatListItem,
+        MatListItemIcon,
         MatSidenav,
         MatSidenavContent,
         NgForOf,
@@ -106,19 +107,39 @@ export class AdminLayoutComponent {
     navList = [
         {
             title: this.translate.instant('DASHBOARD'),
-            path: '/admin'
+            path: '/admin',
+            icon: 'dashboard',
+            children: []
         },
         {
             title: this.translate.instant('USERS'),
-            path: '/admin/users'
+            path: '/admin/users',
+            icon: 'person',
+            children: [
+                {
+                    title: this.translate.instant('CREATE_USER'),
+                    path: '/admin/users/create',
+                    icon: 'add'
+                }
+            ]
         },
         {
             title: this.translate.instant('TOPICS'),
-            path: '/admin/topics'
+            path: '/admin/topics',
+            icon: 'topic',
+            children: []
         },
         {
             title: this.translate.instant('TASKS'),
-            path: '/admin/tasks'
+            path: '/admin/tasks',
+            icon: 'task',
+            children: [
+                {
+                    title: this.translate.instant('CREATE_TASK'),
+                    path: '/admin/tasks/create',
+                    icon: 'add'
+                }
+            ]
         }
     ];
 

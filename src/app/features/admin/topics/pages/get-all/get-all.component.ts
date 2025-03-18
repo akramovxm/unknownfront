@@ -7,6 +7,12 @@ import {MatIcon} from "@angular/material/icon";
 import {TopicStateService} from "@features/admin/topics/services/topic-state.service";
 import {AdminTreeTopic} from "@features/admin/topics/models/admin-tree-topic";
 import {TreeNodeComponent} from "@features/admin/topics/components/tree-node/tree-node.component";
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TopicFormDialogComponent } from '../../components/topic-form-dialog/topic-form-dialog.component';
+import { FormBuilder, Validators } from '@angular/forms';
+import { TopicForm } from '../../models/topic-form';
 
 @Component({
     selector: 'app-get-all',
@@ -22,17 +28,40 @@ import {TreeNodeComponent} from "@features/admin/topics/components/tree-node/tre
         MatTreeNodeToggle,
         TreeNodeComponent,
         MatButton,
+        NgIf,
+        TranslatePipe
     ],
     templateUrl: './get-all.component.html',
     styleUrl: './get-all.component.scss'
 })
 export class GetAllComponent implements OnInit {
-    topicStateService = inject(TopicStateService);
+    private readonly dialog = inject(MatDialog);
+    private readonly formBuilder = inject(FormBuilder);
+    private readonly topicStateService = inject(TopicStateService);
 
     tree = viewChild<MatTree<AdminTreeTopic>>('tree');
 
+    private dialogRef: MatDialogRef<TopicFormDialogComponent> | undefined;
+
     ngOnInit() {
         this.topicStateService.getTreeTopics().subscribe();
+    }
+
+    readonly form = this.formBuilder.group<TopicForm>({
+        titleUz: this.formBuilder.control<string | null>(null, [Validators.required]),
+        titleRu: this.formBuilder.control<string | null>(null, [Validators.required]),
+        parentId: this.formBuilder.control<number | null>(null)
+    })
+
+    onCreateClick() {
+        this.dialogRef = this.dialog.open(TopicFormDialogComponent, {autoFocus: false, data: {
+            title: 'CREATE_TOPIC', buttonIcon: 'add', buttonTitle: 'CREATE',
+            form: this.form, loading: this.topicStateService.createLoading, onSubmit: () => this.onSubmit()
+        }});
+    }
+
+    private onSubmit() {
+        this.topicStateService.createTopic(this.form, this.dialogRef);
     }
 
     childrenAccessor = (node: AdminTreeTopic) => node.children ?? [];

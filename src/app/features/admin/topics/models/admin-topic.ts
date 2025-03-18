@@ -3,8 +3,8 @@ import {BasicTopic} from "@features/admin/topics/models/basic-topic";
 
 export interface AdminTopic {
     id: number;
-    title: string;
-    path: string;
+    titleUz: string;
+    titleRu: string;
     seq: number;
     prev: BasicTopic | null;
     next: BasicTopic | null;

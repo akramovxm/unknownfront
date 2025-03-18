@@ -14,7 +14,7 @@
                               [displayWith]="topicDisplayFn.bind(this)">
                 @for (topic of filteredTopics(); track topic.id) {
                     <mat-option [value]="topic.id">
-                        <span>{{ topic.title }}</span>
+                        <span>{{ getTopicTitle(topic) }}</span>
                     </mat-option>
                 }
             </mat-autocomplete>

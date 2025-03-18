@@ -3,8 +3,8 @@ import {AuditUser} from "@models/audit-user";
 
 export interface AdminTreeTopic {
     id: number;
-    title: string;
-    path: string;
+    titleUz: string;
+    titleRu: string;
     seq: number;
     parent: BasicTopic | null;
     children: AdminTreeTopic[];

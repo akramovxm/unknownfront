@@ -15,6 +15,7 @@ import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {TranslatePipe} from "@ngx-translate/core";
 import {UserForm} from "@features/admin/users/models/user-form";
 import {ErrorMessageService} from "@services/error-message.service";
+import { UserStateService } from '../../services/user-state.service';
 
 @Component({
     selector: 'app-user-form',
@@ -48,9 +49,9 @@ import {ErrorMessageService} from "@services/error-message.service";
     styleUrl: './user-form.component.scss'
 })
 export class UserFormComponent {
+    private readonly userStateService = inject(UserStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
 
-    readonly loading = input.required<boolean>();
     readonly form = input.required<FormGroup<UserForm>>();
     readonly icon = input.required<string>();
     readonly action = input.required<string>();
@@ -62,6 +63,10 @@ export class UserFormComponent {
         } else {
             this.submit()();
         }
+    }
+
+    get loading() {
+        return this.userStateService.loading;
     }
 
     get firstNameError() {

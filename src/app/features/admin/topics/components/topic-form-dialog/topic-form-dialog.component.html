@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{ dialogData.title | translate }}</h2>
+<mat-dialog-content>
+    <form id="topic-form" [formGroup]="dialogData.form" (ngSubmit)="dialogData.onSubmit()">
+        <mat-form-field>
+            <mat-label>{{ 'TITLE' | translate }} ({{ 'UZBEK' | translate }})</mat-label>
+            <input matInput required type="text" formControlName="titleUz" trim="blur" name="titleUz"/>
+            <mat-error *ngIf="titleUzError">{{ titleUzError }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ 'TITLE' | translate }} ({{ 'RUSSIAN' | translate }})</mat-label>
+            <input matInput required type="text" formControlName="titleRu" trim="blur" name="titleRu"/>
+            <mat-error *ngIf="titleRuError">{{ titleRuError }}</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            [disabled]="dialogData.loading()"
+    >
+        {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-flat-button
+            [disabled]="dialogData.loading()"
+            type="submit"
+            form="topic-form"
+    >
+        <mat-icon>
+            @if (dialogData.loading()) {
+                <mat-progress-spinner mode="indeterminate" diameter="18"/>
+            } @else {
+                {{ dialogData.buttonIcon }}
+            }
+        </mat-icon>
+        {{ dialogData.buttonTitle | translate }}
+    </button>
+</mat-dialog-actions>

@@ -1,5 +1,5 @@
 export interface BasicTopic {
     id: number;
-    title: string;
-    path: string;
+    titleUz: string;
+    titleRu: string;
 }

@@ -177,7 +177,7 @@ export class UserStateService {
                 this.confirmDialogService.setDialogDisableClose(false);
             }),
             catchError(err => {
-                this.errorService.onError(err)
+                this.errorService.onError(err);
                 return of(null);
             })
         ).subscribe();

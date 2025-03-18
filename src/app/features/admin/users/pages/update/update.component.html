@@ -2,7 +2,6 @@
     <mat-tab *ngFor="let form of forms" [label]="getLabel(form.controls.id.value)">
         <app-container>
             <app-user-form icon="edit" action="UPDATE"
-                           [loading]="loading()"
                            [submit]="onSubmit.bind(this)"
                            [form]="form"
             />

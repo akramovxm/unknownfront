@@ -12,7 +12,7 @@ import {UserRequest} from "@features/admin/users/models/user-request";
 export class UserService {
     private readonly http = inject(HttpClient);
 
-    private readonly baseUrl = BACKEND_URL + '/admin/users';
+    private readonly baseUrl = BACKEND_URL + '/users';
 
     getAll(queryParams: { [key: string]: string | number }) {
         let params = new HttpParams();

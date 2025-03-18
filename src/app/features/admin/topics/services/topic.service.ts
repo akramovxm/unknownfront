@@ -4,15 +4,14 @@ import {BACKEND_URL} from "../../../../app.constants";
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
 import {Response} from "@models/response";
 import {AdminTreeTopic} from "@features/admin/topics/models/admin-tree-topic";
-import {map} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class TopicService {
-    http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
-    baseUrl = BACKEND_URL + '/topics';
+    private readonly baseUrl = BACKEND_URL + '/topics';
 
     getAll(queryParams?: { [key: string]: string | number }) {
         let params = new HttpParams();
@@ -30,23 +29,15 @@ export class TopicService {
         return this.http.get<Response<AdminTreeTopic[]>>(this.baseUrl + '/as-tree');
     }
 
-    getByPath(path: string) {
-        return this.http.get<Response<AdminTopic>>(this.baseUrl + `/${path}`);
-    }
-
-    updateTopics(data: any[]) {
-        return this.http.put<Response<null>>(this.baseUrl, data);
-    }
-
-    updateTopic(data: any, id: number) {
-        return this.http.put<Response<AdminTopic>>(this.baseUrl + `/${id}`, data);
-    }
-
     create(data: any) {
-        return this.http.post<Response<AdminTopic>>(this.baseUrl, data);
+        return this.http.post<Response<AdminTreeTopic>>(this.baseUrl, data);
     }
 
-    deleteTopic(id: number) {
+    update(data: any, id: number) {
+        return this.http.put<Response<AdminTreeTopic>>(this.baseUrl + `/${id}`, data);
+    }
+
+    delete(id: number) {
         return this.http.delete<Response<null>>(this.baseUrl + `/${id}`);
     }
 }

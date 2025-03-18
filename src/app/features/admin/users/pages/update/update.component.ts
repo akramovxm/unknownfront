@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
@@ -25,8 +25,6 @@ export class UpdateComponent implements OnInit, OnDestroy {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
     private readonly userSelectionService = inject(UserSelectionService);
-
-    readonly loading = signal(false);
 
     forms: FormGroup<UserForm>[] = []
 

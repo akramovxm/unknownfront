@@ -81,6 +81,9 @@
   "USER_UPDATED_SUCCESS": "User updated successfully",
   "TOPICS": "Topics",
   "TOPIC": "Topic",
+  "CREATE_TOPIC": "Create Topic",
+  "UPDATE_TOPIC": "Update Topic",
+  "DELETE_TOPIC": "Delete Topic",
   "TASKS": "Tasks",
   "CREATE_TASK": "Create Task",
   "SAVE": "Save",
@@ -108,5 +111,12 @@
   "UNSELECT_ALL": "Unselect all",
   "DELETE_TASKS": "Delete Task(s)",
   "DELETE_TASKS_CONFIRM": "Do you want to delete the following task(s)?",
-  "DELETE_TASKS_SUCCESS": "Task(s) deleted successfully"
+  "DELETE_TASKS_SUCCESS": "Task(s) deleted successfully",
+  "TITLE": "Title",
+  "TITLE_REQUIRED": "Title is required",
+  "TITLE_EXISTS": "Title is already taken",
+  "TOPIC_CREATED_SUCCESS": "Topic created successfully",
+  "TOPIC_UPDATED_SUCCESS": "Topic updated successfully",
+  "TOPIC_DELETED_SUCCESS": "Topic deleted successfully",
+  "DELETE_TOPIC_CONFIRM": "Do you want to delete the topic"
 }

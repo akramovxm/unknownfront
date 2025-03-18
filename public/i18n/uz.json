@@ -81,6 +81,9 @@
   "USER_UPDATED_SUCCESS": "Foydalanuvchi muvaffaqiyatli tahrirlandi",
   "TOPICS": "Mavzular",
   "TOPIC": "Mavzu",
+  "CREATE_TOPIC": "Mavzu yaratish",
+  "UPDATE_TOPIC": "Mavzuni tahrirlash",
+  "DELETE_TOPIC": "Mavzuni o'chirish",
   "TASKS": "Topshiriqlar",
   "CREATE_TASK": "Topshiriq yaratish",
   "SAVE": "Saqlash",
@@ -108,5 +111,12 @@
   "UNSELECT_ALL": "Barchasini yechish",
   "DELETE_TASKS": "Topshiriq(lar)ni o'chirish",
   "DELETE_TASKS_CONFIRM": "Quyidagi topshiriq(lar)ni o‘chirmoqchimisiz?",
-  "DELETE_TASKS_SUCCESS": "Topshiriq(lar) muvaffaqiyatli o'chirildi"
+  "DELETE_TASKS_SUCCESS": "Topshiriq(lar) muvaffaqiyatli o'chirildi",
+  "TITLE": "Sarlavha",
+  "TITLE_REQUIRED": "Sarlavha bo'lishi shart",
+  "TITLE_EXISTS": "Bu sarlavha band",
+  "TOPIC_CREATED_SUCCESS": "Mavzu muvaffaqiyatli yaratildi",
+  "TOPIC_UPDATED_SUCCESS": "Mavzu muvaffaqiyatli tahrirlandi",
+  "TOPIC_DELETED_SUCCESS": "Mavzu muvaffaqiyatli o'chirildi",
+  "DELETE_TOPIC_CONFIRM": "mavzusini o'chirmoqchimisiz?"
 }

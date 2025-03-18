@@ -1,9 +1,7 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
-import {ErrorService} from "@services/error.service";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
-import {TranslateService} from "@ngx-translate/core";
 import {ContainerComponent} from "@components/container/container.component";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
 import {UserForm} from "@features/admin/users/models/user-form";
@@ -28,10 +26,6 @@ import {UserStateService} from "@features/admin/users/services/user-state.servic
 export class CreateComponent {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
-    private readonly errorService = inject(ErrorService);
-    private readonly translate = inject(TranslateService);
-
-    readonly loading = signal(false);
 
     readonly form = this.formBuilder.group<UserForm>({
         id: this.formBuilder.control<number | null>(null),

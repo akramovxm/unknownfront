@@ -9,8 +9,6 @@ import {Params} from "@angular/router";
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
 import {TaskForm} from "@features/admin/tasks/models/task-form";
 import {SnackbarService} from "@services/snackbar.service";
-import {DialogElement} from "@models/dialog-element";
-import {Role} from "@models/role";
 import {ConfirmDialogService} from "@services/confirm-dialog.service";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -64,7 +62,7 @@ export class TaskStateService {
             error: err => {
                 this.loading.set(false);
                 form.enable();
-                this.errorService.onError(err);
+                this.errorService.onError(err, form);
             }
         })
     }
@@ -93,7 +91,6 @@ export class TaskStateService {
     }
 
     deleteTasks() {
-        const elements = this.getDialogElements();
         const ids = this.taskSelectionService.selection.selected.map(t => t.id);
 
         this.confirmDialogService.open(
@@ -121,8 +118,7 @@ export class TaskStateService {
                         return of(null);
                     })
                 ).subscribe();
-            },
-            elements
+            }
         )
     }
 
@@ -148,19 +144,5 @@ export class TaskStateService {
         this.totalElements.set(res.totalElements);
         this.page.set(res.page);
         this.size.set(res.size);
-    }
-
-    private getDialogElements() {
-        const elements: DialogElement[] = [];
-
-        this.taskSelectionService.selection.selected.forEach(task => {
-            elements.push({
-                icon: '',
-                title: '',
-                subTitle: ''
-            })
-        });
-
-        return elements;
     }
 }

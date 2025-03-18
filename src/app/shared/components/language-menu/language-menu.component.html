@@ -1,11 +1,23 @@
 <button mat-button [matMenuTriggerFor]="lang">
-    @if (currentLang === 'uz') {
-        🇺🇿 UZ
-    } @else {
-        🇷🇺 RU
-    }
+    <span style="display: flex; align-items: center;">
+        @if (currentLang === 'uz') {
+            <img src="assets/icons/uz.png" width="16" style="margin-right: 0.25rem;"/> UZ
+        } @else {
+            <img src="assets/icons/ru.png" width="16" style="margin-right: 0.25rem;"/> RU
+        }
+    </span>
 </button>
 <mat-menu #lang=matMenu>
-    <button mat-menu-item (click)="setLanguage('uz')">🇺🇿 {{ 'UZBEK' | translate }}</button>
-    <button mat-menu-item (click)="setLanguage('ru')">🇷🇺 {{ 'RUSSIAN' | translate }}</button>
+    <button mat-menu-item (click)="setLanguage('uz')">
+        <span style="display: flex; align-items: center;">
+            <img src="assets/icons/uz.png" width="16" style="margin-right: 0.25rem;"/>
+            {{ 'UZBEK' | translate }}
+        </span>
+    </button>
+    <button mat-menu-item (click)="setLanguage('ru')">
+        <span style="display: flex; align-items: center;">
+            <img src="assets/icons/ru.png" width="16" style="margin-right: 0.25rem;"/>
+            {{ 'RUSSIAN' | translate }}
+        </span>
+    </button>
 </mat-menu>

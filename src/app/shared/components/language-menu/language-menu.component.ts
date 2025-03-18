@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import { GlobalLoadingService } from '@services/global-loading.service';
 
 @Component({
     selector: 'app-language-menu',
@@ -16,10 +17,16 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
     styleUrl: './language-menu.component.scss'
 })
 export class LanguageMenuComponent {
-    translate = inject(TranslateService);
+    private readonly globalLoadingService = inject(GlobalLoadingService);
+    private readonly translate = inject(TranslateService);
 
     setLanguage(lang: string) {
-        this.translate.use(lang);
+        this.globalLoadingService.loading.set(true);
+
+        this.translate.use(lang).subscribe(res => {
+            this.globalLoadingService.loading.set(false);
+        });
+        
         localStorage.setItem('lang', lang);
     }
 
