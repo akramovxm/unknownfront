@@ -1,5 +1,5 @@
 import {Role} from "@models/role";
-import {AuditUser} from "@models/audit-user";
+import {User} from "@models/user";
 
 export interface AdminUser {
     id: number;
@@ -14,6 +14,6 @@ export interface AdminUser {
     enabled: boolean;
     createdAt: Date;
     updatedAt: Date;
-    createdBy: AuditUser | null;
-    updatedBy: AuditUser | null;
+    createdBy: User | null;
+    updatedBy: User | null;
 }

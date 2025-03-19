@@ -1,5 +1,5 @@
 import {BasicTopic} from "@features/admin/topics/models/basic-topic";
-import {AuditUser} from "@models/audit-user";
+import {User} from "@models/user";
 
 export interface AdminTreeTopic {
     id: number;
@@ -12,6 +12,6 @@ export interface AdminTreeTopic {
     next: BasicTopic | null;
     createdAt: Date;
     updatedAt: Date;
-    createdBy: AuditUser | null;
-    updatedBy: AuditUser | null;
+    createdBy: User | null;
+    updatedBy: User | null;
 }

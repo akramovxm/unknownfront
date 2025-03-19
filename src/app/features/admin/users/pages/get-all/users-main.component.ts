@@ -20,7 +20,7 @@ import {ProgressBarComponent} from "@components/progress-bar/progress-bar.compon
 import { AuthService } from '@services/auth.service';
 
 @Component({
-    selector: 'app-users',
+    selector: 'app-users-main',
     imports: [
         MatTableModule,
         MatCheckbox,
@@ -38,10 +38,10 @@ import { AuthService } from '@services/auth.service';
         SearchInputComponent,
         ProgressBarComponent,
     ],
-    templateUrl: './get-all.component.html',
-    styleUrl: './get-all.component.scss'
+    templateUrl: './users-main.component.html',
+    styleUrl: './users-main.component.scss'
 })
-export class GetAllComponent implements OnInit {
+export class UsersMainComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly authService = inject(AuthService);

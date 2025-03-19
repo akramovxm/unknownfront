@@ -15,7 +15,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { TopicForm } from '../../models/topic-form';
 
 @Component({
-    selector: 'app-get-all',
+    selector: 'app-topics-main',
     imports: [
         ProgressBarComponent,
         ContainerComponent,
@@ -31,10 +31,10 @@ import { TopicForm } from '../../models/topic-form';
         NgIf,
         TranslatePipe
     ],
-    templateUrl: './get-all.component.html',
-    styleUrl: './get-all.component.scss'
+    templateUrl: './topics-main.component.html',
+    styleUrl: './topics-main.component.scss'
 })
-export class GetAllComponent implements OnInit {
+export class TopicsMainComponent implements OnInit {
     private readonly dialog = inject(MatDialog);
     private readonly formBuilder = inject(FormBuilder);
     private readonly topicStateService = inject(TopicStateService);

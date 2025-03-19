@@ -119,5 +119,6 @@
   "TOPIC_UPDATED_SUCCESS": "Тема успешно изменен",
   "TOPIC_DELETED_SUCCESS": "Тема успешно удален",
   "DELETE_TOPIC_CONFIRM": "Вы хотите удалить тему",
-  "TASK_VIEW": "Вид задачи"
+  "TASK_VIEW": "Вид задачи",
+  "SETTINGS": "Настройки"
 }

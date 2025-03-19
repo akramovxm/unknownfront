@@ -29,6 +29,7 @@ import {
     TaskUpdateToolbarComponent
 } from "@features/admin/tasks/components/task-update-toolbar/task-update-toolbar.component";
 import {TopicToolbarComponent} from "@features/admin/topics/components/topic-toolbar/topic-toolbar.component";
+import {SettingsToolbarComponent} from "@features/admin/settings/components/settings-toolbar/settings-toolbar.component";
 
 @Component({
     selector: 'app-admin-layout',
@@ -98,6 +99,9 @@ export class AdminLayoutComponent {
             case '/admin/tasks/update':
                 this.portal = new ComponentPortal(TaskUpdateToolbarComponent);
                 break;
+            case '/admin/settings':
+                this.portal = new ComponentPortal(SettingsToolbarComponent);
+                break;
             default:
                 this.portal = null;
 
@@ -124,6 +128,11 @@ export class AdminLayoutComponent {
             title: this.translate.instant('TASKS'),
             path: '/admin/tasks',
             icon: 'task'
+        },
+        {
+            title: this.translate.instant('SETTINGS'),
+            path: '/admin/settings',
+            icon: 'settings'
         }
     ];
 

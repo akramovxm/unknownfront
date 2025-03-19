@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
-    selector: 'app-get-all',
+    selector: 'app-tasks-main',
     imports: [
         TaskAdminCardComponent,
         NgForOf,
@@ -25,10 +25,10 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
         MatPaginator,
         NgIf
     ],
-    templateUrl: './get-all.component.html',
-    styleUrl: './get-all.component.scss'
+    templateUrl: './tasks-main.component.html',
+    styleUrl: './tasks-main.component.scss'
 })
-export class GetAllComponent implements OnInit {
+export class TasksMainComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly taskStateService = inject(TaskStateService);

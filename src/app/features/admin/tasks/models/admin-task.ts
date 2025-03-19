@@ -1,5 +1,5 @@
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
-import {AuditUser} from "@models/audit-user";
+import {User} from "@models/user";
 import {AdminSource} from "@models/admin-source";
 
 export interface AdminTask {
@@ -13,8 +13,8 @@ export interface AdminTask {
     answers: AdminAnswer[];
     createdAt: Date;
     updatedAt: Date;
-    createdBy: AuditUser | null;
-    updatedBy: AuditUser | null;
+    createdBy: User | null;
+    updatedBy: User | null;
 }
 
 export interface AdminAnswer {
@@ -24,6 +24,6 @@ export interface AdminAnswer {
     correct: boolean;
     createdAt: Date;
     updatedAt: Date;
-    createdBy: AuditUser | null;
-    updatedBy: AuditUser | null;
+    createdBy: User | null;
+    updatedBy: User | null;
 }

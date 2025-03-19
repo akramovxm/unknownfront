@@ -1,12 +1,13 @@
 import {Routes} from "@angular/router";
 import {appName} from "../../app.constants";
-import {GetAllComponent as AdminUsersComponent} from "@features/admin/users/pages/get-all/get-all.component";
+import {UsersMainComponent as AdminUsersComponent} from "@features/admin/users/pages/get-all/users-main.component";
 import {CreateComponent as AdminUserCreateComponent} from "@features/admin/users/pages/create/create.component";
 import {UpdateComponent as AdminUserUpdateComponent} from "@features/admin/users/pages/update/update.component";
-import {GetAllComponent as AdminTopicsComponent} from "@features/admin/topics/pages/get-all/get-all.component";
-import {GetAllComponent as AdminTasksGetAllComponent} from "@features/admin/tasks/pages/get-all/get-all.component";
+import {TopicsMainComponent as AdminTopicsComponent} from "@features/admin/topics/pages/main/topics-main.component";
+import {TasksMainComponent as AdminTasksGetAllComponent} from "@features/admin/tasks/pages/main/tasks-main.component";
 import {CreateComponent as AdminTaskCreateComponent} from "@features/admin/tasks/pages/create/create.component";
 import {UpdateComponent as AdminTaskUpdateComponent} from "@features/admin/tasks/pages/update/update.component";
+import {SettingsMainComponent as AdminSettingsComponent} from "@features/admin/settings/pages/main/settings-main.component";
 
 export const ADMIN_ROUTES: Routes = [
     {
@@ -43,5 +44,10 @@ export const ADMIN_ROUTES: Routes = [
         path: 'tasks/update',
         title: appName + 'Update Task',
         component: AdminTaskUpdateComponent
+    },
+    {
+        path: 'settings',
+        title: appName + 'Settings',
+        component: AdminSettingsComponent
     }
 ]

@@ -119,5 +119,6 @@
   "TOPIC_UPDATED_SUCCESS": "Mavzu muvaffaqiyatli tahrirlandi",
   "TOPIC_DELETED_SUCCESS": "Mavzu muvaffaqiyatli o'chirildi",
   "DELETE_TOPIC_CONFIRM": "mavzusini o'chirmoqchimisiz?",
-  "TASK_VIEW": "Topshiriq ko'rinishi"
+  "TASK_VIEW": "Topshiriq ko'rinishi",
+  "SETTINGS": "Sozlamalar"
 }
