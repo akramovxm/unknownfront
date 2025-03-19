@@ -16,6 +16,7 @@ import {UserForm} from "@features/admin/users/models/user-form";
 import {ErrorMessageService} from "@services/error-message.service";
 import { UserStateService } from '../../services/user-state.service';
 import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import { BreakpointObserverService } from '@services/breakpoint-observer.service';
 
 @Component({
     selector: 'app-user-form',
@@ -42,7 +43,7 @@ import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinne
         ButtonProgressSpinnerComponent
     ],
     providers: [
-        {provide: MAT_DATE_LOCALE, useValue: 'en'},
+        {provide: MAT_DATE_LOCALE, useValue: 'ru'},
         provideNativeDateAdapter()
     ],
     templateUrl: './user-form.component.html',
@@ -51,6 +52,7 @@ import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinne
 export class UserFormComponent {
     private readonly userStateService = inject(UserStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
+    readonly boService = inject(BreakpointObserverService);
 
     readonly form = input.required<FormGroup<UserForm>>();
     readonly icon = input.required<string>();

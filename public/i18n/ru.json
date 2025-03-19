@@ -118,5 +118,6 @@
   "TOPIC_CREATED_SUCCESS": "Тема успешно создан",
   "TOPIC_UPDATED_SUCCESS": "Тема успешно изменен",
   "TOPIC_DELETED_SUCCESS": "Тема успешно удален",
-  "DELETE_TOPIC_CONFIRM": "Вы хотите удалить тему"
+  "DELETE_TOPIC_CONFIRM": "Вы хотите удалить тему",
+  "TASK_VIEW": "Вид задачи"
 }

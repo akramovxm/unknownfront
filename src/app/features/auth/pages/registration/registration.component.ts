@@ -40,7 +40,7 @@ import {ErrorMessageService} from "@services/error-message.service";
         ButtonProgressSpinnerComponent
     ],
     providers: [
-        {provide: MAT_DATE_LOCALE, useValue: 'en'},
+        {provide: MAT_DATE_LOCALE, useValue: 'ru'},
         provideNativeDateAdapter()
     ],
     templateUrl: './registration.component.html',

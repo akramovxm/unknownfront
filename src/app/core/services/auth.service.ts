@@ -11,20 +11,17 @@ import {jwtDecode} from "jwt-decode";
     providedIn: 'root'
 })
 export class AuthService {
-    router = inject(Router);
-    http = inject(HttpClient);
+    private readonly router = inject(Router);
+    private readonly http = inject(HttpClient);
 
-    baseUrl = BACKEND_URL;
+    private readonly baseUrl = BACKEND_URL;
 
-    loading = signal(false);
-    verifyLoading = signal(false);
-
-    auth;
-    role;
+    readonly auth = signal<boolean>(false);
+    readonly role = signal<string | null>(null);
 
     constructor() {
-        this.auth = !this.isTokenExpired();
-        this.role = this.getRoleFromToken();
+        this.auth.set(!this.isTokenExpired());
+        this.role.set(this.getRoleFromToken());
     }
 
     login(data: any) {
@@ -35,11 +32,11 @@ export class AuthService {
         loading?.set(false);
         this.setToken(token);
         sessionStorage.removeItem("email");
-        this.auth = true;
+        this.auth.set(true);
         const decodedToken = this.decodeToken(token);
-        this.role = decodedToken.role;
+        this.role.set(decodedToken.role);
         let route = '/profile';
-        if (this.role === Role.ADMIN) {
+        if (this.role() === Role.ADMIN) {
             route = '/admin'
         }
         this.router.navigate([route]);
@@ -47,8 +44,8 @@ export class AuthService {
 
     logout() {
         this.removeToken();
-        this.role = null;
-        this.auth = false;
+        this.role.set(null);
+        this.auth.set(false);
         this.router.navigate(['/login']);
     }
 
@@ -100,5 +97,12 @@ export class AuthService {
         if (token === null) return null;
         const decodedToken = this.decodeToken(token);
         return decodedToken.role;
+    }
+
+    getEmailFromToken() {
+        const token = this.getToken();
+        if (token === null) return null;
+        const decodedToken = this.decodeToken(token);
+        return decodedToken.sub;
     }
 }

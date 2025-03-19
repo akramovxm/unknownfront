@@ -20,13 +20,14 @@ export const appConfig: ApplicationConfig = {
         provideAnimationsAsync(),
         provideEnvironmentNgxMask(),
         provideHttpClient(withInterceptors([authInterceptor])),
-        importProvidersFrom([TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: httpLoaderFactory,
-                deps: [HttpClient]
-            },
-            defaultLanguage: 'en'
-        })])
+        importProvidersFrom([
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: httpLoaderFactory,
+                    deps: [HttpClient]
+                }
+            })
+        ])
     ]
 };

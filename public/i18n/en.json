@@ -118,5 +118,6 @@
   "TOPIC_CREATED_SUCCESS": "Topic created successfully",
   "TOPIC_UPDATED_SUCCESS": "Topic updated successfully",
   "TOPIC_DELETED_SUCCESS": "Topic deleted successfully",
-  "DELETE_TOPIC_CONFIRM": "Do you want to delete the topic"
+  "DELETE_TOPIC_CONFIRM": "Do you want to delete the topic",
+  "TASK_VIEW": "Task view"
 }

@@ -75,60 +75,76 @@
         </mat-radio-group>
 
         <mat-divider style="width: 100%; margin: 0.5rem 0"/>
-        <div class="lang-container">
-            <div class="lang-item">
-                <p class="mat-body-1">{{ 'UZBEK' | translate }}</p>
-                <mat-form-field appearance="outline">
-                    <mat-label>{{ 'CONTENT' | translate }}</mat-label>
-                    <textarea matInput rows="5" formControlName="contentUz" trim="blur" name="contentUz"></textarea>
-                    <mat-error *ngIf="contentUzError">{{ contentUzError }}</mat-error>
-                </mat-form-field>
-                <p>{{ 'ANSWERS' | translate }}*</p>
-                <div formArrayName="answers"
-                     *ngFor="let answer of form().controls.answers.controls; let i = index"
-                     style="width: 100%;">
-                    <ng-container [formGroupName]="i">
+        <div class="content-container">
+            <div class="lang-container-outer">
+                <div class="lang-container">
+                    <div class="lang-item">
+                        <p class="mat-body-1">{{ 'UZBEK' | translate }}</p>
                         <mat-form-field appearance="outline">
-                            <input matInput formControlName="valueUz" trim="blur">
-                            <button mat-icon-button matSuffix type="button" [disabled]="topicLoading"
-                                    (click)="onCorrectClick($event, i)"
-                                    [ngStyle]="{ color: answer.controls.correct.value ? 'var(--mat-sys-primary)' : submitted && correctError ? 'var(--mat-sys-error)' : '' }">
-                                <mat-icon>{{ answer.controls.correct.value ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
-                            </button>
-                            <mat-error *ngIf="getValueUzError(i)">{{ getValueUzError(i) }}</mat-error>
+                            <mat-label>{{ 'CONTENT' | translate }}</mat-label>
+                            <textarea matInput rows="5" formControlName="contentUz" trim="blur" name="contentUz"
+                                (focus)="onUzFocus()"
+                            ></textarea>
+                            <mat-error *ngIf="contentUzError">{{ contentUzError }}</mat-error>
                         </mat-form-field>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="lang-item">
-                <p class="mat-body-1">{{ 'RUSSIAN' | translate }}</p>
-                <mat-form-field appearance="outline">
-                    <mat-label>{{ 'CONTENT' | translate }}</mat-label>
-                    <textarea matInput rows="5" formControlName="contentRu" trim="blur" name="contentRu"></textarea>
-                    <mat-error *ngIf="contentRuError">{{ contentRuError }}</mat-error>
-                </mat-form-field>
-                <p>{{ 'ANSWERS' | translate }}*</p>
-                <div formArrayName="answers"
-                     *ngFor="let answer of form().controls.answers.controls; let i = index"
-                     style="width: 100%;">
-                    <ng-container [formGroupName]="i">
+                        <p>{{ 'ANSWERS' | translate }}*</p>
+                        <div formArrayName="answers"
+                            *ngFor="let answer of form().controls.answers.controls; let i = index"
+                            style="width: 100%;">
+                            <ng-container [formGroupName]="i">
+                                <mat-form-field appearance="outline">
+                                    <input matInput formControlName="valueUz" trim="blur" (focus)="onUzFocus()">
+                                    <button mat-icon-button matSuffix type="button" [disabled]="topicLoading"
+                                            (click)="onCorrectClick($event, i)"
+                                            [ngStyle]="{ color: answer.controls.correct.value ? 'var(--mat-sys-primary)' : submitted && correctError ? 'var(--mat-sys-error)' : '' }">
+                                        <mat-icon>{{ answer.controls.correct.value ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="getValueUzError(i)">{{ getValueUzError(i) }}</mat-error>
+                                </mat-form-field>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="lang-item">
+                        <p class="mat-body-1">{{ 'RUSSIAN' | translate }}</p>
                         <mat-form-field appearance="outline">
-                            <input matInput formControlName="valueRu" trim="blur">
-                            <button mat-icon-button matSuffix type="button" [disabled]="topicLoading"
-                                    (click)="onCorrectClick($event, i)"
-                                    [ngStyle]="{ color: answer.controls.correct.value ? 'var(--mat-sys-primary)' : submitted && correctError ? 'var(--mat-sys-error)' : '' }">
-                                <mat-icon>{{ answer.controls.correct.value ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
-                            </button>
-                            <mat-error *ngIf="getValueRuError(i)">{{ getValueRuError(i) }}</mat-error>
+                            <mat-label>{{ 'CONTENT' | translate }}</mat-label>
+                            <textarea matInput rows="5" formControlName="contentRu" trim="blur" name="contentRu"
+                                (focus)="onRuFocus()"
+                            ></textarea>
+                            <mat-error *ngIf="contentRuError">{{ contentRuError }}</mat-error>
                         </mat-form-field>
-                    </ng-container>
+                        <p>{{ 'ANSWERS' | translate }}*</p>
+                        <div formArrayName="answers"
+                            *ngFor="let answer of form().controls.answers.controls; let i = index"
+                            style="width: 100%;">
+                            <ng-container [formGroupName]="i">
+                                <mat-form-field appearance="outline">
+                                    <input matInput formControlName="valueRu" trim="blur" (focus)="onRuFocus()">
+                                    <button mat-icon-button matSuffix type="button" [disabled]="topicLoading"
+                                            (click)="onCorrectClick($event, i)"
+                                            [ngStyle]="{ color: answer.controls.correct.value ? 'var(--mat-sys-primary)' : submitted && correctError ? 'var(--mat-sys-error)' : '' }">
+                                        <mat-icon>{{ answer.controls.correct.value ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="getValueRuError(i)">{{ getValueRuError(i) }}</mat-error>
+                                </mat-form-field>
+                            </ng-container>
+                        </div>
+                    </div>
                 </div>
+                <p class="mat-small answers-error"
+                [ngStyle]="{display: 'flex', alignItems: 'center', color: submitted && correctError ? 'var(--mat-sys-error)' : '' }">
+                    <mat-icon style="transform: scale(0.8)">info</mat-icon>
+                    <span>{{ 'ONE_CORRECT' | translate }}</span>
+                </p>
             </div>
-            <p class="mat-small"
-               [ngStyle]="{display: 'flex', alignItems: 'center', color: submitted && correctError ? 'var(--mat-sys-error)' : '' }">
-                <mat-icon style="transform: scale(0.8)">info</mat-icon>
-                <span>{{ 'ONE_CORRECT' | translate }}</span>
-            </p>
+            <div class="card-container">
+                <p class="mat-body-1">{{ 'TASK_VIEW' | translate }}</p>
+                <app-task-preview-card
+                        [content]="cardContent"
+                        [answers]="form().controls.answers.value"
+                        [lang]="ruFocus() ? 'ru' : 'uz'"
+                />
+            </div>
         </div>
         <button mat-flat-button
                 class="form-button"
@@ -144,22 +160,4 @@
             {{ action() | translate }}
         </button>
     </form>
-    <div class="card-container">
-        <div>
-            <p class="mat-body-1">{{ 'UZBEK' | translate }}</p>
-            <app-task-preview-card
-                    [content]="form().controls['contentUz'].value"
-                    [answers]="form().controls.answers.value"
-                    lang="uz"
-            />
-        </div>
-        <div>
-            <p class="mat-body-1">{{ 'RUSSIAN' | translate }}</p>
-            <app-task-preview-card
-                    [content]="form().controls['contentRu'].value"
-                    [answers]="form().controls.answers.value"
-                    lang="ru"
-            />
-        </div>
-    </div>
 </div>

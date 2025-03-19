@@ -73,10 +73,15 @@ export class TaskFormComponent implements OnInit {
     readonly topicInput = viewChild<ElementRef<HTMLInputElement>>('topicInput');
     readonly sourceInput = viewChild<ElementRef<HTMLInputElement>>('sourceInput');
 
+    readonly ruFocus = signal<boolean>(false);
     readonly filteredTopics = signal<AdminTopic[]>([]);
     readonly filteredSources = signal<AdminSource[]>([]);
 
     ngOnInit() {
+        if (this.translate.currentLang === 'ru') {
+            this.ruFocus.set(true);
+        }
+
         if (!this.topics.length) {
             this.topicStateService.getTopics().subscribe(topics => {
                 this.setTopicId(topics);
@@ -99,6 +104,14 @@ export class TaskFormComponent implements OnInit {
         } else {
             this.submit()();
         }
+    }
+
+    onUzFocus() {
+        this.ruFocus.set(false);
+    }
+
+    onRuFocus() {
+        this.ruFocus.set(true);
     }
 
     onTreeClick(e: MouseEvent) {
@@ -208,6 +221,10 @@ export class TaskFormComponent implements OnInit {
         return topic.titleRu;
     }
 
+    get cardContent() {
+        return this.ruFocus() ? this.form().controls['contentRu'].value
+            : this.form().controls['contentUz'].value;
+    }
     get loading() {
         return this.taskStateService.loading();
     }

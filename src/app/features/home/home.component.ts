@@ -57,10 +57,10 @@ export class HomeComponent {
         return this.breakpointObserverService.max768 ? "mat-caption" : "mat-subtitle-1";
     }
     get auth() {
-        return this.authService.auth;
+        return this.authService.auth();
     }
     get role() {
-        return this.authService.role;
+        return this.authService.role();
     }
 
     protected readonly Role = Role;

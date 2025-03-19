@@ -118,5 +118,6 @@
   "TOPIC_CREATED_SUCCESS": "Mavzu muvaffaqiyatli yaratildi",
   "TOPIC_UPDATED_SUCCESS": "Mavzu muvaffaqiyatli tahrirlandi",
   "TOPIC_DELETED_SUCCESS": "Mavzu muvaffaqiyatli o'chirildi",
-  "DELETE_TOPIC_CONFIRM": "mavzusini o'chirmoqchimisiz?"
+  "DELETE_TOPIC_CONFIRM": "mavzusini o'chirmoqchimisiz?",
+  "TASK_VIEW": "Topshiriq ko'rinishi"
 }

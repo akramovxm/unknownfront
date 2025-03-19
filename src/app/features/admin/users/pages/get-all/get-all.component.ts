@@ -17,6 +17,7 @@ import {SearchInputComponent} from "@components/search-input/search-input.compon
 import {UserStateService} from "@features/admin/users/services/user-state.service";
 import {switchMap, tap} from "rxjs";
 import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
+import { AuthService } from '@services/auth.service';
 
 @Component({
     selector: 'app-users',
@@ -43,6 +44,7 @@ import {ProgressBarComponent} from "@components/progress-bar/progress-bar.compon
 export class GetAllComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly authService = inject(AuthService);
     private readonly userSelectionService = inject(UserSelectionService);
     private readonly userStateService = inject(UserStateService);
 
@@ -80,9 +82,13 @@ export class GetAllComponent implements OnInit {
         });
     }
 
+    isCurrentUser(user: AdminUser) {
+        return user.email === this.authService.getEmailFromToken();
+    }
+
     isAllSelected(): boolean {
         const selected = this.userSelectionService.selection.selected;
-        const users = this.userStateService.users();
+        const users = this.userStateService.users().filter(u => !this.isCurrentUser(u));
         return users.length > 0 && selected.length === users.length;
     }
 
@@ -91,7 +97,7 @@ export class GetAllComponent implements OnInit {
         if (this.isAllSelected()) {
             this.userSelectionService.selection.clear();
         } else {
-            this.userSelectionService.selection.select(...users);
+            this.userSelectionService.selection.select(...users.filter(u => !this.isCurrentUser(u)));
         }
     }
 
