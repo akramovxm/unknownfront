@@ -120,5 +120,10 @@
   "TOPIC_DELETED_SUCCESS": "Topic deleted successfully",
   "DELETE_TOPIC_CONFIRM": "Do you want to delete the topic",
   "TASK_VIEW": "Task view",
-  "SETTINGS": "Settings"
+  "SETTINGS": "Settings",
+  "PASSWORD_INCORRECT": "Old password is incorrect",
+  "OLD_PASSWORD": "Old password",
+  "UPDATE_PASSWORD": "Update Password",
+  "PASSWORD_UPDATED_SUCCESS": "Password updated successfully",
+  "EMAIL_PASSWORD_INCORRECT": "Email and/or password is incorrect"
 }

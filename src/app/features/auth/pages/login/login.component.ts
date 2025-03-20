@@ -15,6 +15,7 @@ import {LoginForm} from "@features/auth/models/login-form";
 import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
 import {PageLoadingService} from "@services/page-loading.service";
 import {ErrorMessageService} from "@services/error-message.service";
+import { SnackbarService } from '@services/snackbar.service';
 
 @Component({
     selector: 'app-login',
@@ -45,6 +46,7 @@ export class LoginComponent {
     private readonly errorService = inject(ErrorService);
     private readonly errorMessageService = inject(ErrorMessageService);
     private readonly pageLoadingService = inject(PageLoadingService);
+    private readonly snackbarService = inject(SnackbarService);
 
     readonly loading = signal<boolean>(false);
     readonly hide = signal<boolean>(true);
@@ -68,6 +70,9 @@ export class LoginComponent {
                 error: err => {
                     this.loading.set(false);
                     this.form.enable();
+                    if (err.error.errors === null) {
+                        this.snackbarService.open("EMAIL_PASSWORD_INCORRECT");
+                    }
                     this.errorService.onError(err);
                 }
             });

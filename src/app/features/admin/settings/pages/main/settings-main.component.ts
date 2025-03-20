@@ -13,14 +13,14 @@ import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core"
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
 import {MatIcon} from "@angular/material/icon";
 import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
-import {MatButton} from "@angular/material/button";
+import {MatAnchor, MatButton} from "@angular/material/button";
 import {MeService} from "@services/me.service";
 import {ErrorService} from "@services/error.service";
 import {User} from "@models/user";
 import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
-import {HttpErrorResponse} from "@angular/common/http";
 import {SnackbarService} from "@services/snackbar.service";
 import {SettingsForm} from "@features/admin/settings/models/settings-form";
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-settings-main',
@@ -42,7 +42,9 @@ import {SettingsForm} from "@features/admin/settings/models/settings-form";
         MatIcon,
         ButtonProgressSpinnerComponent,
         MatButton,
-        ProgressBarComponent
+        ProgressBarComponent,
+        MatAnchor,
+        RouterLink
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'ru'},
@@ -107,7 +109,7 @@ export class SettingsMainComponent implements OnInit {
                     this.form.enable();
                     this.snackbarService.open('USER_UPDATED_SUCCESS');
                 },
-                error: (err: HttpErrorResponse) => {
+                error: err => {
                     this.loading.set(false);
                     this.form.enable();
                     this.errorService.onError(err, this.form, ['exists']);

@@ -30,6 +30,7 @@ import {
 } from "@features/admin/tasks/components/task-update-toolbar/task-update-toolbar.component";
 import {TopicToolbarComponent} from "@features/admin/topics/components/topic-toolbar/topic-toolbar.component";
 import {SettingsToolbarComponent} from "@features/admin/settings/components/settings-toolbar/settings-toolbar.component";
+import { UpdatePasswordToolbarComponent } from '@features/admin/settings/components/update-password-toolbar/update-password-toolbar.component';
 
 @Component({
     selector: 'app-admin-layout',
@@ -102,6 +103,9 @@ export class AdminLayoutComponent {
             case '/admin/settings':
                 this.portal = new ComponentPortal(SettingsToolbarComponent);
                 break;
+            case '/admin/settings/update-password':
+                this.portal = new ComponentPortal(UpdatePasswordToolbarComponent);
+                break;
             default:
                 this.portal = null;
 
@@ -110,27 +114,27 @@ export class AdminLayoutComponent {
 
     navList = [
         {
-            title: this.translate.instant('DASHBOARD'),
+            title: 'DASHBOARD',
             path: '/admin',
             icon: 'dashboard'
         },
         {
-            title: this.translate.instant('USERS'),
+            title: 'USERS',
             path: '/admin/users',
             icon: 'person'
         },
         {
-            title: this.translate.instant('TOPICS'),
+            title: 'TOPICS',
             path: '/admin/topics',
             icon: 'topic'
         },
         {
-            title: this.translate.instant('TASKS'),
+            title: 'TASKS',
             path: '/admin/tasks',
             icon: 'task'
         },
         {
-            title: this.translate.instant('SETTINGS'),
+            title: 'SETTINGS',
             path: '/admin/settings',
             icon: 'settings'
         }

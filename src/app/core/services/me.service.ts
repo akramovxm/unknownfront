@@ -19,4 +19,8 @@ export class MeService {
     updateMe(data: any) {
         return this.http.put<Response<User>>(this.baseUrl, data);
     }
+
+    updatePassword(data: any) {
+        return this.http.put(this.baseUrl + '/update-password', data);
+    }
 }

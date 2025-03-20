@@ -120,5 +120,10 @@
   "TOPIC_DELETED_SUCCESS": "Тема успешно удален",
   "DELETE_TOPIC_CONFIRM": "Вы хотите удалить тему",
   "TASK_VIEW": "Вид задачи",
-  "SETTINGS": "Настройки"
+  "SETTINGS": "Настройки",
+  "PASSWORD_INCORRECT": "Старый пароль неверен",
+  "OLD_PASSWORD": "Старый пароль",
+  "UPDATE_PASSWORD": "Изменить пароль",
+  "PASSWORD_UPDATED_SUCCESS": "Пароль успешно изменен",
+  "EMAIL_PASSWORD_INCORRECT": "Email и/или пароль неверен"
 }

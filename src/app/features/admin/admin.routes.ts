@@ -8,6 +8,7 @@ import {TasksMainComponent as AdminTasksGetAllComponent} from "@features/admin/t
 import {CreateComponent as AdminTaskCreateComponent} from "@features/admin/tasks/pages/create/create.component";
 import {UpdateComponent as AdminTaskUpdateComponent} from "@features/admin/tasks/pages/update/update.component";
 import {SettingsMainComponent as AdminSettingsComponent} from "@features/admin/settings/pages/main/settings-main.component";
+import { UpdatePasswordComponent as AdminUpdatePasswordComponent } from "./settings/pages/update-password/update-password.component";
 
 export const ADMIN_ROUTES: Routes = [
     {
@@ -49,5 +50,10 @@ export const ADMIN_ROUTES: Routes = [
         path: 'settings',
         title: appName + 'Settings',
         component: AdminSettingsComponent
+    },
+    {
+        path: 'settings/update-password',
+        title: appName + 'Update Password',
+        component: AdminUpdatePasswordComponent
     }
 ]

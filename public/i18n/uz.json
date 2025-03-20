@@ -120,5 +120,10 @@
   "TOPIC_DELETED_SUCCESS": "Mavzu muvaffaqiyatli o'chirildi",
   "DELETE_TOPIC_CONFIRM": "mavzusini o'chirmoqchimisiz?",
   "TASK_VIEW": "Topshiriq ko'rinishi",
-  "SETTINGS": "Sozlamalar"
+  "SETTINGS": "Sozlamalar",
+  "PASSWORD_INCORRECT": "Eski parol noto'g'ri",
+  "OLD_PASSWORD": "Eski parol",
+  "UPDATE_PASSWORD": "Parolni o'zgartirish",
+  "PASSWORD_UPDATED_SUCCESS": "Parol muvaffaqiyatli o'zgartirildi",
+  "EMAIL_PASSWORD_INCORRECT": "Email va/yoki parol noto'g'ri"
 }
