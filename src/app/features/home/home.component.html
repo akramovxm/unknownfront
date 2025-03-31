@@ -12,7 +12,7 @@
             {{ 'LOGIN' | translate }}
         </a>
     } @else {
-        @if (role === Role.ADMIN) {
+        @if (isAdmin) {
             <a mat-button routerLink="/admin" [disabled]="loading">
                 <mat-icon>
                     @if (loading) {

@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import { ContainerComponent } from "../../../../../shared/components/container/container.component";
+import { ContainerComponent } from "@shared/components/container/container.component";
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { UpdatePasswordForm } from '../../models/update-password-form';
 import { ErrorMessageService } from '@services/error-message.service';
@@ -8,12 +8,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { NgIf } from '@angular/common';
-import { ButtonProgressSpinnerComponent } from '@components/button-progress-spinner/button-progress-spinner.component';
+import { ButtonProgressSpinnerComponent } from '@shared/components/button-progress-spinner/button-progress-spinner.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
-import {MeService} from "@services/me.service";
-import { ErrorService } from '@services/error.service';
-import { SnackbarService } from '@services/snackbar.service';
+import {MeStateService} from "@features/admin/settings/services/me-state.service";
 
 @Component({
     selector: 'app-update-password',
@@ -38,12 +36,9 @@ import { SnackbarService } from '@services/snackbar.service';
 })
 export class UpdatePasswordComponent {
     private readonly formBuilder = inject(FormBuilder);
-    private readonly meService = inject(MeService);
-    private readonly errorService = inject(ErrorService);
+    private readonly meStateService = inject(MeStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
-    private readonly snackbarService = inject(SnackbarService);
 
-    readonly loading = signal<boolean>(false);
     readonly oldHide = signal<boolean>(true);
     readonly newHide = signal<boolean>(true);
 
@@ -53,28 +48,7 @@ export class UpdatePasswordComponent {
     })
 
     submit() {
-        this.updatePassword();
-    }
-
-    updatePassword() {
-        if (this.form.invalid) return;
-
-        this.loading.set(true);
-        this.form.disable();
-
-        this.meService.updatePassword(this.form.value)
-            .subscribe({
-                next: res => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    this.snackbarService.open('PASSWORD_UPDATED_SUCCESS');
-                },
-                error: err => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    this.errorService.onError(err, this.form, ['incorrect']);
-                }
-            });
+        this.meStateService.updatePassword(this.form);
     }
 
     clickOld(event: MouseEvent) {
@@ -86,6 +60,9 @@ export class UpdatePasswordComponent {
         event.stopPropagation();
     }
 
+    get loading() {
+        return this.meStateService.loading;
+    }
     get oldPasswordError() {
         return this.errorMessageService.getMessage(
             this.form.controls.oldPassword,

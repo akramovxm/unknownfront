@@ -1,1 +1,6 @@
-<span>{{ 'CREATE_TASK' | translate }}</span>
+<span class="title">{{ 'CREATE_TASK' | translate }}</span>
+<span style="flex: 1"></span>
+<button mat-button (click)="onHelpClick()">
+  <mat-icon>book</mat-icon>
+  {{ 'HANDBOOK' | translate }}
+</button>

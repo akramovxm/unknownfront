@@ -1,8 +1,5 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "@services/auth.service";
-import {Router} from "@angular/router";
-import {ErrorService} from "@services/error.service";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
@@ -11,9 +8,9 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
 import {TranslatePipe} from "@ngx-translate/core";
 import {VerifyForm} from "@features/auth/models/verify-form";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 import {ErrorMessageService} from "@services/error-message.service";
-import {SnackbarService} from "@services/snackbar.service";
+import {AuthStateService} from "@features/auth/services/auth-state.service";
 
 @Component({
     selector: 'app-verify',
@@ -35,14 +32,8 @@ import {SnackbarService} from "@services/snackbar.service";
 })
 export class VerifyComponent {
     private readonly formBuilder = inject(FormBuilder);
-    private readonly authService = inject(AuthService);
-    private readonly errorService = inject(ErrorService);
-    private readonly router = inject(Router);
-    private readonly snackbarService = inject(SnackbarService);
+    private readonly authStateService = inject(AuthStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
-
-    readonly resendLoading = signal<boolean>(false);
-    readonly verifyLoading = signal<boolean>(false);
 
     email = sessionStorage.getItem('email');
 
@@ -52,57 +43,27 @@ export class VerifyComponent {
     });
 
     submit() {
-        if (this.form.invalid) return;
-
-        this.verifyLoading.set(true);
-        this.form.disable();
-        this.authService.verify(this.form.value)
-            .subscribe({
-                next: res => {
-                    this.verifyLoading.set(false);
-                    this.form.enable();
-                    this.snackbarService.open('VERIFY_SUCCESS');
-                    if (sessionStorage.getItem('verifyType') === 'recovery') {
-                        sessionStorage.setItem('verify', String(true));
-                        this.router.navigate(['/set-password']);
-                    } else {
-                        sessionStorage.removeItem('email');
-                        sessionStorage.removeItem('verify');
-                        sessionStorage.removeItem('verifyType');
-                        this.router.navigate(['/login']);
-                    }
-                },
-                error: err => {
-                    this.verifyLoading.set(false);
-                    this.form.enable();
-                    this.errorService.onError(err);
-                }
-            });
+        this.authStateService.verify(this.form);
     }
 
-    submitResendCode() {
-        this.resendLoading.set(true);
-        this.authService.resendCode(this.form.value.email)
-            .subscribe({
-                next: res => {
-                    this.resendLoading.set(false);
-                    this.snackbarService.open('SEND_CODE_SUCCESS');
-                },
-                error: err => {
-                    this.resendLoading.set(false);
-                    this.errorService.onError(err);
-                }
-            });
+    resendCode() {
+        return this.authStateService.resendCode(this.form);
     }
 
     get loading() {
-        return this.verifyLoading();
+        return this.authStateService.loading;
+    }
+    get resendLoading() {
+        return this.authStateService.resendLoading;
     }
 
     get codeError() {
         return this.errorMessageService.getMessage(
             this.form.controls.verifyCode,
-            {error: 'required', message: 'CODE_REQUIRED'}
+            [
+                {error: 'required', message: 'CODE_REQUIRED'},
+                {error: 'incorrect', message: 'CODE_INCORRECT'}
+            ]
         );
     }
 }

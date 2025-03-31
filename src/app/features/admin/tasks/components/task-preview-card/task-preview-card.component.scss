@@ -1,11 +1,10 @@
-@use '@angular/material' as mat;
-
-mat-list {
-    @include mat.list-density(
-                    mat.define-theme((
-                            density: (
-                                    scale: -2
-                            )
-                    ))
-    )
+.row-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row-list-item {
+    width: max-content;
+}
+.row-list-item-title {
+    padding-right: 0.1rem;
 }

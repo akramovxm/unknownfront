@@ -6,7 +6,7 @@ import {VerifyComponent} from "@features/auth/pages/verify/verify.component";
 import {verifyGuard} from "@guards/verify.guard";
 import {SetPasswordComponent} from "@features/auth/pages/set-password/set-password.component";
 import {setPasswordGuard} from "@guards/set-password.guard";
-import {appName} from "../../app.constants";
+import {appName} from "@constants";
 
 export const AUTH_ROUTES: Routes = [
     {

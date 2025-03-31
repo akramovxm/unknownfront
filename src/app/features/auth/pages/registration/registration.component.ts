@@ -8,15 +8,12 @@ import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgxMaskDirective} from "ngx-mask";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {Router} from "@angular/router";
-import {AuthService} from "@services/auth.service";
-import {ErrorService} from "@services/error.service";
-import {HttpErrorResponse} from "@angular/common/http";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {TranslatePipe} from "@ngx-translate/core";
 import {RegistrationForm} from "@features/auth/models/registration-form";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 import {ErrorMessageService} from "@services/error-message.service";
+import {AuthStateService} from "@features/auth/services/auth-state.service";
 
 @Component({
     selector: 'app-registration',
@@ -47,13 +44,10 @@ import {ErrorMessageService} from "@services/error-message.service";
     styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
-    private readonly router = inject(Router);
     private readonly formBuilder = inject(FormBuilder);
-    private readonly authService = inject(AuthService);
-    private readonly errorService = inject(ErrorService);
+    private readonly authStateService = inject(AuthStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
 
-    readonly loading = signal<boolean>(false);
     readonly hide = signal<boolean>(true);
 
     readonly form = this.formBuilder.group<RegistrationForm>({
@@ -66,32 +60,16 @@ export class RegistrationComponent {
     });
 
     submit() {
-        if (this.form.invalid) return;
-
-        this.loading.set(true);
-        this.form.disable();
-        this.authService.registration(this.form.value)
-            .subscribe({
-                next: res => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    if (this.form.value.email) {
-                        sessionStorage.setItem('email', this.form.value.email);
-                        sessionStorage.setItem('verifyType', 'registration');
-                    }
-                    this.router.navigate(['/verify']);
-                },
-                error: (err: HttpErrorResponse) => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    this.errorService.onError(err, this.form, ['exists']);
-                }
-            });
+        this.authStateService.registration(this.form);
     }
 
     clickEvent(event: MouseEvent) {
         this.hide.set(!this.hide());
         event.stopPropagation();
+    }
+
+    get loading() {
+        return this.authStateService.loading;
     }
 
     get firstNameError() {

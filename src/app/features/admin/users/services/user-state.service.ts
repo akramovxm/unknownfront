@@ -3,7 +3,7 @@ import {AdminUser} from "@features/admin/users/models/admin-user";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ListResponse} from "@models/list-response";
 import {UserService} from "@features/admin/users/services/user.service";
-import {catchError, finalize, Observable, of, tap} from "rxjs";
+import {catchError, EMPTY, finalize, Observable, of, tap} from "rxjs";
 import {Params} from "@angular/router";
 import {UserSelectionService} from "@features/admin/users/services/user-selection.service";
 import {ErrorService} from "@services/error.service";
@@ -47,7 +47,7 @@ export class UserStateService {
         this.size.set(+params['size'] || 10);
     }
 
-    getUsers() {
+    getAll() {
         const queryParams = this.generateQueryParams();
         this.loading.set(true);
         return this.userService.getAll(queryParams).pipe(
@@ -60,7 +60,7 @@ export class UserStateService {
         );
     }
 
-    createUser(form: FormGroup<UserForm>) {
+    create(form: FormGroup<UserForm>) {
         if (form.invalid) return;
 
         this.loading.set(true);
@@ -81,13 +81,13 @@ export class UserStateService {
             });
     }
 
-    updateUser(form: FormGroup<UserForm>, id: number) {
+    updateFully(form: FormGroup<UserForm>, id: number) {
         if (form.invalid) return;
 
         this.loading.set(true);
         form.disable();
 
-        this.userService.update(form.value as UserRequest, id)
+        this.userService.updateFully(form.value as UserRequest, id)
             .subscribe({
                 next: res => {
                     this.loading.set(false);
@@ -103,7 +103,22 @@ export class UserStateService {
             });
     }
 
-    deleteUsers() {
+    updatePartially(data: UserRequest, id: number) {
+        this.loading.set(true);
+
+        return this.userService.updatePartially(data, id).pipe(
+            tap(res => {
+                this.snackbarService.open('USER_UPDATED_SUCCESS');
+            }),
+            catchError(err => {
+                this.errorService.onError(err);
+                return EMPTY;
+            }),
+            finalize(() => this.loading.set(false))
+        );
+    }
+
+    deleteByIds() {
         const elements = this.getDialogElements();
         const ids = this.userSelectionService.selection.selected.map(u => u.id);
 
@@ -113,14 +128,14 @@ export class UserStateService {
             () => this.executeUserAction(
                 ids,
                 'DELETE_USERS_SUCCESS',
-                () => this.userService.delete({ids}),
-                () => this.getUsers().subscribe()
+                () => this.userService.deleteByIds({ids}),
+                () => this.getAll().subscribe()
             ),
             elements
         )
     }
 
-    lockUsers() {
+    lockByIds() {
         const elements = this.getDialogElements();
         const ids = this.userSelectionService.selection.selected.map(u => u.id);
 
@@ -130,14 +145,14 @@ export class UserStateService {
             () => this.executeUserAction(
                 ids,
                 'LOCK_USERS_SUCCESS',
-                () => this.userService.lock({ids}),
+                () => this.userService.lockByIds({ids}),
                 () => this.updateUsersLockState(ids, true)
             ),
             elements
         )
     }
 
-    unlockUsers() {
+    unlockByIds() {
         const elements = this.getDialogElements();
         const ids = this.userSelectionService.selection.selected.map(u => u.id);
 
@@ -147,7 +162,7 @@ export class UserStateService {
             () => this.executeUserAction(
                 ids,
                 'UNLOCK_USERS_SUCCESS',
-                () => this.userService.unlock({ids}),
+                () => this.userService.unlockByIds({ids}),
                 () => this.updateUsersLockState(ids, false)
             ),
             elements
@@ -193,7 +208,7 @@ export class UserStateService {
         }
     }
 
-    private onGetUsersSuccess(res: ListResponse<AdminUser[]>) {
+    private onGetUsersSuccess(res: ListResponse<AdminUser>) {
         this.users.set(res.data);
         this.totalElements.set(res.totalElements);
         this.page.set(res.page);

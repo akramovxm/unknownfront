@@ -4,7 +4,7 @@ import {MatToolbar} from "@angular/material/toolbar";
 import {MatAnchor} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {TranslatePipe} from "@ngx-translate/core";
-import {LanguageMenuComponent} from "../../shared/components/language-menu/language-menu.component";
+import {LanguageMenuComponent} from "@shared/components/language-menu/language-menu.component";
 
 @Component({
     selector: 'app-auth-layout',

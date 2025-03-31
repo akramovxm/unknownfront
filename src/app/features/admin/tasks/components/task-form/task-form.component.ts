@@ -2,7 +2,6 @@ import {Component, ElementRef, inject, input, OnInit, signal, viewChild} from '@
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {MatDivider} from "@angular/material/divider";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
@@ -24,7 +23,9 @@ import {TopicStateService} from "@features/admin/topics/services/topic-state.ser
 import {SourceStateService} from "@services/source-state.service";
 import {ErrorMessageService} from "@services/error-message.service";
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
+import {AdminAnswer} from "@features/admin/tasks/models/admin-task";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({
     selector: 'app-task-form',
@@ -32,7 +33,6 @@ import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinne
         MatAutocomplete,
         MatAutocompleteTrigger,
         MatButton,
-        MatDivider,
         MatError,
         MatFormField,
         MatIcon,
@@ -51,7 +51,8 @@ import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinne
         TranslatePipe,
         NgStyle,
         TaskPreviewCardComponent,
-        ButtonProgressSpinnerComponent
+        ButtonProgressSpinnerComponent,
+        MatSlideToggle
     ],
     templateUrl: './task-form.component.html',
     styleUrl: './task-form.component.scss'
@@ -224,6 +225,9 @@ export class TaskFormComponent implements OnInit {
     get cardContent() {
         return this.ruFocus() ? this.form().controls['contentRu'].value
             : this.form().controls['contentUz'].value;
+    }
+    get cardAnswers() {
+        return this.form().controls.answers.value as AdminAnswer[];
     }
     get loading() {
         return this.taskStateService.loading();

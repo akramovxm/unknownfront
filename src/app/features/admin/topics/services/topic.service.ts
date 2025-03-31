@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BACKEND_URL} from "../../../../app.constants";
+import {BACKEND_URL} from "@constants";
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
 import {Response} from "@models/response";
 import {AdminTreeTopic} from "@features/admin/topics/models/admin-tree-topic";

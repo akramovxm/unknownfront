@@ -6,7 +6,7 @@ import {TranslateService} from "@ngx-translate/core";
     providedIn: 'root'
 })
 export class ErrorMessageService {
-    translate = inject(TranslateService);
+    private readonly translate = inject(TranslateService);
 
     getMessage(
         control: FormControl<any> | FormArray<FormGroup>,

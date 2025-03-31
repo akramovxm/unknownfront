@@ -10,8 +10,8 @@
             style="margin-bottom: 1rem; min-width: 120px"
             type="button"
             class="form-button mat-small"
-            (click)="submitResendCode()"
-            [disabled]="resendLoading() || loading"
+            (click)="resendCode()"
+            [disabled]="resendLoading() || loading()"
     >
         @if (resendLoading()) {
             <mat-progress-spinner mode="indeterminate" diameter="16"/>
@@ -22,10 +22,10 @@
     <button class="submit-button"
             mat-flat-button
             type="submit"
-            [disabled]="loading || resendLoading()"
+            [disabled]="loading() || resendLoading()"
     >
         <mat-icon>
-            @if (loading) {
+            @if (loading()) {
                 <app-button-progress-spinner/>
             } @else {
                 pin

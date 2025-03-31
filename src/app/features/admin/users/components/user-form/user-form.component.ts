@@ -8,15 +8,19 @@ import {MatInput} from "@angular/material/input";
 import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {NgxMaskDirective} from "ngx-mask";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {TranslatePipe} from "@ngx-translate/core";
 import {UserForm} from "@features/admin/users/models/user-form";
 import {ErrorMessageService} from "@services/error-message.service";
-import { UserStateService } from '../../services/user-state.service';
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
-import { BreakpointObserverService } from '@services/breakpoint-observer.service';
+import {UserStateService} from '../../services/user-state.service';
+import {
+    ButtonProgressSpinnerComponent
+} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
+import {BreakpointObserverService} from '@services/breakpoint-observer.service';
+import {Role} from "@models/role";
+import {AuthStateService} from "@features/auth/services/auth-state.service";
 
 @Component({
     selector: 'app-user-form',
@@ -40,7 +44,8 @@ import { BreakpointObserverService } from '@services/breakpoint-observer.service
         NgxTrimDirectiveModule,
         ReactiveFormsModule,
         TranslatePipe,
-        ButtonProgressSpinnerComponent
+        ButtonProgressSpinnerComponent,
+        NgForOf
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'ru'},
@@ -50,6 +55,7 @@ import { BreakpointObserverService } from '@services/breakpoint-observer.service
     styleUrl: './user-form.component.scss'
 })
 export class UserFormComponent {
+    private readonly authStateService = inject(AuthStateService);
     private readonly userStateService = inject(UserStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
     readonly boService = inject(BreakpointObserverService);
@@ -59,11 +65,33 @@ export class UserFormComponent {
     readonly action = input.required<string>();
     readonly submit = input.required<(id?: number | null) => void>();
 
+    get roles() {
+        switch (this.authStateService.role()) {
+            case Role.SUPERADMIN:
+                return [Role.SUPERADMIN, Role.ADMIN, Role.PUPIL];
+            case Role.ADMIN:
+                return [Role.ADMIN, Role.PUPIL];
+            default:
+                return [];
+        }
+    }
+
     onSubmit() {
         if (this.form().controls.id.value) {
             this.submit()(this.form().controls.id.value);
         } else {
             this.submit()();
+        }
+    }
+
+    getRoleIcon(role: Role) {
+        switch (role) {
+            case Role.SUPERADMIN:
+                return 'security';
+            case Role.ADMIN:
+                return 'shield_person';
+            default:
+                return 'school';
         }
     }
 
@@ -111,7 +139,10 @@ export class UserFormComponent {
     get roleError() {
         return this.errorMessageService.getMessage(
             this.form().controls.role,
-            {error: 'required', message: 'ROLE_REQUIRED'}
+            [
+                {error: 'required', message: 'ROLE_REQUIRED'},
+                {error: 'required', message: 'ROLE_NOT_ALLOWED'}
+            ]
         );
     }
 }

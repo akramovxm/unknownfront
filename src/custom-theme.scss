@@ -14,6 +14,16 @@
     font-size: 16px;
 }
 
+.answers-list {
+    @include mat.list-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -2
+                            )
+                    ))
+    )
+}
+
 html {
     @include mat.theme((
             color: (

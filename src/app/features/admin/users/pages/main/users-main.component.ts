@@ -3,7 +3,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {AdminUser} from "@features/admin/users/models/admin-user";
 import {MatIcon} from "@angular/material/icon";
-import {DatePipe, NgIf, NgStyle} from "@angular/common";
+import {DatePipe, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,12 +12,15 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {UserSelectionService} from "@features/admin/users/services/user-selection.service";
 import {Role} from "@models/role";
 import {TranslatePipe} from "@ngx-translate/core";
-import {ContainerComponent} from "@components/container/container.component";
-import {SearchInputComponent} from "@components/search-input/search-input.component";
+import {ContainerComponent} from "@shared/components/container/container.component";
+import {SearchInputComponent} from "@shared/components/search-input/search-input.component";
 import {UserStateService} from "@features/admin/users/services/user-state.service";
 import {switchMap, tap} from "rxjs";
-import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
-import { AuthService } from '@services/auth.service';
+import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar.component";
+import {AuthStateService} from "@features/auth/services/auth-state.service";
+import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
     selector: 'app-users-main',
@@ -37,6 +40,13 @@ import { AuthService } from '@services/auth.service';
         NgStyle,
         SearchInputComponent,
         ProgressBarComponent,
+        MatIconButton,
+        MatTooltip,
+        MatButton,
+        MatMenu,
+        MatMenuItem,
+        MatMenuTrigger,
+        NgForOf,
     ],
     templateUrl: './users-main.component.html',
     styleUrl: './users-main.component.scss'
@@ -44,7 +54,7 @@ import { AuthService } from '@services/auth.service';
 export class UsersMainComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly authService = inject(AuthService);
+    private readonly authStateService = inject(AuthStateService);
     private readonly userSelectionService = inject(UserSelectionService);
     private readonly userStateService = inject(UserStateService);
 
@@ -56,7 +66,7 @@ export class UsersMainComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.queryParams.pipe(
             tap(params => this.userStateService.updateParams(params)),
-            switchMap(() => this.userStateService.getUsers())
+            switchMap(() => this.userStateService.getAll())
         ).subscribe();
     }
 
@@ -82,8 +92,48 @@ export class UsersMainComponent implements OnInit {
         });
     }
 
+    onLockedClick(user: AdminUser) {
+        this.userStateService.updatePartially({locked: !user.locked}, user.id).subscribe(res => {
+            this.userStateService.users.update(value => value.map(u => {
+                if (u.id === user.id) u.locked = !u.locked;
+                return u;
+            }));
+        });
+    }
+
+    onRoleClick(user: AdminUser, role: Role) {
+        this.userStateService.updatePartially({role: role}, user.id).subscribe(res => {
+            this.userStateService.users.update(value => value.map(u => {
+                if (u.id === user.id) u.role = role;
+                return u;
+            }));
+        })
+    }
+
+    getLockedColor(user: AdminUser) {
+        if (this.loading || this.isCurrentUser(user)) {
+            return 'var(--mat-sys-disabled)';
+        }
+        return user.locked ? 'var(--mat-sys-error)' : 'var(--mat-sys-primary)';
+    }
+
+    getEnabledColor(enabled: boolean) {
+        return enabled ? 'var(--mat-sys-primary)' : 'var(--mat-sys-tertiary)';
+    }
+
+    getRoleIcon(role: Role) {
+        switch (role) {
+            case Role.SUPERADMIN:
+                return 'security';
+            case Role.ADMIN:
+                return 'shield_person';
+            default:
+                return 'school';
+        }
+    }
+
     isCurrentUser(user: AdminUser) {
-        return user.email === this.authService.getEmailFromToken();
+        return user.email === this.authStateService.getEmailFromToken();
     }
 
     isAllSelected(): boolean {
@@ -108,6 +158,16 @@ export class UsersMainComponent implements OnInit {
         return `${this.userSelectionService.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
     }
 
+    get roles() {
+        switch (this.authStateService.role()) {
+            case Role.SUPERADMIN:
+                return [Role.SUPERADMIN, Role.ADMIN, Role.PUPIL];
+            case Role.ADMIN:
+                return [Role.ADMIN, Role.PUPIL];
+            default:
+                return [];
+        }
+    }
     get loading() {
         return this.userStateService.loading();
     }
@@ -141,6 +201,4 @@ export class UsersMainComponent implements OnInit {
     get headerIndeterminate() {
         return this.selection.hasValue() && !this.isAllSelected();
     }
-
-    protected readonly Role = Role;
 }

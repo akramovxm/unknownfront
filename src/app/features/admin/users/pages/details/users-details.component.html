@@ -1,0 +1,66 @@
+<mat-tab-group headerPosition="below" dynamicHeight>
+    <mat-tab *ngFor="let user of users; trackBy: trackById" [label]="user.email + ' (' + user.firstName + ')'">
+        <app-container>
+            <mat-list>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.firstName }}</span>
+                    <span matListItemLine>{{ 'FIRST_NAME' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.lastName }}</span>
+                    <span matListItemLine>{{ 'LAST_NAME' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.email }}</span>
+                    <span matListItemLine>{{ 'EMAIL' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.phoneNumber || '-' }}</span>
+                    <span matListItemLine>{{ 'PHONE_NUMBER' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.birthDate || '-' }}</span>
+                    <span matListItemLine>{{ 'BIRTH_DATE' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <div matListItemTitle>
+                        <span style="display: inline-flex; align-items: center">
+                            <mat-icon style="margin-right: 0.5rem; color: var(--mat-sys-primary)">
+                                {{ getRoleIcon(user.role) }}
+                            </mat-icon>
+                            <span>{{ user.role }}</span>
+                        </span>
+                    </div>
+                    <span matListItemLine>{{ 'ROLE' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <div matListItemTitle>
+                        <span style="display: inline-flex; align-items: center">
+                            <mat-icon [ngStyle]="{marginRight: '0.5rem', color: user.locked ? 'var(--mat-sys-error)' : 'var(--mat-sys-primary)'}">
+                                {{ user.locked ? 'lock' : 'lock_open' }}
+                            </mat-icon>
+                            <span>{{ (user.locked ? 'YES' : 'NO') | translate }}</span>
+                        </span>
+                    </div>
+                    <span matListItemLine>{{ 'LOCKED' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.createdAt | date: 'dd.MM.yyyy hh:mm' }}</span>
+                    <span matListItemLine>{{ 'CREATED_AT' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ user.updatedAt | date: 'dd.MM.yyyy hh:mm' }}</span>
+                    <span matListItemLine>{{ 'UPDATED_AT' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ getCreatedBy(user) }}</span>
+                    <span matListItemLine>{{ 'CREATED_BY' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ getUpdatedBy(user) }}</span>
+                    <span matListItemLine>{{ 'UPDATED_BY' | translate }}</span>
+                </mat-list-item>
+            </mat-list>
+        </app-container>
+    </mat-tab>
+</mat-tab-group>

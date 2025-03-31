@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, viewChild} from '@angular/core';
-import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
-import {ContainerComponent} from "@components/container/container.component";
+import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar.component";
+import {ContainerComponent} from "@shared/components/container/container.component";
 import {MatTree, MatTreeNode, MatTreeNodeDef, MatTreeNodePadding, MatTreeNodeToggle} from "@angular/material/tree";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";

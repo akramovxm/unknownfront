@@ -1,0 +1,47 @@
+<mat-tab-group headerPosition="below" dynamicHeight (selectedIndexChange)="onIndexChange($event)">
+    <mat-tab *ngFor="let task of tasks; trackBy: trackByTask" [label]="'ID: ' + task.id">
+        <app-container>
+            <app-task-preview-card
+                    [id]="task.id"
+                    [content]="getCardContent(task)"
+                    [answers]="task.answers"
+                    [lang]="lang"
+                    [rowAnswers]="task.rowAnswers"
+            />
+            <mat-list>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.level }}</span>
+                    <span matListItemLine>{{ 'LEVEL' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.type }}</span>
+                    <span matListItemLine>{{ 'TYPE' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.topic || '-' }}</span>
+                    <span matListItemLine>{{ 'TOPIC' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.source || '-' }}</span>
+                    <span matListItemLine>{{ 'SOURCE' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.createdAt | date: 'dd.MM.yyyy hh:mm' }}</span>
+                    <span matListItemLine>{{ 'CREATED_AT' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ task.updatedAt | date: 'dd.MM.yyyy hh:mm' }}</span>
+                    <span matListItemLine>{{ 'UPDATED_AT' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ getCreatedBy(task) }}</span>
+                    <span matListItemLine>{{ 'CREATED_BY' | translate }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>{{ getUpdatedBy(task) }}</span>
+                    <span matListItemLine>{{ 'UPDATED_BY' | translate }}</span>
+                </mat-list-item>
+            </mat-list>
+        </app-container>
+    </mat-tab>
+</mat-tab-group>

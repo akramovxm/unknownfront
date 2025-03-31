@@ -1,16 +1,16 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
 import {UserSelectionService} from "@features/admin/users/services/user-selection.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserForm} from "@features/admin/users/models/user-form";
-import {ContainerComponent} from "@components/container/container.component";
+import {ContainerComponent} from "@shared/components/container/container.component";
 import {AdminUser} from "@features/admin/users/models/admin-user";
 import {UserStateService} from "@features/admin/users/services/user-state.service";
 
 @Component({
-    selector: 'app-update',
+    selector: 'app-user-update',
     imports: [
         MatTabGroup,
         MatTab,
@@ -18,10 +18,10 @@ import {UserStateService} from "@features/admin/users/services/user-state.servic
         UserFormComponent,
         ContainerComponent,
     ],
-    templateUrl: './update.component.html',
-    styleUrl: './update.component.scss'
+    templateUrl: './user-update.component.html',
+    styleUrl: './user-update.component.scss'
 })
-export class UpdateComponent implements OnInit, OnDestroy {
+export class UserUpdateComponent implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
     private readonly userSelectionService = inject(UserSelectionService);
@@ -31,9 +31,6 @@ export class UpdateComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.forms = this.users.map(user => this.createForm(user));
     }
-    ngOnDestroy() {
-        this.userSelectionService.removeFromLocalStorage();
-    }
 
     onSubmit(id?: number | null) {
         if (id) {
@@ -41,7 +38,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
                 form.controls['id'].value === id);
 
             if (form) {
-                this.userStateService.updateUser(form, id);
+                this.userStateService.updateFully(form, id);
             }
         }
     }
@@ -49,9 +46,13 @@ export class UpdateComponent implements OnInit, OnDestroy {
     getLabel(id: number | null) {
         const user = this.users.find(user => user.id === id);
         if (user) {
-            return user.email + ' (' + user.firstName + ')'
+            return user.email + ' (' + user.firstName + ')';
         }
         return '';
+    }
+
+    trackById(index: number, form: FormGroup<UserForm>) {
+        return form.controls.id.value;
     }
 
     private createForm(user: AdminUser) {

@@ -2,13 +2,13 @@ import {Component, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
-import {ContainerComponent} from "@components/container/container.component";
+import {ContainerComponent} from "@shared/components/container/container.component";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
 import {UserForm} from "@features/admin/users/models/user-form";
 import {UserStateService} from "@features/admin/users/services/user-state.service";
 
 @Component({
-    selector: 'app-create',
+    selector: 'app-user-create',
     imports: [
         FormsModule,
         NgxTrimDirectiveModule,
@@ -20,10 +20,10 @@ import {UserStateService} from "@features/admin/users/services/user-state.servic
         {provide: MAT_DATE_LOCALE, useValue: 'en'},
         provideNativeDateAdapter()
     ],
-    templateUrl: './create.component.html',
-    styleUrl: './create.component.scss'
+    templateUrl: './user-create.component.html',
+    styleUrl: './user-create.component.scss'
 })
-export class CreateComponent {
+export class UserCreateComponent {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
 
@@ -39,6 +39,6 @@ export class CreateComponent {
     });
 
     onSubmit() {
-        this.userStateService.createUser(this.form);
+        this.userStateService.create(this.form);
     }
 }

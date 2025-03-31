@@ -1,16 +1,16 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BACKEND_URL} from "../../app.constants";
 import {Response} from "@models/response";
 import {AdminSource} from "@models/admin-source";
+import {BACKEND_URL} from "@constants";
+import {ListResponse} from "@models/list-response";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SourceService {
-    http = inject(HttpClient);
-
-    baseUrl = BACKEND_URL + '/sources';
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = BACKEND_URL + '/sources';
 
     getAll(queryParams?: { [key: string]: string | number }) {
         let params = new HttpParams();
@@ -21,7 +21,7 @@ export class SourceService {
             });
         }
 
-        return this.http.get<Response<AdminSource[]>>(this.baseUrl, { params });
+        return this.http.get<ListResponse<AdminSource>>(this.baseUrl, { params });
     }
 
     update(data: any, id: number) {

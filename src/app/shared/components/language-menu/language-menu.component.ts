@@ -2,7 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-language-menu',

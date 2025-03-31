@@ -13,7 +13,7 @@
                 mat-icon-button
                 routerLink="/admin/tasks/update"
                 [disabled]="disabled"
-                (click)="onUpdateClick()"
+                (click)="saveToLocalStorage()"
                 [matTooltip]="'UPDATE' | translate"
         >
             <mat-icon>edit</mat-icon>
@@ -26,6 +26,13 @@
         >
             <mat-icon>delete</mat-icon>
         </button>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/details"
+                [matTooltip]="'DETAILS' | translate"
+        >
+            <mat-icon>open_in_new</mat-icon>
+        </a>
         <button mat-icon-button
                 [disabled]="loading"
                 (click)="onAllCheckClick()"
@@ -35,7 +42,7 @@
         </button>
     </div>
 } @else {
-    <div>
+    <div style="display: flex; align-items: center">
         <a
                 mat-button
                 routerLink="/admin/tasks/create"
@@ -47,7 +54,7 @@
                 mat-button
                 routerLink="/admin/tasks/update"
                 [disabled]="disabled"
-                (click)="onUpdateClick()"
+                (click)="saveToLocalStorage()"
         >
             <mat-icon>edit</mat-icon>
             {{ 'UPDATE' | translate }}
@@ -60,12 +67,21 @@
             <mat-icon>delete</mat-icon>
             {{ 'DELETE' | translate }}
         </button>
-        <button mat-button
+        <a
+                mat-button
+                routerLink="/admin/tasks/details"
+                [disabled]="disabled"
+                (click)="saveToLocalStorage()"
+        >
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'DETAILS' | translate }}
+        </a>
+        <button mat-icon-button
                 [disabled]="loading"
                 (click)="onAllCheckClick()"
+                [matTooltip]="checkButtonTitle | translate"
         >
             <mat-icon>{{ checkButtonIcon }}</mat-icon>
-            {{ checkButtonTitle | translate }}
         </button>
     </div>
 }

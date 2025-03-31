@@ -13,7 +13,7 @@ import {NgForOf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {DialogElement} from "@models/dialog-element";
 import {TranslatePipe} from "@ngx-translate/core";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 
 @Component({
     selector: 'app-confirm-dialog',

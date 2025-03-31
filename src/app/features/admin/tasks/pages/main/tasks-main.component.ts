@@ -4,14 +4,15 @@ import {AdminTask} from "@features/admin/tasks/models/admin-task";
 import {TaskAdminCardComponent} from "@features/admin/tasks/components/task-admin-card/task-admin-card.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
-import {ContainerComponent} from "@components/container/container.component";
-import {SearchInputComponent} from "@components/search-input/search-input.component";
-import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
+import {ContainerComponent} from "@shared/components/container/container.component";
+import {SearchInputComponent} from "@shared/components/search-input/search-input.component";
+import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar.component";
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
 import {TaskStateService} from "@features/admin/tasks/services/task-state.service";
 import {switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatToolbar} from "@angular/material/toolbar";
 
 @Component({
     selector: 'app-tasks-main',

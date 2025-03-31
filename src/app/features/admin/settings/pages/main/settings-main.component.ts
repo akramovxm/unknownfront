@@ -1,5 +1,5 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
-import {ContainerComponent} from "@components/container/container.component";
+import {Component, inject, OnInit} from '@angular/core';
+import {ContainerComponent} from "@shared/components/container/container.component";
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -12,15 +12,12 @@ import {NgxMaskDirective} from "ngx-mask";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {BreakpointObserverService} from "@services/breakpoint-observer.service";
 import {MatIcon} from "@angular/material/icon";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 import {MatAnchor, MatButton} from "@angular/material/button";
-import {MeService} from "@services/me.service";
-import {ErrorService} from "@services/error.service";
-import {User} from "@models/user";
-import {ProgressBarComponent} from "@components/progress-bar/progress-bar.component";
-import {SnackbarService} from "@services/snackbar.service";
+import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar.component";
 import {SettingsForm} from "@features/admin/settings/models/settings-form";
 import { RouterLink } from '@angular/router';
+import {MeStateService} from "@features/admin/settings/services/me-state.service";
 
 @Component({
     selector: 'app-settings-main',
@@ -55,14 +52,9 @@ import { RouterLink } from '@angular/router';
 })
 export class SettingsMainComponent implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
-    private readonly meService = inject(MeService);
-    private readonly errorService = inject(ErrorService);
+    private readonly meStateService = inject(MeStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
-    private readonly snackbarService = inject(SnackbarService);
     readonly boService = inject(BreakpointObserverService);
-
-    readonly loading = signal<boolean>(false);
-    readonly meLoading = signal<boolean>(false);
 
     readonly form = this.formBuilder.group<SettingsForm>({
         firstName: this.formBuilder.control<string | null>(null),
@@ -72,58 +64,19 @@ export class SettingsMainComponent implements OnInit {
     })
 
     ngOnInit() {
-        this.getMe();
+        this.meStateService.getMe(this.form);
     }
 
     submit() {
-        this.updateMe();
+        this.meStateService.updateMe(this.form);
     }
 
-    getMe() {
-        this.meLoading.set(true);
-        this.form.disable();
-        this.meService.getMe().subscribe({
-            next: res => {
-                this.meLoading.set(false);
-                this.form.enable();
-                this.setFormValues(res.data);
-            },
-            error: err => {
-                this.meLoading.set(false);
-                this.form.enable();
-                this.errorService.onError(err);
-            }
-        })
+    get loading() {
+        return this.meStateService.loading;
     }
-
-    updateMe() {
-        if (this.form.invalid) return;
-
-        this.loading.set(true);
-        this.form.disable();
-
-        this.meService.updateMe(this.form.value)
-            .subscribe({
-                next: res => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    this.snackbarService.open('USER_UPDATED_SUCCESS');
-                },
-                error: err => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    this.errorService.onError(err, this.form, ['exists']);
-                }
-            });
+    get meLoading() {
+        return this.meStateService.meLoading;
     }
-
-    setFormValues(user: User) {
-        this.form.controls.firstName.setValue(user.firstName);
-        this.form.controls.lastName.setValue(user.lastName);
-        this.form.controls.phoneNumber.setValue(user.phoneNumber);
-        this.form.controls.birthDate.setValue(user.birthDate);
-    }
-
     get firstNameError() {
         return this.errorMessageService.getMessage(
             this.form.controls.firstName,

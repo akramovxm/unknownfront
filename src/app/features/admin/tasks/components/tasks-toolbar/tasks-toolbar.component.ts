@@ -30,7 +30,7 @@ export class TasksToolbarComponent {
 
     readonly allSelected = signal<boolean>(false);
 
-    onUpdateClick() {
+    saveToLocalStorage() {
         this.taskSelectionService.saveToLocalStorage();
     }
 

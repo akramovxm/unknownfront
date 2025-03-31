@@ -5,7 +5,7 @@ export const setPasswordGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     const email = sessionStorage.getItem('email');
-    const verify = sessionStorage.getItem('verify');
+    const recoveryToken = sessionStorage.getItem('recoveryToken');
 
-    return (!!email && !!verify) || router.navigate(['/']);
+    return (!!email && !!recoveryToken) || router.navigate(['/']);
 };

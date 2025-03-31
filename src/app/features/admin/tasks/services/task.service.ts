@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BACKEND_URL} from "../../../../app.constants";
+import {BACKEND_URL} from "@constants";
 import {Response} from "@models/response";
 import {AdminTask} from "@features/admin/tasks/models/admin-task";
 import {ListResponse} from "@models/list-response";
@@ -20,7 +20,7 @@ export class TaskService {
             params = params.set(key, queryParams[key]);
         });
 
-        return this.http.get<ListResponse<AdminTask[]>>(this.baseUrl, { params });
+        return this.http.get<ListResponse<AdminTask>>(this.baseUrl, { params });
     }
 
     update(data: any, id: number) {

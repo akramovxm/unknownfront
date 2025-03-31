@@ -55,26 +55,27 @@
                                   style="margin-right: 0.5rem" *ngIf="sourceLoading"/>
         </mat-form-field>
 
-        <mat-divider style="width: 100%; margin: 0.5rem 0"/>
         <mat-radio-group aria-label="Select a level" formControlName="level">
             <p [ngStyle]="{color: submitted && levelError ? 'var(--mat-sys-error)' : ''}">{{ 'LEVEL' | translate }}
                 *</p>
             <mat-radio-button value="EASY">{{ 'EASY' | translate }}</mat-radio-button>
             <mat-radio-button value="MEDIUM">{{ 'MEDIUM' | translate }}</mat-radio-button>
             <mat-radio-button value="HARD">{{ 'HARD' | translate }}</mat-radio-button>
-            <mat-error class="mat-small">{{ submitted && levelError ? levelError : '' }}</mat-error>
+            <mat-error class="mat-small" style="margin-left: 1rem">
+                {{ submitted && levelError ? levelError : '' }}
+            </mat-error>
         </mat-radio-group>
 
-        <mat-divider style="width: 100%; margin: 0.5rem 0"/>
         <mat-radio-group aria-label="Select a type" formControlName="type">
             <p [ngStyle]="{color: submitted && levelError ? 'var(--mat-sys-error)' : ''}">{{ 'TYPE' | translate }}
                 *</p>
             <mat-radio-button value="THEORETICAL">{{ 'THEORETICAL' | translate }}</mat-radio-button>
             <mat-radio-button value="PRACTICAL">{{ 'PRACTICAL' | translate }}</mat-radio-button>
-            <mat-error class="mat-small">{{ submitted && typeError ? typeError : '' }}</mat-error>
+            <mat-error class="mat-small" style="margin-left: 1rem">
+                {{ submitted && typeError ? typeError : '' }}
+            </mat-error>
         </mat-radio-group>
 
-        <mat-divider style="width: 100%; margin: 0.5rem 0"/>
         <div class="content-container">
             <div class="lang-container-outer">
                 <div class="lang-container">
@@ -83,14 +84,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>{{ 'CONTENT' | translate }}</mat-label>
                             <textarea matInput rows="5" formControlName="contentUz" trim="blur" name="contentUz"
-                                (focus)="onUzFocus()"
+                                      (focus)="onUzFocus()"
                             ></textarea>
                             <mat-error *ngIf="contentUzError">{{ contentUzError }}</mat-error>
                         </mat-form-field>
                         <p>{{ 'ANSWERS' | translate }}*</p>
                         <div formArrayName="answers"
-                            *ngFor="let answer of form().controls.answers.controls; let i = index"
-                            style="width: 100%;">
+                             *ngFor="let answer of form().controls.answers.controls; let i = index"
+                             style="width: 100%;">
                             <ng-container [formGroupName]="i">
                                 <mat-form-field appearance="outline">
                                     <input matInput formControlName="valueUz" trim="blur" (focus)="onUzFocus()">
@@ -109,14 +110,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>{{ 'CONTENT' | translate }}</mat-label>
                             <textarea matInput rows="5" formControlName="contentRu" trim="blur" name="contentRu"
-                                (focus)="onRuFocus()"
+                                      (focus)="onRuFocus()"
                             ></textarea>
                             <mat-error *ngIf="contentRuError">{{ contentRuError }}</mat-error>
                         </mat-form-field>
                         <p>{{ 'ANSWERS' | translate }}*</p>
                         <div formArrayName="answers"
-                            *ngFor="let answer of form().controls.answers.controls; let i = index"
-                            style="width: 100%;">
+                             *ngFor="let answer of form().controls.answers.controls; let i = index"
+                             style="width: 100%;">
                             <ng-container [formGroupName]="i">
                                 <mat-form-field appearance="outline">
                                     <input matInput formControlName="valueRu" trim="blur" (focus)="onRuFocus()">
@@ -131,8 +132,11 @@
                         </div>
                     </div>
                 </div>
+                <mat-slide-toggle formControlName="rowAnswers" style="margin-bottom: 1rem">
+                    {{ 'ROW' | translate }}
+                </mat-slide-toggle>
                 <p class="mat-small answers-error"
-                [ngStyle]="{display: 'flex', alignItems: 'center', color: submitted && correctError ? 'var(--mat-sys-error)' : '' }">
+                   [ngStyle]="{display: 'flex', alignItems: 'center', color: submitted && correctError ? 'var(--mat-sys-error)' : '' }">
                     <mat-icon style="transform: scale(0.8)">info</mat-icon>
                     <span>{{ 'ONE_CORRECT' | translate }}</span>
                 </p>
@@ -141,8 +145,9 @@
                 <p class="mat-body-1">{{ 'TASK_VIEW' | translate }}</p>
                 <app-task-preview-card
                         [content]="cardContent"
-                        [answers]="form().controls.answers.value"
+                        [answers]="cardAnswers"
                         [lang]="ruFocus() ? 'ru' : 'uz'"
+                        [rowAnswers]="form().controls.rowAnswers.value"
                 />
             </div>
         </div>

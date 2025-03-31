@@ -19,13 +19,15 @@
     "module": "ES2022",
     "baseUrl": "./src",
     "paths": {
-      "@models/*": ["app/core/models/*"],
-      "@interceptors/*": ["app/core/interceptors/*"],
-      "@services/*": ["app/core/services/*"],
       "@guards/*": ["app/core/guards/*"],
+      "@interceptors/*": ["app/core/interceptors/*"],
+      "@models/*": ["app/core/models/*"],
+      "@services/*": ["app/core/services/*"],
       "@validators/*": ["app/core/validators/*"],
-      "@components/*": ["app/shared/components/*"],
-      "@features/*": ["app/features/*"]
+      "@features/*": ["app/features/*"],
+      "@layouts/*": ["app/layouts/*"],
+      "@shared/*": ["app/shared/*"],
+      "@constants": ["app/app.constants.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -6,6 +6,7 @@ export interface TaskForm {
     sourceId: FormControl<number | string | null>;
     level: FormControl<string | null>;
     type: FormControl<string | null>;
+    rowAnswers: FormControl<boolean | null>;
     contentUz: FormControl<string | null>;
     contentRu: FormControl<string | null>;
     answers: FormArray<FormGroup<AnswerForm>>

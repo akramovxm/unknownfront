@@ -1,15 +1,14 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {BACKEND_URL} from "../../app.constants";
 import {Response} from "@models/response";
 import {User} from "@models/user";
+import {HttpClient} from "@angular/common/http";
+import {BACKEND_URL} from "@constants";
 
 @Injectable({
     providedIn: 'root'
 })
 export class MeService {
     private readonly http = inject(HttpClient);
-
     private readonly baseUrl = BACKEND_URL + '/me';
 
     getMe() {
@@ -21,6 +20,6 @@ export class MeService {
     }
 
     updatePassword(data: any) {
-        return this.http.put(this.baseUrl + '/update-password', data);
+        return this.http.put<Response<null>>(this.baseUrl + '/update-password', data);
     }
 }

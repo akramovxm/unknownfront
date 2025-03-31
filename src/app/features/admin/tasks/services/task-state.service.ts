@@ -139,7 +139,7 @@ export class TaskStateService {
         }
     }
 
-    private onSuccess(res: ListResponse<AdminTask[]>) {
+    private onSuccess(res: ListResponse<AdminTask>) {
         this.tasks.set(res.data);
         this.totalElements.set(res.totalElements);
         this.page.set(res.page);

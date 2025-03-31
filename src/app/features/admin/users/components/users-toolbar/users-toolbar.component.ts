@@ -28,20 +28,20 @@ export class UsersToolbarComponent {
     private readonly userStateService = inject(UserStateService);
     private readonly userSelectionService = inject(UserSelectionService);
 
-    onUpdateClick() {
+    saveToLocalStorage() {
         this.userSelectionService.saveToLocalStorage();
     }
 
     onDeleteClick() {
-        this.userStateService.deleteUsers();
+        this.userStateService.deleteByIds();
     }
 
     onLockClick() {
-        this.userStateService.lockUsers();
+        this.userStateService.lockByIds();
     }
 
     onUnlockClick() {
-        this.userStateService.unlockUsers();
+        this.userStateService.unlockByIds();
     }
 
     get disabled() {

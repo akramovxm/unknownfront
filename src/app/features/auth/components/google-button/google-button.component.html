@@ -1,5 +1,5 @@
 <a [href]="googleAuthUrl">
-    <button class="gsi-material-button" [disabled]="disabled()">
+    <button class="gsi-material-button" [disabled]="disabled() || clicked()" (click)="onClick()">
         <div class="gsi-material-button-state"></div>
         <div class="gsi-material-button-content-wrapper">
             <div class="gsi-material-button-icon">

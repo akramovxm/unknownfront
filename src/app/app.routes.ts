@@ -1,12 +1,12 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from "@features/home/home.component";
-import {AdminLayoutComponent} from "./layouts/admin-layout/admin-layout.component";
+import {AdminLayoutComponent} from "@layouts/admin-layout/admin-layout.component";
 import {adminGuard} from "@guards/admin.guard";
 import {ProfileComponent} from "@features/profile/profile.component";
 import {authGuard} from "@guards/auth.guard";
 import {Oauth2RedirectComponent} from "@features/oauth2-redirect/oauth2-redirect.component";
-import {appName} from "./app.constants";
-import {AuthLayoutComponent} from "./layouts/auth-layout/auth-layout.component";
+import {appName} from "@constants";
+import {AuthLayoutComponent} from "@layouts/auth-layout/auth-layout.component";
 import {notAuthGuard} from "@guards/not-auth.guard";
 
 export const routes: Routes = [

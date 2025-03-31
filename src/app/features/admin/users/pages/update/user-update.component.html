@@ -1,5 +1,5 @@
 <mat-tab-group headerPosition="below" dynamicHeight>
-    <mat-tab *ngFor="let form of forms" [label]="getLabel(form.controls.id.value)">
+    <mat-tab *ngFor="let form of forms; trackBy: trackById" [label]="getLabel(form.controls.id.value)">
         <app-container>
             <app-user-form icon="edit" action="UPDATE"
                            [submit]="onSubmit.bind(this)"

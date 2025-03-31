@@ -8,12 +8,12 @@ import {catchError, finalize, map, of, tap} from "rxjs";
     providedIn: 'root'
 })
 export class SourceStateService {
-    sourceService = inject(SourceService);
-    errorService = inject(ErrorService);
+    private readonly sourceService = inject(SourceService);
+    private readonly errorService = inject(ErrorService);
 
-    loading = signal<boolean>(false);
+    readonly loading = signal<boolean>(false);
 
-    sources = signal<AdminSource[]>([]);
+    readonly sources = signal<AdminSource[]>([]);
 
     getSources() {
         this.loading.set(true);

@@ -4,18 +4,16 @@ import {NgIf} from "@angular/common";
 import {MatInput} from "@angular/material/input";
 import {RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AuthService} from "@services/auth.service";
-import {ErrorService} from "@services/error.service";
 import {NgxTrimDirectiveModule} from "ngx-trim-directive";
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 import {GoogleButtonComponent} from "@features/auth/components/google-button/google-button.component";
 import {LoginForm} from "@features/auth/models/login-form";
-import {ButtonProgressSpinnerComponent} from "@components/button-progress-spinner/button-progress-spinner.component";
+import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 import {PageLoadingService} from "@services/page-loading.service";
 import {ErrorMessageService} from "@services/error-message.service";
-import { SnackbarService } from '@services/snackbar.service';
+import {AuthStateService} from "@features/auth/services/auth-state.service";
 
 @Component({
     selector: 'app-login',
@@ -42,13 +40,10 @@ import { SnackbarService } from '@services/snackbar.service';
 })
 export class LoginComponent {
     private readonly formBuilder = inject(FormBuilder);
-    private readonly authService = inject(AuthService);
-    private readonly errorService = inject(ErrorService);
+    private readonly authStateService = inject(AuthStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
     private readonly pageLoadingService = inject(PageLoadingService);
-    private readonly snackbarService = inject(SnackbarService);
 
-    readonly loading = signal<boolean>(false);
     readonly hide = signal<boolean>(true);
 
     readonly form = this.formBuilder.group<LoginForm>({
@@ -57,25 +52,7 @@ export class LoginComponent {
     });
 
     submit() {
-        if (this.form.invalid) return;
-
-        this.loading.set(true);
-        this.form.disable();
-        this.authService.login(this.form.value)
-            .subscribe({
-                next: res => {
-                    this.form.enable();
-                    this.authService.onLoginSuccess(res.token, this.loading);
-                },
-                error: err => {
-                    this.loading.set(false);
-                    this.form.enable();
-                    if (err.error.errors === null) {
-                        this.snackbarService.open("EMAIL_PASSWORD_INCORRECT");
-                    }
-                    this.errorService.onError(err);
-                }
-            });
+        this.authStateService.login(this.form);
     }
 
     clickEvent(event: MouseEvent) {
@@ -83,8 +60,11 @@ export class LoginComponent {
         event.stopPropagation();
     }
 
+    get loading() {
+        return this.authStateService.loading;
+    }
     get pageLoading() {
-        return this.pageLoadingService.loading();
+        return this.pageLoadingService.loading;
     }
 
     get emailError() {

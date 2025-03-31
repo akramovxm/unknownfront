@@ -1,6 +1,6 @@
 <div class="container">
     <h1>{{ 'LOGIN' | translate }}</h1>
-    <app-google-button [disabled]="loading() || pageLoading"/>
+    <app-google-button [disabled]="loading() || pageLoading()"/>
     <p style="margin: 1rem 0">{{ 'USE_YOUR_EMAIL' | translate }}</p>
     <form [formGroup]="form" (ngSubmit)="submit()">
         <mat-form-field>
@@ -17,27 +17,23 @@
             <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
         </mat-form-field>
 
-        <a
-                mat-button
-                class="form-button mat-caption"
-                style="margin-bottom: 1rem"
-                [disabled]="loading()"
-                routerLink="/account-recovery"
+        <a mat-button
+           class="form-button mat-caption"
+           [disabled]="loading()"
+           routerLink="/account-recovery"
         >
             {{ 'DONT_NOW_THE_PASSWORD' | translate }}
         </a>
-        <a
-                mat-button
-                class="form-button mat-caption"
-                style="margin-bottom: 1rem"
-                [disabled]="loading()"
-                routerLink="/registration"
+        <a mat-button
+           class="form-button mat-caption"
+           [disabled]="loading()"
+           routerLink="/registration"
         >
             {{ 'DONT_HAVE_ACCOUNT' | translate }}
         </a>
         <button mat-flat-button
                 class="submit-button"
-                [disabled]="loading() || pageLoading"
+                [disabled]="loading() || pageLoading()"
         >
             <mat-icon>
                 @if (loading()) {

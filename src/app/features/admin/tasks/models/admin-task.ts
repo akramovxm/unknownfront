@@ -8,6 +8,7 @@ export interface AdminTask {
     contentRu: string;
     level: string;
     type: string;
+    rowAnswers: boolean;
     topic: AdminTopic | null;
     source: AdminSource | null;
     answers: AdminAnswer[];

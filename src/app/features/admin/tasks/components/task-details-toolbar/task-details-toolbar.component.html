@@ -1,0 +1,37 @@
+<span class="title">{{ 'TASK_DETAILS' | translate }}</span>
+<span style="flex: 1"></span>
+@if (boService.max425) {
+    <div>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/create"
+                [matTooltip]="'CREATE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </a>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/update"
+                [matTooltip]="'UPDATE' | translate"
+        >
+            <mat-icon>edit</mat-icon>
+        </a>
+    </div>
+} @else {
+    <div>
+        <a
+                mat-button
+                routerLink="/admin/tasks/create"
+        >
+            <mat-icon>add</mat-icon>
+            {{ 'CREATE' | translate }}
+        </a>
+        <a
+                mat-button
+                routerLink="/admin/tasks/update"
+        >
+            <mat-icon>edit</mat-icon>
+            {{ 'UPDATE' | translate }}
+        </a>
+    </div>
+}

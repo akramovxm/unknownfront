@@ -17,6 +17,7 @@ form {
 
 .form-button {
     align-self: end;
+    margin-bottom: 1rem;
     @include mat.button-density(
                     mat.define-theme((
                             density: (

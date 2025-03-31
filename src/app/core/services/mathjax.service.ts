@@ -14,13 +14,19 @@ export class MathjaxService {
 
     constructor() {
         this.mathJaxReady = new Promise((resolve) => {
+            if (window.MathJax) {
+                resolve();
+                return;
+            }
             window.MathJax = {
+                loader: {load: ['[tex]/noerrors']},
                 options: {
                     enableMenu: false,
                 },
                 tex: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']],
                     displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    packages: {'[+]': ['noerrors']},
                     processEscapes: true
                 },
                 chtml: {
@@ -33,9 +39,7 @@ export class MathjaxService {
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js';
             script.async = true;
-            script.onload = () => {
-                resolve();
-            };
+            script.onload = () => resolve();
             document.head.appendChild(script);
         });
     }
