@@ -155,5 +155,15 @@
   "YES": "Xa",
   "NO": "Yo'q",
   "TASK_DETAILS": "Topshiriq haqida batafsil",
-  "ROW": "Qator"
+  "ROW": "Qator",
+  "SUBJECTS": "Fanlar",
+  "SUBJECT": "Fan",
+  "CREATE_SUBJECT": "Fan yaratish",
+  "UPDATE_SUBJECT": "Fanni tahrirlash",
+  "DELETE_SUBJECT": "Fanni o'chirish",
+  "SUBJECT_CREATED_SUCCESS": "Fan muvaffaqiyatli yaratildi",
+  "SUBJECT_UPDATED_SUCCESS": "Fan muvaffaqiyatli tahrirlandi",
+  "SUBJECT_DELETED_SUCCESS": "Fan muvaffaqiyatli o'chirildi",
+  "DELETE_SUBJECT_CONFIRM": "fanini o'chirmoqchimisiz?",
+  "SUBJECT_REQUIRED": "Fan bo'lishi shart"
 }

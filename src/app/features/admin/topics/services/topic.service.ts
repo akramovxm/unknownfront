@@ -13,7 +13,7 @@ export class TopicService {
 
     private readonly baseUrl = BACKEND_URL + '/topics';
 
-    getAll(queryParams?: { [key: string]: string | number }) {
+    getAllSubjectId(subjectId: number, queryParams?: { [key: string]: string | number }) {
         let params = new HttpParams();
 
         if (queryParams !== undefined) {
@@ -22,11 +22,11 @@ export class TopicService {
             });
         }
 
-        return this.http.get<Response<AdminTopic[]>>(this.baseUrl, { params });
+        return this.http.get<Response<AdminTopic[]>>(BACKEND_URL + '/subjects/' + subjectId + '/topics', { params });
     }
 
-    getAllAsTree() {
-        return this.http.get<Response<AdminTreeTopic[]>>(this.baseUrl + '/as-tree');
+    getAllBySubjectIdAsTree(subjectId: number) {
+        return this.http.get<Response<AdminTreeTopic[]>>(BACKEND_URL + '/subjects/' + subjectId + '/topics/as-tree');
     }
 
     create(data: any) {

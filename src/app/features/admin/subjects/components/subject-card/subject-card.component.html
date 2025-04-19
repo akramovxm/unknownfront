@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            {{ lang === 'uz' ? subject().titleUz : subject().titleRu }}
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <a
+                [routerLink]="subject().id + '/topics'"
+                mat-button
+        >
+            <mat-icon>topic</mat-icon>
+            {{ 'TOPICS' | translate }}
+        </a>
+        <a
+                [routerLink]="subject().id + '/tasks'"
+                mat-button
+        >
+            <mat-icon>task</mat-icon>
+            {{ 'TASKS' | translate }}
+        </a>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button
+                mat-icon-button
+                [matTooltip]="'UPDATE' | translate"
+                (click)="onUpdateClick()"
+        >
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button
+                mat-icon-button
+                [matTooltip]="'DELETE' | translate"
+                (click)="onDeleteClick()"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

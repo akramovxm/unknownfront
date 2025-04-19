@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
@@ -31,23 +31,24 @@ import {SetPasswordForm} from "@features/auth/models/set-password-form";
     templateUrl: './set-password.component.html',
     styleUrl: './set-password.component.scss'
 })
-export class SetPasswordComponent implements OnDestroy {
+export class SetPasswordComponent {
     private readonly formBuilder = inject(FormBuilder);
     private readonly authStateService = inject(AuthStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
 
     readonly hide = signal<boolean>(true);
 
-    token = sessionStorage.getItem('recoveryToken');
+    constructor() {
+        const recovery = this.authStateService.getRecovery();
+        if (recovery) {
+            this.form.controls.token.setValue(recovery.token);
+        }
+    }
 
     readonly form = this.formBuilder.group<SetPasswordForm>({
-        token: this.formBuilder.control<string | null>(this.token, Validators.required),
+        token: this.formBuilder.control<string | null>(null, Validators.required),
         password: this.formBuilder.control<string | null>(null, Validators.required)
     });
-
-    ngOnDestroy() {
-        this.authStateService.removeVerifyType();
-    }
 
     submit() {
         this.authStateService.setPassword(this.form);

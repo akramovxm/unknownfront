@@ -155,5 +155,15 @@
   "YES": "Yes",
   "NO": "No",
   "TASK_DETAILS": "Task details",
-  "ROW": "Row"
+  "ROW": "Row",
+  "SUBJECTS": "Subjects",
+  "SUBJECT": "Subject",
+  "CREATE_SUBJECT": "Create Subject",
+  "UPDATE_SUBJECT": "Update Subject",
+  "DELETE_SUBJECT": "Delete Subject",
+  "SUBJECT_CREATED_SUCCESS": "Subject created successfully",
+  "SUBJECT_UPDATED_SUCCESS": "Subject updated successfully",
+  "SUBJECT_DELETED_SUCCESS": "Subject deleted successfully",
+  "DELETE_SUBJECT_CONFIRM": "Do you want to delete the subject",
+  "SUBJECT_REQUIRED": "Subject is required"
 }

@@ -155,5 +155,15 @@
   "YES": "Да",
   "NO": "Нет",
   "TASK_DETAILS": "Подробно о задаче",
-  "ROW": "Ряд"
+  "ROW": "Ряд",
+  "SUBJECTS": "Предметы",
+  "SUBJECT": "Предмет",
+  "CREATE_SUBJECT": "Создать предмет",
+  "UPDATE_SUBJECT": "Изменить предмет",
+  "DELETE_SUBJECT": "Удалить предмет",
+  "SUBJECT_CREATED_SUCCESS": "Предмет успешно создан",
+  "SUBJECT_UPDATED_SUCCESS": "Предмет успешно изменен",
+  "SUBJECT_DELETED_SUCCESS": "Предмет успешно удален",
+  "DELETE_SUBJECT_CONFIRM": "Вы хотите удалить предмет",
+  "SUBJECT_REQUIRED": "Предмет обязателен"
 }

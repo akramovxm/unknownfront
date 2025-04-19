@@ -1,6 +1,7 @@
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
 import {User} from "@models/user";
 import {AdminSource} from "@models/admin-source";
+import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
 
 export interface AdminTask {
     id: number;
@@ -9,6 +10,7 @@ export interface AdminTask {
     level: string;
     type: string;
     rowAnswers: boolean;
+    subject: AdminSubject;
     topic: AdminTopic | null;
     source: AdminSource | null;
     answers: AdminAnswer[];

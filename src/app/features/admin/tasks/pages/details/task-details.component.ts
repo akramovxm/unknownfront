@@ -8,6 +8,10 @@ import {AdminTask} from "@features/admin/tasks/models/admin-task";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {TaskPreviewCardComponent} from "@features/admin/tasks/components/task-preview-card/task-preview-card.component";
 import {MatList, MatListItem, MatListItemLine, MatListItemTitle} from "@angular/material/list";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {
+    TaskDetailsActionsComponent
+} from "@features/admin/tasks/components/task-details-actions/task-details-actions.component";
 
 @Component({
     selector: 'app-task-details',
@@ -22,7 +26,9 @@ import {MatList, MatListItem, MatListItemLine, MatListItemTitle} from "@angular/
         MatListItemTitle,
         MatListItemLine,
         TranslatePipe,
-        DatePipe
+        DatePipe,
+        SimpleToolbarComponent,
+        TaskDetailsActionsComponent
     ],
     templateUrl: './task-details.component.html',
     styleUrl: './task-details.component.scss'

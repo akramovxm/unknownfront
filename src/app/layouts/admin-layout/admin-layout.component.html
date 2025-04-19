@@ -24,25 +24,17 @@
 
     <mat-sidenav-content>
         <mat-toolbar style="position: fixed; z-index: 2">
-            <mat-toolbar-row>
-                <button mat-icon-button [matTooltip]="'MENU' | translate" (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-                <span style="flex: 1"></span>
-                <button mat-button (click)="logout()">
-                    <mat-icon>logout</mat-icon>
-                    {{ 'LOGOUT' | translate }}
-                </button>
-                <app-language-menu/>
-            </mat-toolbar-row>
-            <mat-toolbar-row *ngIf="portal" class="dense-toolbar">
-                <app-container>
-                    <ng-template [cdkPortalOutlet]="portal"></ng-template>
-                </app-container>
-            </mat-toolbar-row>
+            <button mat-icon-button [matTooltip]="'MENU' | translate" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span style="flex: 1"></span>
+            <button mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                {{ 'LOGOUT' | translate }}
+            </button>
+            <app-language-menu/>
         </mat-toolbar>
         <mat-toolbar/>
-        <mat-toolbar class="dense-toolbar"/>
         <router-outlet/>
         <mat-toolbar/>
     </mat-sidenav-content>

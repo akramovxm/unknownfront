@@ -6,6 +6,10 @@ import {ContainerComponent} from "@shared/components/container/container.compone
 import {oneCorrectValidator} from "@validators/one-correct.validator";
 import {AnswerForm, TaskForm} from "@features/admin/tasks/models/task-form";
 import {TaskStateService} from "@features/admin/tasks/services/task-state.service";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {
+    TaskCreateActionsComponent
+} from "@features/admin/tasks/components/task-create-actions/task-create-actions.component";
 
 @Component({
     selector: 'app-task-create',
@@ -13,7 +17,9 @@ import {TaskStateService} from "@features/admin/tasks/services/task-state.servic
         ReactiveFormsModule,
         NgxTrimDirectiveModule,
         TaskFormComponent,
-        ContainerComponent
+        ContainerComponent,
+        SimpleToolbarComponent,
+        TaskCreateActionsComponent
     ],
     templateUrl: './task-create.component.html',
     styleUrl: './task-create.component.scss'
@@ -24,6 +30,7 @@ export class TaskCreateComponent {
 
     readonly form = this.formBuilder.group<TaskForm>({
         id: this.formBuilder.control<number | null>(null),
+        subjectId: this.formBuilder.control<number | null>(null, Validators.required),
         topicId: this.formBuilder.control<number | null>(null),
         sourceId: this.formBuilder.control<number | null>(null),
         level: this.formBuilder.control<string | null>(null, Validators.required),

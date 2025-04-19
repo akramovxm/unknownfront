@@ -17,14 +17,3 @@ mat-sidenav-content {
 .nav-list {
     margin: 0 0.5rem;
 }
-
-.dense-toolbar {
-    padding: 0;
-    @include mat.toolbar-density((
-            mat.define-theme((
-                    density: (
-                            scale: -5
-                    )
-            ))
-    ))
-}

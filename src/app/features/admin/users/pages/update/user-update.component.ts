@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
@@ -8,6 +8,10 @@ import {UserForm} from "@features/admin/users/models/user-form";
 import {ContainerComponent} from "@shared/components/container/container.component";
 import {AdminUser} from "@features/admin/users/models/admin-user";
 import {UserStateService} from "@features/admin/users/services/user-state.service";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {
+    UserUpdateActionsComponent
+} from "@features/admin/users/components/user-update-actions/user-update-actions.component";
 
 @Component({
     selector: 'app-user-update',
@@ -17,11 +21,13 @@ import {UserStateService} from "@features/admin/users/services/user-state.servic
         NgForOf,
         UserFormComponent,
         ContainerComponent,
+        SimpleToolbarComponent,
+        UserUpdateActionsComponent,
     ],
     templateUrl: './user-update.component.html',
     styleUrl: './user-update.component.scss'
 })
-export class UserUpdateComponent implements OnInit {
+export class UserUpdateComponent implements OnInit, OnDestroy {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
     private readonly userSelectionService = inject(UserSelectionService);
@@ -32,13 +38,17 @@ export class UserUpdateComponent implements OnInit {
         this.forms = this.users.map(user => this.createForm(user));
     }
 
+    ngOnDestroy() {
+        this.userSelectionService.removeFromLocalStorage();
+    }
+
     onSubmit(id?: number | null) {
         if (id) {
             const form = this.forms.find(form =>
                 form.controls['id'].value === id);
 
             if (form) {
-                this.userStateService.updateFully(form, id);
+                this.userStateService.update(form, id);
             }
         }
     }

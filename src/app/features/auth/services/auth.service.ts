@@ -18,7 +18,7 @@ export class AuthService {
         return this.http.post<AuthResponse>(this.baseUrl + '/registration', data);
     }
 
-    verify(data: any) {
+    verifyRegistration(data: any) {
         return this.http.post<AuthResponse>(this.baseUrl + '/verify-registration', data);
     }
 

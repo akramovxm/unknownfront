@@ -66,19 +66,28 @@ export class AuthStateService {
 
         this.loading.set(true);
         form.disable();
+
+        const value = form.value;
+
+        if (value.birthDate) {
+            value.birthDate = new Date(value.birthDate).toJSON().substring(0, 10);
+        }
+
         this.authService.registration(form.value).subscribe({
             next: res => {
                 this.loading.set(false);
                 form.enable();
                 if (form.value.email) {
-                    this.setVerifyType(form.value.email, 'registration');
+                    const verify = {email: form.value.email, expiresAt: res.expiresAt, type: 'registration'};
+                    localStorage.setItem('verify', JSON.stringify(verify));
+
                 }
                 this.router.navigate(['/verify']);
             },
             error: (err: HttpErrorResponse) => {
                 this.loading.set(false);
                 form.enable();
-                this.errorService.onError(err, form, ['exists']);
+                this.errorService.onError(err, form, ['exists', 'matDatepickerParse']);
             }
         });
     }
@@ -93,7 +102,8 @@ export class AuthStateService {
                 this.loading.set(false);
                 form.enable();
                 if (form.value.email) {
-                    this.setVerifyType(form.value.email, 'recovery');
+                    const verify = {email: form.value.email, expiresAt: res.expiresAt, type: 'recovery'};
+                    localStorage.setItem('verify', JSON.stringify(verify));
                 }
                 this.router.navigate(['/verify']);
             },
@@ -125,13 +135,16 @@ export class AuthStateService {
         this.loading.set(true);
         form.disable();
 
-        if (sessionStorage.getItem('verifyType') === 'recovery') {
+        const verify = this.getVerify();
+
+        if (verify && verify.type === 'recovery') {
             this.authService.verifyRecovery(form.value).subscribe({
                 next: res => {
                     this.loading.set(false);
                     form.enable();
                     this.snackbarService.open('VERIFY_SUCCESS');
-                    sessionStorage.setItem('recoveryToken', res.token);
+                    const recovery = {token: res.token, expiresAt: res.expiresAt};
+                    localStorage.setItem('recovery', JSON.stringify(recovery));
                     this.router.navigate(['/set-password']);
                 },
                 error: err => {
@@ -141,14 +154,12 @@ export class AuthStateService {
                 }
             })
         } else {
-            this.authService.verify(form.value).subscribe({
+            this.authService.verifyRegistration(form.value).subscribe({
                 next: res => {
                     this.loading.set(false);
                     form.enable();
                     this.snackbarService.open('VERIFY_SUCCESS');
-                    sessionStorage.removeItem('email');
-                    sessionStorage.removeItem('recoveryToken');
-                    sessionStorage.removeItem('verifyType');
+                    localStorage.removeItem('verify');
                     this.router.navigate(['/login']);
                 },
                 error: err => {
@@ -170,7 +181,7 @@ export class AuthStateService {
                 this.loading.set(false);
                 form.enable();
                 this.snackbarService.open('SET_PASSWORD_SUCCESS');
-                this.removeVerifyType();
+                localStorage.removeItem('verify');
                 this.router.navigate(['/login']);
             },
             error: err => {
@@ -179,6 +190,29 @@ export class AuthStateService {
                 this.errorService.onError(err);
             }
         });
+    }
+
+    getVerify() {
+        const string = localStorage.getItem('verify');
+
+        let verify: { email: string; expiresAt: string, type: string } | null = null;
+
+        if (string) {
+            verify = JSON.parse(string);
+        }
+
+        return verify;
+    }
+    getRecovery() {
+        const string = localStorage.getItem('recovery');
+
+        let recovery: { token: string; expiresAt: string } | null = null;
+
+        if (string) {
+            recovery = JSON.parse(string);
+        }
+
+        return recovery;
     }
 
     onLoginSuccess(token: string) {
@@ -197,17 +231,6 @@ export class AuthStateService {
 
     isAdmin() {
         return this.role() === Role.ADMIN || this.role() === Role.SUPERADMIN;
-    }
-
-    private setVerifyType(email: string, verifyType: string) {
-        sessionStorage.setItem('email', email);
-        sessionStorage.setItem('verifyType', verifyType);
-    }
-
-    removeVerifyType() {
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('recoveryToken');
-        sessionStorage.removeItem('verifyType');
     }
 
     getToken() {

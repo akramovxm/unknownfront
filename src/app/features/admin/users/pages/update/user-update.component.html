@@ -1,3 +1,6 @@
+<app-simple-toolbar title="UPDATE_USER">
+    <app-user-update-actions/>
+</app-simple-toolbar>
 <mat-tab-group headerPosition="below" dynamicHeight>
     <mat-tab *ngFor="let form of forms; trackBy: trackById" [label]="getLabel(form.controls.id.value)">
         <app-container>

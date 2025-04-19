@@ -1,3 +1,4 @@
+<app-simple-toolbar title="USER_DETAILS"/>
 <mat-tab-group headerPosition="below" dynamicHeight>
     <mat-tab *ngFor="let user of users; trackBy: trackById" [label]="user.email + ' (' + user.firstName + ')'">
         <app-container>

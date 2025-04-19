@@ -13,14 +13,14 @@ export class TaskService {
 
     private readonly baseUrl = BACKEND_URL + '/tasks';
 
-    getAll(queryParams: { [key: string]: string | number }) {
+    getAllSubjectId(subjectId: number, queryParams: { [key: string]: string | number }) {
         let params = new HttpParams();
 
         Object.keys(queryParams).forEach(key => {
             params = params.set(key, queryParams[key]);
         });
 
-        return this.http.get<ListResponse<AdminTask>>(this.baseUrl, { params });
+        return this.http.get<ListResponse<AdminTask>>(BACKEND_URL + '/subjects/' + subjectId + '/tasks', { params });
     }
 
     update(data: any, id: number) {

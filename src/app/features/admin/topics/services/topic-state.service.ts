@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 import { TopicForm } from '../models/topic-form';
 import {SnackbarService} from "@services/snackbar.service";
 import { MatDialogRef } from '@angular/material/dialog';
-import { TopicFormDialogComponent } from '../components/topic-form-dialog/topic-form-dialog.component';
+import { TitleFormDialogComponent } from '@shared/components/title-form-dialog/title-form-dialog.component';
 import {ConfirmDialogService} from "@services/confirm-dialog.service";
 
 @Injectable({
@@ -28,9 +28,10 @@ export class TopicStateService {
     topics = signal<AdminTopic[]>([]);
     treeTopics = signal<AdminTreeTopic[]>([]);
 
-    getTopics() {
+    getTopicsBySubjectId(subjectId: number) {
+        this.topics.set([]);
         this.loading.set(true);
-        return this.topicService.getAll()
+        return this.topicService.getAllSubjectId(subjectId)
             .pipe(
                 map(res => res.data),
                 tap(topics => this.topics.set(topics)),
@@ -42,21 +43,22 @@ export class TopicStateService {
             );
     }
 
-    getTreeTopics() {
+    getTreeTopicsBySubjectId(subjectId: number) {
+        this.treeTopics.set([]);
         this.treeLoading.set(true);
-        return this.topicService.getAllAsTree()
+        return this.topicService.getAllBySubjectIdAsTree(subjectId)
             .pipe(
                 map(res => res.data),
                 tap(topics => this.treeTopics.set(topics)),
                 catchError(err => {
                     this.errorService.onError(err);
-                    return of([]);
+                    return EMPTY;
                 }),
                 finalize(() => this.treeLoading.set(false))
             );
     }
 
-    createTopic(form: FormGroup<TopicForm>, dialogRef: MatDialogRef<TopicFormDialogComponent> | undefined) {
+    createTopic(form: FormGroup<TopicForm>, dialogRef: MatDialogRef<TitleFormDialogComponent> | undefined) {
         if (form.invalid) return;
 
         this.createLoading.set(true);
@@ -95,7 +97,7 @@ export class TopicStateService {
         });
     }
 
-    updateTopic(form: FormGroup<TopicForm>, dialogRef: MatDialogRef<TopicFormDialogComponent> | undefined, id: number) {
+    updateTopic(form: FormGroup<TopicForm>, dialogRef: MatDialogRef<TitleFormDialogComponent> | undefined, id: number) {
         if (form.invalid) return;
 
         this.updateLoading.set(true);

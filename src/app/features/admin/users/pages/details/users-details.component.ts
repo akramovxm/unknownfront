@@ -8,6 +8,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {MatList, MatListItem, MatListItemLine, MatListItemTitle} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {Role} from "@models/role";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
 
 @Component({
     selector: 'app-users-details',
@@ -24,6 +25,7 @@ import {Role} from "@models/role";
         MatListItemLine,
         MatIcon,
         NgStyle,
+        SimpleToolbarComponent,
     ],
     templateUrl: './users-details.component.html',
     styleUrl: './users-details.component.scss'

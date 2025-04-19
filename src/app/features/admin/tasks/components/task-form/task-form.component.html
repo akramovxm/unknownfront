@@ -1,6 +1,30 @@
 <div class="container">
     <form [formGroup]="form()" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline">
+            <mat-label>{{ 'SUBJECT' | translate }}</mat-label>
+            <input #subjectInput
+                   required
+                   type="text"
+                   aria-label="AdminSubject"
+                   matInput
+                   formControlName="subjectId"
+                   [matAutocomplete]="subject"
+                   (input)="filterSubjects()"
+                   (focus)="filterSubjects()">
+            <mat-autocomplete requireSelection autoActiveFirstOption #subject="matAutocomplete"
+                              [displayWith]="subjectDisplayFn.bind(this)">
+                @for (subject of filteredSubjects(); track subject.id) {
+                <mat-option [value]="subject.id">
+                    <span>{{ getSubjectTitle(subject) }}</span>
+                    </mat-option>
+                }
+            </mat-autocomplete>
+            <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"
+                                  style="margin-right: 0.5rem" *ngIf="subjectLoading"/>
+            <mat-error *ngIf="subjectError">{{ subjectError }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
             <mat-label>{{ 'TOPIC' | translate }}</mat-label>
             <input #topicInput
                    type="text"
@@ -21,6 +45,7 @@
             <button mat-icon-button matSuffix
                     *ngIf="!topicTreeLoading && !topicLoading"
                     (click)="onTreeClick($event)"
+                    [disabled]="treeDisabled"
                     type="button">
                 <mat-icon>account_tree</mat-icon>
             </button>

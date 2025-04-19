@@ -1,3 +1,6 @@
+<app-simple-toolbar title="TASKS">
+    <app-tasks-actions/>
+</app-simple-toolbar>
 <app-progress-bar [loading]="loading"/>
 <app-container>
     <app-search-input [search]="search"/>
@@ -19,4 +22,6 @@
                    [pageSizeOptions]="[10, 20, 30]"
                    showFirstLastButtons>
     </mat-paginator>
+    <h3 *ngIf="tasks.length === 0 && !loading"
+        class="mat-headline-3">{{ 'NO_DATA' | translate }}</h3>
 </app-container>

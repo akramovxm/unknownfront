@@ -16,6 +16,7 @@ export class SourceStateService {
     readonly sources = signal<AdminSource[]>([]);
 
     getSources() {
+        this.sources.set([]);
         this.loading.set(true);
         return this.sourceService.getAll()
             .pipe(

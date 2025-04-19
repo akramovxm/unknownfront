@@ -1,3 +1,6 @@
+<app-simple-toolbar title="TASK_DETAILS">
+    <app-task-details-actions/>
+</app-simple-toolbar>
 <mat-tab-group headerPosition="below" dynamicHeight (selectedIndexChange)="onIndexChange($event)">
     <mat-tab *ngFor="let task of tasks; trackBy: trackByTask" [label]="'ID: ' + task.id">
         <app-container>

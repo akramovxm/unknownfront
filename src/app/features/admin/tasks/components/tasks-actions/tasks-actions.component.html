@@ -1,0 +1,85 @@
+@if (boService.max425) {
+    <div>
+        <a
+                mat-icon-button
+                routerLink="./create"
+                [matTooltip]="'CREATE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </a>
+        <a
+                mat-icon-button
+                routerLink="./update"
+                [disabled]="disabled"
+                (click)="saveToLocalStorage()"
+                [matTooltip]="'UPDATE' | translate"
+        >
+            <mat-icon>edit</mat-icon>
+        </a>
+        <button
+                mat-icon-button
+                [disabled]="disabled"
+                (click)="onDeleteClick()"
+                [matTooltip]="'DELETE' | translate"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/details"
+                [matTooltip]="'DETAILS' | translate"
+        >
+            <mat-icon>open_in_new</mat-icon>
+        </a>
+        <button mat-icon-button
+                [disabled]="loading"
+                (click)="onAllCheckClick()"
+                [matTooltip]="checkButtonTitle | translate"
+        >
+            <mat-icon>{{ checkButtonIcon }}</mat-icon>
+        </button>
+    </div>
+} @else {
+    <div style="display: flex; align-items: center">
+        <a
+                mat-button
+                routerLink="./create"
+        >
+            <mat-icon>add</mat-icon>
+            {{ 'CREATE' | translate }}
+        </a>
+        <a
+                mat-button
+                routerLink="./update"
+                [disabled]="disabled"
+                (click)="saveToLocalStorage()"
+        >
+            <mat-icon>edit</mat-icon>
+            {{ 'UPDATE' | translate }}
+        </a>
+        <button
+                mat-button
+                [disabled]="disabled"
+                (click)="onDeleteClick()"
+        >
+            <mat-icon>delete</mat-icon>
+            {{ 'DELETE' | translate }}
+        </button>
+        <a
+                mat-button
+                routerLink="/admin/tasks/details"
+                [disabled]="disabled"
+                (click)="saveToLocalStorage()"
+        >
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'DETAILS' | translate }}
+        </a>
+        <button mat-icon-button
+                [disabled]="loading"
+                (click)="onAllCheckClick()"
+                [matTooltip]="checkButtonTitle | translate"
+        >
+            <mat-icon>{{ checkButtonIcon }}</mat-icon>
+        </button>
+    </div>
+}

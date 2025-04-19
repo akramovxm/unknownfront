@@ -18,6 +18,7 @@ import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar
 import {SettingsForm} from "@features/admin/settings/models/settings-form";
 import { RouterLink } from '@angular/router';
 import {MeStateService} from "@features/admin/settings/services/me-state.service";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
 
 @Component({
     selector: 'app-settings-main',
@@ -41,10 +42,11 @@ import {MeStateService} from "@features/admin/settings/services/me-state.service
         MatButton,
         ProgressBarComponent,
         MatAnchor,
-        RouterLink
+        RouterLink,
+        SimpleToolbarComponent
     ],
     providers: [
-        {provide: MAT_DATE_LOCALE, useValue: 'ru'},
+        {provide: MAT_DATE_LOCALE, useValue: 'en'},
         provideNativeDateAdapter()
     ],
     templateUrl: './settings-main.component.html',

@@ -1,15 +1,19 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
 import {TaskFormComponent} from "@features/admin/tasks/components/task-form/task-form.component";
 import {ContainerComponent} from "@shared/components/container/container.component";
 import {AnswerForm, TaskForm} from "@features/admin/tasks/models/task-form";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {oneCorrectValidator} from "@validators/one-correct.validator";
 import {MathjaxService} from "@services/mathjax.service";
 import {TaskStateService} from "@features/admin/tasks/services/task-state.service";
 import {AdminTask} from "@features/admin/tasks/models/admin-task";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {
+    TaskUpdateActionsComponent
+} from "@features/admin/tasks/components/task-update-actions/task-update-actions.component";
 
 @Component({
     selector: 'app-task-update',
@@ -18,12 +22,14 @@ import {AdminTask} from "@features/admin/tasks/models/admin-task";
         MatTabGroup,
         NgForOf,
         TaskFormComponent,
-        ContainerComponent
+        ContainerComponent,
+        SimpleToolbarComponent,
+        TaskUpdateActionsComponent
     ],
     templateUrl: './task-update.component.html',
     styleUrl: './task-update.component.scss'
 })
-export class TaskUpdateComponent implements OnInit {
+export class TaskUpdateComponent implements OnInit, OnDestroy {
     private readonly formBuilder = inject(FormBuilder);
     private readonly taskStateService = inject(TaskStateService);
     private readonly taskSelectionService = inject(TaskSelectionService);
@@ -33,6 +39,10 @@ export class TaskUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.forms = this.tasks.map(task => this.createForm(task));
+    }
+
+    ngOnDestroy() {
+        this.taskSelectionService.removeFromLocalStorage();
     }
 
     onSubmit(id?: number | null) {
@@ -60,6 +70,7 @@ export class TaskUpdateComponent implements OnInit {
         })
         return this.formBuilder.group<TaskForm>({
             id: this.formBuilder.control<number | null>(task.id),
+            subjectId: this.formBuilder.control<number | null>(null, Validators.required),
             topicId: this.formBuilder.control<number | null>(null),
             sourceId: this.formBuilder.control<number | null>(null),
             level: this.formBuilder.control<string | null>(task.level),

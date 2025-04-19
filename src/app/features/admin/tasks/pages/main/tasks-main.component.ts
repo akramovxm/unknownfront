@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {AdminTask} from "@features/admin/tasks/models/admin-task";
 import {TaskAdminCardComponent} from "@features/admin/tasks/components/task-admin-card/task-admin-card.component";
 import {NgForOf, NgIf} from "@angular/common";
@@ -12,7 +12,8 @@ import {TaskStateService} from "@features/admin/tasks/services/task-state.servic
 import {switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatToolbar} from "@angular/material/toolbar";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {TasksActionsComponent} from "@features/admin/tasks/components/tasks-actions/tasks-actions.component";
 
 @Component({
     selector: 'app-tasks-main',
@@ -24,7 +25,10 @@ import {MatToolbar} from "@angular/material/toolbar";
         SearchInputComponent,
         ProgressBarComponent,
         MatPaginator,
-        NgIf
+        NgIf,
+        TranslatePipe,
+        SimpleToolbarComponent,
+        TasksActionsComponent
     ],
     templateUrl: './tasks-main.component.html',
     styleUrl: './tasks-main.component.scss'
@@ -37,10 +41,13 @@ export class TasksMainComponent implements OnInit {
     private readonly translate = inject(TranslateService);
 
     ngOnInit() {
+        const subjectId = Number(this.activatedRoute.snapshot.paramMap.get('subjectId'));
+
         this.taskSelectionService.selection.clear();
+
         this.activatedRoute.queryParams.pipe(
             tap(params => this.taskStateService.updateParams(params)),
-            switchMap(() => this.taskStateService.getTasks())
+            switchMap(() => this.taskStateService.getTasks(subjectId))
         ).subscribe();
     }
 

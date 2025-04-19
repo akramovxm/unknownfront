@@ -41,7 +41,13 @@ export class MeStateService {
         this.loading.set(true);
         form.disable();
 
-        this.meService.updateMe(form.value)
+        const value = form.value;
+
+        if (value.birthDate) {
+            value.birthDate = new Date(value.birthDate).toJSON().substring(0, 10);
+        }
+
+        this.meService.updateMe(value)
             .subscribe({
                 next: res => {
                     this.loading.set(false);
@@ -51,7 +57,7 @@ export class MeStateService {
                 error: err => {
                     this.loading.set(false);
                     form.enable();
-                    this.errorService.onError(err, form, ['exists']);
+                    this.errorService.onError(err, form, ['exists', 'matDatepickerParse']);
                 }
             });
     }

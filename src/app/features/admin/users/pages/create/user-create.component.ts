@@ -6,6 +6,7 @@ import {ContainerComponent} from "@shared/components/container/container.compone
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
 import {UserForm} from "@features/admin/users/models/user-form";
 import {UserStateService} from "@features/admin/users/services/user-state.service";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
 
 @Component({
     selector: 'app-user-create',
@@ -15,6 +16,7 @@ import {UserStateService} from "@features/admin/users/services/user-state.servic
         ReactiveFormsModule,
         ContainerComponent,
         UserFormComponent,
+        SimpleToolbarComponent
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'en'},

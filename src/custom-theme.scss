@@ -88,6 +88,17 @@ body {
     transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.dense-toolbar {
+    padding: 0;
+    @include mat.toolbar-density((
+            mat.define-theme((
+                    density: (
+                            scale: -5
+                    )
+            ))
+    ))
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         @include mat.theme((

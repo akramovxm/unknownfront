@@ -1,0 +1,45 @@
+@if (boService.max425) {
+    <div>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/create"
+                [matTooltip]="'CREATE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </a>
+        <a
+                mat-icon-button
+                routerLink="/admin/tasks/details"
+                [matTooltip]="'DETAILS' | translate"
+        >
+            <mat-icon>open_in_new</mat-icon>
+        </a>
+        <button mat-icon-button
+                [matTooltip]="'HANDBOOK' | translate"
+                (click)="onHelpClick()"
+        >
+            <mat-icon>book</mat-icon>
+        </button>
+    </div>
+} @else {
+    <div>
+        <a
+                mat-button
+                routerLink="/admin/tasks/create"
+        >
+            <mat-icon>add</mat-icon>
+            {{ 'CREATE' | translate }}
+        </a>
+        <a
+                mat-button
+                routerLink="/admin/tasks/details"
+        >
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'DETAILS' | translate }}
+        </a>
+        <button mat-button (click)="onHelpClick()">
+            <mat-icon>book</mat-icon>
+            {{ 'HANDBOOK' | translate }}
+        </button>
+    </div>
+}

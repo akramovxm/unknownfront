@@ -48,6 +48,7 @@ export class UserStateService {
     }
 
     getAll() {
+        this.users.set([]);
         const queryParams = this.generateQueryParams();
         this.loading.set(true);
         return this.userService.getAll(queryParams).pipe(
@@ -66,6 +67,12 @@ export class UserStateService {
         this.loading.set(true);
         form.disable();
 
+        const value = form.value;
+
+        if (value.birthDate) {
+            value.birthDate = new Date(value.birthDate).toJSON().substring(0, 10);
+        }
+
         this.userService.create(form.value as UserRequest)
             .subscribe({
                 next: res => {
@@ -76,16 +83,22 @@ export class UserStateService {
                 error: (err: HttpErrorResponse) => {
                     this.loading.set(false);
                     form.enable();
-                    this.errorService.onError(err, form, ['exists']);
+                    this.errorService.onError(err, form, ['exists', 'matDatepickerParse']);
                 }
             });
     }
 
-    updateFully(form: FormGroup<UserForm>, id: number) {
+    update(form: FormGroup<UserForm>, id: number) {
         if (form.invalid) return;
 
         this.loading.set(true);
         form.disable();
+
+        const value = form.value;
+
+        if (value.birthDate) {
+            value.birthDate = new Date(value.birthDate).toJSON().substring(0, 10);
+        }
 
         this.userService.updateFully(form.value as UserRequest, id)
             .subscribe({
@@ -98,13 +111,17 @@ export class UserStateService {
                 error: (err: HttpErrorResponse) => {
                     this.loading.set(false);
                     form.enable();
-                    this.errorService.onError(err, form, ['exists']);
+                    this.errorService.onError(err, form, ['exists', 'matDatepickerParse']);
                 }
             });
     }
 
     updatePartially(data: UserRequest, id: number) {
         this.loading.set(true);
+
+        if (data.birthDate) {
+            data.birthDate = new Date(data.birthDate).toJSON().substring(0, 10);
+        }
 
         return this.userService.updatePartially(data, id).pipe(
             tap(res => {

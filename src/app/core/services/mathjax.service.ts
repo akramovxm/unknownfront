@@ -19,14 +19,14 @@ export class MathjaxService {
                 return;
             }
             window.MathJax = {
-                loader: {load: ['[tex]/noerrors']},
+                // loader: {load: ['[tex]/noerrors']},
                 options: {
                     enableMenu: false,
                 },
                 tex: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']],
                     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                    packages: {'[+]': ['noerrors']},
+                    // packages: {'[+]': ['noerrors']},
                     processEscapes: true
                 },
                 chtml: {

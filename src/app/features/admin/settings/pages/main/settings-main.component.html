@@ -1,3 +1,4 @@
+<app-simple-toolbar title="SETTINGS"/>
 <app-progress-bar [loading]="meLoading()"/>
 <app-container>
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -19,7 +20,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>{{ 'BIRTH_DATE' | translate }}</mat-label>
-            <input matInput [matDatepicker]="picker" placeholder="dd/MM/yyyy" formControlName="birthDate"
+            <input matInput [matDatepicker]="picker" placeholder="MM/dd/yyyy" formControlName="birthDate"
                    name="birthDate">
             <mat-error *ngIf="birthDateError">{{ birthDateError }}</mat-error>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

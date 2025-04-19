@@ -33,10 +33,11 @@ export class TaskStateService {
 
     readonly tasks = signal<AdminTask[]>([]);
 
-    getTasks() {
+    getTasks(subjectId: number) {
+        this.tasks.set([]);
         const queryParams = this.generateQueryParams();
         this.loading.set(true);
-        return this.taskService.getAll(queryParams).pipe(
+        return this.taskService.getAllSubjectId(subjectId, queryParams).pipe(
             tap(res => this.onSuccess(res)),
             catchError(err => {
                 this.errorService.onError(err);
@@ -90,7 +91,7 @@ export class TaskStateService {
         })
     }
 
-    deleteTasks() {
+    deleteTasks(subjectId: number) {
         const ids = this.taskSelectionService.selection.selected.map(t => t.id);
 
         this.confirmDialogService.open(
@@ -106,7 +107,7 @@ export class TaskStateService {
                         if (this.confirmDialogService.dialogRef) {
                             this.confirmDialogService.dialogRef.close();
                         }
-                        this.getTasks().subscribe();
+                        this.getTasks(subjectId).subscribe();
                         this.snackbarService.open('DELETE_TASKS_SUCCESS');
                     }),
                     finalize(() => {

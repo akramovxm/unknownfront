@@ -21,6 +21,8 @@ import {AuthStateService} from "@features/auth/services/auth-state.service";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
+import {UsersActionsComponent} from "@features/admin/users/components/users-actions/users-actions.component";
 
 @Component({
     selector: 'app-users-main',
@@ -47,6 +49,8 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
         MatMenuItem,
         MatMenuTrigger,
         NgForOf,
+        SimpleToolbarComponent,
+        UsersActionsComponent,
     ],
     templateUrl: './users-main.component.html',
     styleUrl: './users-main.component.scss'

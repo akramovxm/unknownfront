@@ -35,10 +35,15 @@ export class VerifyComponent {
     private readonly authStateService = inject(AuthStateService);
     private readonly errorMessageService = inject(ErrorMessageService);
 
-    email = sessionStorage.getItem('email');
+    constructor() {
+        const verify = this.authStateService.getVerify();
+        if (verify) {
+            this.form.controls.email.setValue(verify.email);
+        }
+    }
 
     readonly form = this.formBuilder.group<VerifyForm>({
-        email: this.formBuilder.control<string | null>(this.email, Validators.required),
+        email: this.formBuilder.control<string | null>(null, Validators.required),
         verifyCode: this.formBuilder.control<string | null>(null, Validators.required)
     });
 
@@ -57,6 +62,9 @@ export class VerifyComponent {
         return this.authStateService.resendLoading;
     }
 
+    get email() {
+        return this.form.value.email;
+    }
     get codeError() {
         return this.errorMessageService.getMessage(
             this.form.controls.verifyCode,

@@ -12,6 +12,7 @@ import { ButtonProgressSpinnerComponent } from '@shared/components/button-progre
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import {MeStateService} from "@features/admin/settings/services/me-state.service";
+import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
 
 @Component({
     selector: 'app-update-password',
@@ -29,7 +30,8 @@ import {MeStateService} from "@features/admin/settings/services/me-state.service
         MatSuffix,
         MatIconButton,
         MatButton,
-        TranslatePipe
+        TranslatePipe,
+        SimpleToolbarComponent
     ],
     templateUrl: './update-password.component.html',
     styleUrl: './update-password.component.scss'

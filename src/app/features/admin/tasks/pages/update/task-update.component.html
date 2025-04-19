@@ -1,3 +1,6 @@
+<app-simple-toolbar title="UPDATE_TASK">
+    <app-task-update-actions/>
+</app-simple-toolbar>
 <mat-tab-group headerPosition="below" dynamicHeight (selectedIndexChange)="onIndexChange($event)">
     <mat-tab *ngFor="let form of forms" [label]="'ID: ' + form.controls.id.value">
         <app-container>

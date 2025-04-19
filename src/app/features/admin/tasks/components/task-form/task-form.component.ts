@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, input, OnInit, signal, viewChild} from '@angular/core';
+import {Component, DestroyRef, ElementRef, inject, input, OnInit, signal, viewChild} from '@angular/core';
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {MatButton, MatIconButton} from "@angular/material/button";
@@ -23,9 +23,15 @@ import {TopicStateService} from "@features/admin/topics/services/topic-state.ser
 import {SourceStateService} from "@services/source-state.service";
 import {ErrorMessageService} from "@services/error-message.service";
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
-import {ButtonProgressSpinnerComponent} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
+import {
+    ButtonProgressSpinnerComponent
+} from "@shared/components/button-progress-spinner/button-progress-spinner.component";
 import {AdminAnswer} from "@features/admin/tasks/models/admin-task";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {SubjectStateService} from "@features/admin/subjects/services/subject-state.service";
+import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-task-form',
@@ -58,6 +64,8 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
     styleUrl: './task-form.component.scss'
 })
 export class TaskFormComponent implements OnInit {
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly subjectStateService = inject(SubjectStateService);
     private readonly topicStateService = inject(TopicStateService);
     private readonly sourceStateService = inject(SourceStateService);
     private readonly taskStateService = inject(TaskStateService);
@@ -66,15 +74,19 @@ export class TaskFormComponent implements OnInit {
     private readonly dialog = inject(MatDialog);
     private readonly translate = inject(TranslateService);
 
+    private destroyRef = inject(DestroyRef);
+
     readonly form = input.required<FormGroup<TaskForm>>();
     readonly icon = input.required<string>();
     readonly action = input.required<string>();
     readonly submit = input.required<(id?: number | null) => void>();
 
+    readonly subjectInput = viewChild<ElementRef<HTMLInputElement>>('subjectInput');
     readonly topicInput = viewChild<ElementRef<HTMLInputElement>>('topicInput');
     readonly sourceInput = viewChild<ElementRef<HTMLInputElement>>('sourceInput');
 
     readonly ruFocus = signal<boolean>(false);
+    readonly filteredSubjects = signal<AdminSubject[]>([]);
     readonly filteredTopics = signal<AdminTopic[]>([]);
     readonly filteredSources = signal<AdminSource[]>([]);
 
@@ -83,20 +95,26 @@ export class TaskFormComponent implements OnInit {
             this.ruFocus.set(true);
         }
 
-        if (!this.topics.length) {
-            this.topicStateService.getTopics().subscribe(topics => {
-                this.setTopicId(topics);
-            });
-        } else {
-            this.setTopicId(this.topics);
-        }
-        if (!this.sources.length) {
-            this.sourceStateService.getSources().subscribe(sources => {
-                this.setSourceId(sources);
-            });
-        } else {
-            this.setSourceId(this.sources);
-        }
+        this.subjectStateService.getSubjects().subscribe(subjects => {
+            this.setSubjectId(subjects);
+
+            const subjectId = this.activatedRoute.snapshot.paramMap.get('subjectId');
+
+            if (subjectId) {
+                this.form().controls.subjectId.setValue(subjectId);
+            }
+        })
+
+        this.form().controls.subjectId.valueChanges
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(v => {
+                this.filteredTopics.set([]);
+                this.topicStateService.getTopicsBySubjectId(Number(v))
+                    .subscribe(topics => this.setTopicId(topics));
+            })
+        this.sourceStateService.getSources().subscribe(sources => {
+            this.setSourceId(sources);
+        });
     }
 
     onSubmit() {
@@ -117,12 +135,9 @@ export class TaskFormComponent implements OnInit {
 
     onTreeClick(e: MouseEvent) {
         e.stopPropagation();
-        if (this.topicStateService.treeTopics().length === 0) {
-            this.topicStateService.getTreeTopics()
-                .subscribe(res => this.onSuccess());
-        } else {
-            this.onSuccess();
-        }
+        const subjectId = Number(this.form().controls.subjectId.value)
+        this.topicStateService.getTreeTopicsBySubjectId(subjectId)
+            .subscribe(res => this.onSuccess());
     }
 
     onAddSourceClick(e: MouseEvent) {
@@ -148,6 +163,18 @@ export class TaskFormComponent implements OnInit {
         })
     }
 
+    subjectDisplayFn(id: number | null): string {
+        const option = this.subjects.find(item => item.id === Number(id));
+        if (option) {
+            if (this.translate.currentLang === 'uz') {
+                return option.titleUz;
+            } else {
+                return option.titleRu;
+            }
+        }
+        return '';
+    }
+
     topicDisplayFn(id: number | null): string {
         const option = this.topics.find(item => item.id === Number(id));
         if (option) {
@@ -163,6 +190,16 @@ export class TaskFormComponent implements OnInit {
     sourceDisplayFn(id: number | null): string {
         const option = this.sources.find(item => item.id === Number(id));
         return option ? option.name : '';
+    }
+
+    filterSubjects() {
+        const filterValue = this.subjectInput()?.nativeElement.value.toLowerCase();
+        if (filterValue) {
+            const filtered = this.subjects.filter(t =>
+                t.titleUz.toLowerCase().includes(filterValue) || t.titleRu.toLowerCase().includes(filterValue)
+            );
+            this.filteredSubjects.set(filtered);
+        }
     }
 
     filterTopics() {
@@ -194,6 +231,16 @@ export class TaskFormComponent implements OnInit {
         })
     }
 
+    private setSubjectId(subjects: AdminSubject[]) {
+        if (subjects.length) {
+            this.tasks.forEach(task => {
+                if (task.subject) {
+                    this.form().controls.subjectId.setValue(task.subject.id);
+                }
+            })
+        }
+    }
+
     private setTopicId(topics: AdminTopic[]) {
         if (topics.length) {
             this.tasks.forEach(task => {
@@ -215,6 +262,13 @@ export class TaskFormComponent implements OnInit {
         }
     }
 
+    getSubjectTitle(subject: AdminSubject) {
+        if (this.translate.currentLang === 'uz') {
+            return subject.titleUz;
+        }
+        return subject.titleRu;
+    }
+
     getTopicTitle(topic: AdminTopic) {
         if (this.translate.currentLang === 'uz') {
             return topic.titleUz;
@@ -226,33 +280,51 @@ export class TaskFormComponent implements OnInit {
         return this.ruFocus() ? this.form().controls['contentRu'].value
             : this.form().controls['contentUz'].value;
     }
+
     get cardAnswers() {
         return this.form().controls.answers.value as AdminAnswer[];
     }
+
     get loading() {
         return this.taskStateService.loading();
     }
+
+    get subjectLoading() {
+        return this.subjectStateService.loading();
+    }
+
     get topicLoading() {
         return this.topicStateService.loading();
     }
+
     get topicTreeLoading() {
         return this.topicStateService.treeLoading();
     }
+
     get sourceLoading() {
         return this.sourceStateService.loading();
     }
+
     get submitted() {
         return this.taskStateService.submitted();
     }
+
+    get subjects() {
+        return this.subjectStateService.subjects();
+    }
+
     get topics() {
         return this.topicStateService.topics();
     }
+
     get sources() {
         return this.sourceStateService.sources();
     }
+
     get tasks() {
         return this.taskSelectionService.getFromLocalStorage();
     }
+
     get disabled() {
         const source = this.filteredSources().find(s =>
             s.name.toLowerCase() === this.sourceInput()?.nativeElement.value.toLowerCase()
@@ -262,18 +334,32 @@ export class TaskFormComponent implements OnInit {
         }
         return source;
     }
+
+    get treeDisabled() {
+        return !this.form().controls.subjectId.value;
+    }
+
+    get subjectError() {
+        return this.errorMessageService.getMessage(
+            this.form().controls.subjectId,
+            {error: 'required', message: 'SUBJECT_REQUIRED'}
+        );
+    }
+
     get levelError() {
         return this.errorMessageService.getMessage(
             this.form().controls.level,
             {error: 'required', message: 'LEVEL_REQUIRED'}
         );
     }
+
     get typeError() {
         return this.errorMessageService.getMessage(
             this.form().controls.type,
             {error: 'required', message: 'LEVEL_REQUIRED'}
         );
     }
+
     get contentUzError() {
         return this.errorMessageService.getMessage(
             this.form().controls.contentUz,
@@ -283,6 +369,7 @@ export class TaskFormComponent implements OnInit {
             ]
         );
     }
+
     get contentRuError() {
         return this.errorMessageService.getMessage(
             this.form().controls.contentRu,
@@ -292,18 +379,21 @@ export class TaskFormComponent implements OnInit {
             ]
         );
     }
+
     get correctError() {
         return this.errorMessageService.getMessage(
             this.form().controls.answers,
             {error: 'oneCorrect', message: 'ONE_CORRECT'}
         );
     }
+
     getValueUzError(i: number) {
         return this.errorMessageService.getMessage(
             this.form().controls.answers.controls[i].controls.valueUz,
             {error: 'required', message: 'ANSWER_REQUIRED'}
         );
     }
+
     getValueRuError(i: number) {
         return this.errorMessageService.getMessage(
             this.form().controls.answers.controls[i].controls.valueRu,

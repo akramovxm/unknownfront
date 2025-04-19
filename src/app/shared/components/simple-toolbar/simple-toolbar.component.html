@@ -1,0 +1,10 @@
+<mat-toolbar style="position: fixed; z-index: 2; padding: 0" class="dense-toolbar">
+    <app-container>
+        <div style="display: flex; align-items: center">
+            <span class="title">{{ title() | translate }}</span>
+            <span style="flex: 1"></span>
+            <ng-content></ng-content>
+        </div>
+    </app-container>
+</mat-toolbar>
+<mat-toolbar class="dense-toolbar"></mat-toolbar>

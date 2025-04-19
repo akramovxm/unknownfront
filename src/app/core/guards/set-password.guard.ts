@@ -1,11 +1,18 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
+import { AuthStateService } from '@features/auth/services/auth-state.service';
 
 export const setPasswordGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
+    const authStateService = inject(AuthStateService);
 
-    const email = sessionStorage.getItem('email');
-    const recoveryToken = sessionStorage.getItem('recoveryToken');
+    const recovery = authStateService.getRecovery();
 
-    return (!!email && !!recoveryToken) || router.navigate(['/']);
+    let expiresAt: Date | null = null;
+
+    if (recovery) {
+        expiresAt = new Date(recovery.expiresAt);
+    }
+
+    return (expiresAt && expiresAt > new Date()) || router.navigate(['/']);
 };

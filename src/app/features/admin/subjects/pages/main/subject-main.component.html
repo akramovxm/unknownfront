@@ -1,0 +1,18 @@
+<app-simple-toolbar title="SUBJECTS"/>
+<app-progress-bar [loading]="loading()"/>
+<app-container>
+    <div class="container">
+        <app-subject-card
+                *ngFor="let subject of subjects()"
+                [subject]="subject"
+        />
+        <mat-card
+                *ngIf="!loading()"
+                matRipple [matTooltip]="'CREATE' | translate"
+                matTooltipPositionAtOrigin
+                (click)="onCreateClick()"
+        >
+            <mat-icon>add</mat-icon>
+        </mat-card>
+    </div>
+</app-container>
