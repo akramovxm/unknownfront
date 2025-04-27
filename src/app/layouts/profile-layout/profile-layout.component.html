@@ -1,0 +1,43 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [autoFocus]="false">
+        <mat-toolbar>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <a mat-button routerLink="/">
+                <mat-icon>home</mat-icon>
+                {{ 'HOME' | translate }}
+            </a>
+        </mat-toolbar>
+        <div style="margin: 0 0.5rem">
+            <mat-nav-list class="nav-list">
+                <a mat-list-item
+                   *ngFor="let nav of navList"
+                   [routerLink]="nav.path"
+                   [activated]="getActivated(nav.path)"
+                   (click)="sidenav.toggle()"
+                >
+                    <mat-icon matListItemIcon>{{ nav.icon }}</mat-icon>
+                    <span matListItemTitle>{{ nav.title | translate }}</span>
+                </a>
+            </mat-nav-list>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar style="position: fixed; z-index: 2">
+            <button mat-icon-button [matTooltip]="'MENU' | translate" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span style="flex: 1"></span>
+            <button mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                {{ 'LOGOUT' | translate }}
+            </button>
+            <app-language-menu/>
+        </mat-toolbar>
+        <mat-toolbar/>
+        <router-outlet/>
+        <mat-toolbar/>
+    </mat-sidenav-content>
+</mat-sidenav-container>

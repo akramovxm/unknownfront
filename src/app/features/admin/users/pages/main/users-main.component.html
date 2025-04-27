@@ -97,7 +97,7 @@
                             [disabled]="loading || isCurrentUser(element)"
                     >
                         <mat-icon>{{ getRoleIcon(element.role) }}</mat-icon>
-                        {{ element.role }}
+                        {{ element.role | translate }}
                     </button>
                     <mat-menu #role=matMenu>
                         <button mat-menu-item
@@ -106,7 +106,7 @@
                                 (click)="onRoleClick(element, role)"
                         >
                             <mat-icon>{{ getRoleIcon(role) }}</mat-icon>
-                            <span>{{ role }}</span>
+                            <span>{{ role | translate }}</span>
                         </button>
                     </mat-menu>
                 </td>

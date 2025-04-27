@@ -99,6 +99,10 @@ body {
     ))
 }
 
+span.primary-span {
+    color: var(--mat-sys-primary);
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         @include mat.theme((

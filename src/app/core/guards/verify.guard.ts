@@ -14,5 +14,5 @@ export const verifyGuard: CanActivateFn = (route, state) => {
         expiresAt = new Date(verify.expiresAt);
     }
 
-    return (expiresAt && expiresAt > new Date()) || router.navigate(['/']);
+    return (expiresAt && expiresAt > new Date()) || router.createUrlTree(['/']);
 };

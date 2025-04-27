@@ -27,7 +27,8 @@
       "@features/*": ["app/features/*"],
       "@layouts/*": ["app/layouts/*"],
       "@shared/*": ["app/shared/*"],
-      "@constants": ["app/app.constants.ts"]
+      "@constants": ["app/app.constants.ts"],
+      "@pipes": ["app/core/pipes/*"]
     }
   },
   "angularCompilerOptions": {

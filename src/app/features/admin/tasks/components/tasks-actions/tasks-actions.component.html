@@ -26,7 +26,7 @@
         </button>
         <a
                 mat-icon-button
-                routerLink="/admin/tasks/details"
+                routerLink="./details"
                 [matTooltip]="'DETAILS' | translate"
         >
             <mat-icon>open_in_new</mat-icon>
@@ -67,7 +67,7 @@
         </button>
         <a
                 mat-button
-                routerLink="/admin/tasks/details"
+                routerLink="./details"
                 [disabled]="disabled"
                 (click)="saveToLocalStorage()"
         >

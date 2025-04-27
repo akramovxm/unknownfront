@@ -29,7 +29,7 @@ import {
 import {AdminAnswer} from "@features/admin/tasks/models/admin-task";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {SubjectStateService} from "@features/admin/subjects/services/subject-state.service";
-import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {AdminSubject} from "@features/admin/subjects/models/admin-subject";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {ActivatedRoute} from "@angular/router";
 

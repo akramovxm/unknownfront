@@ -13,36 +13,52 @@
             />
             <mat-list>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.level }}</span>
-                    <span matListItemLine>{{ 'LEVEL' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'LEVEL' | translate }}: </span>
+                        {{ task.level | translate }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.type }}</span>
-                    <span matListItemLine>{{ 'TYPE' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'TYPE' | translate }}: </span>
+                        {{ task.type | translate }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.topic || '-' }}</span>
-                    <span matListItemLine>{{ 'TOPIC' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'TOPIC' | translate }}: </span>
+                        {{ task.topic || '-' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.source || '-' }}</span>
-                    <span matListItemLine>{{ 'SOURCE' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'SOURCE' | translate }}: </span>
+                        {{ task.source || '-' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.createdAt | date: 'dd.MM.yyyy hh:mm' }}</span>
-                    <span matListItemLine>{{ 'CREATED_AT' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'CREATED_AT' | translate }}: </span>
+                        {{ task.createdAt | date: 'dd.MM.yyyy hh:mm' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ task.updatedAt | date: 'dd.MM.yyyy hh:mm' }}</span>
-                    <span matListItemLine>{{ 'UPDATED_AT' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'UPDATED_AT' | translate }}: </span>
+                        {{ task.updatedAt | date: 'dd.MM.yyyy hh:mm' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ getCreatedBy(task) }}</span>
-                    <span matListItemLine>{{ 'CREATED_BY' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'CREATED_BY' | translate }}: </span>
+                        {{ getCreatedBy(task) }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ getUpdatedBy(task) }}</span>
-                    <span matListItemLine>{{ 'UPDATED_BY' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'UPDATED_BY' | translate }}: </span>
+                        {{ getUpdatedBy(task) }}
+                    </span>
                 </mat-list-item>
             </mat-list>
         </app-container>

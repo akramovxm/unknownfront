@@ -1,6 +1,6 @@
 import {Component, inject, input} from '@angular/core';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
-import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {AdminSubject} from "@features/admin/subjects/models/admin-subject";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {RouterLink} from "@angular/router";
 import {MatAnchor, MatIconButton} from "@angular/material/button";
@@ -12,6 +12,9 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ConfirmDialogService} from "@services/confirm-dialog.service";
 import {SubjectStateService} from "@features/admin/subjects/services/subject-state.service";
+import {MatList, MatListItem, MatListItemTitle} from "@angular/material/list";
+import {DatePipe} from "@angular/common";
+import {AdminTask} from "@features/admin/tasks/models/admin-task";
 
 @Component({
     selector: 'app-subject-card',
@@ -26,7 +29,11 @@ import {SubjectStateService} from "@features/admin/subjects/services/subject-sta
         MatAnchor,
         MatIcon,
         MatIconButton,
-        MatTooltip
+        MatTooltip,
+        MatList,
+        DatePipe,
+        MatListItem,
+        MatListItemTitle
     ],
     templateUrl: './subject-card.component.html',
     styleUrl: './subject-card.component.scss'
@@ -68,6 +75,13 @@ export class SubjectCardComponent {
             message,
             () => this.subjectStateService.deleteSubject(this.subject().id).subscribe(),
         )
+    }
+
+    getCreatedBy(subject: AdminSubject) {
+        return subject.createdBy ? subject.createdBy?.firstName + ' ' + subject.createdBy?.lastName : '-';
+    }
+    getUpdatedBy(subject: AdminSubject) {
+        return subject.updatedBy ? subject.updatedBy?.firstName + ' ' + subject.updatedBy?.lastName : '-';
     }
 
     get lang() {

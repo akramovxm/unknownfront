@@ -10,7 +10,7 @@ app-search-input {
 }
 
 .mat-column-firstName, .mat-column-lastName, .mat-column-email, .mat-column-phoneNumber,
-.mat-column-birthDate, .mat-column-createdAt, .mat-column-updatedAt, .mat-column-createdBy,
+.mat-column-birthDate, .mat-column-role, .mat-column-createdAt, .mat-column-updatedAt, .mat-column-createdBy,
 .mat-column-updatedBy {
     min-width: 150px;
     max-width: 250px;

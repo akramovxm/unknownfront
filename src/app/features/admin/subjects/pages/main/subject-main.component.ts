@@ -16,7 +16,7 @@ import {TitleForm} from "@models/title-form";
 import {ProgressBarComponent} from "@shared/components/progress-bar/progress-bar.component";
 
 @Component({
-    selector: 'app-subject-main',
+    selector: 'app-admin-subject-main',
     imports: [
         ContainerComponent,
         SubjectCardComponent,

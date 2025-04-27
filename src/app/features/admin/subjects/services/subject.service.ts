@@ -3,14 +3,14 @@ import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "@constants";
 import {ListResponse} from "@models/list-response";
 import {Response} from "@models/response";
-import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {AdminSubject} from "@features/admin/subjects/models/admin-subject";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SubjectService {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = BACKEND_URL + '/subjects';
+    private readonly baseUrl = BACKEND_URL + '/admin/subjects';
 
     getAll() {
         return this.http.get<ListResponse<AdminSubject>>(this.baseUrl);

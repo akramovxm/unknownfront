@@ -12,8 +12,19 @@ import {UpdatePasswordComponent} from "./settings/pages/update-password/update-p
 import {UsersDetailsComponent} from "@features/admin/users/pages/details/users-details.component";
 import {TaskDetailsComponent} from "@features/admin/tasks/pages/details/task-details.component";
 import {SubjectMainComponent} from "@features/admin/subjects/pages/main/subject-main.component";
+import {DashboardMainComponent} from "@features/admin/dashboard/pages/dashboard-main/dashboard-main.component";
 
 export const ADMIN_ROUTES: Routes = [
+    {
+        path: '',
+        title: appName + 'Admin',
+        component: DashboardMainComponent,
+    },
+    {
+        path: 'tasks/create',
+        title: appName + 'Create Task',
+        component: TaskCreateComponent
+    },
     {
         path: 'users',
         title: appName + 'Users',
@@ -50,7 +61,7 @@ export const ADMIN_ROUTES: Routes = [
         component: TasksMainComponent
     },
     {
-        path: 'tasks/details',
+        path: 'subjects/:subjectId/tasks/details',
         title: appName + 'Task Details',
         component: TaskDetailsComponent,
     },

@@ -1,0 +1,10 @@
+<app-simple-toolbar [title]="'MY_TESTS' | translate"/>
+<app-progress-bar [loading]="loading()"/>
+<app-container>
+    <div class="task-container">
+        <app-test-card
+                *ngFor="let test of tests()"
+                [test]="test"
+        />
+    </div>
+</app-container>

@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>{{ 'START_TEST' | translate }}</h2>
+<mat-dialog-content>
+    <p class="mat-headline-5">{{ dialogData.subjectTitle }}</p>
+    <p [innerHTML]="('CRITERION' | translate) + '. ' + ('DONT_USE_ANYTHING' | translate) + '. '"></p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            [disabled]="loading"
+    >
+        {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button
+            [disabled]="loading"
+            (click)="dialogData.onConfirm()"
+    >
+        @if (loading) {
+            <app-button-progress-spinner/>
+        } @else {
+            {{ 'START' | translate }}
+        }
+    </button>
+</mat-dialog-actions>

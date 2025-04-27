@@ -1,11 +1,11 @@
 import {Component, inject} from '@angular/core';
 import {ContainerComponent} from "@shared/components/container/container.component";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {DatePipe, NgForOf, NgStyle} from "@angular/common";
+import {DatePipe, NgForOf} from "@angular/common";
 import {UserSelectionService} from "@features/admin/users/services/user-selection.service";
 import {AdminUser} from "@features/admin/users/models/admin-user";
 import {TranslatePipe} from "@ngx-translate/core";
-import {MatList, MatListItem, MatListItemLine, MatListItemTitle} from "@angular/material/list";
+import {MatList, MatListItem, MatListItemTitle} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {Role} from "@models/role";
 import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
@@ -22,9 +22,7 @@ import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-t
         MatListItem,
         MatListItemTitle,
         DatePipe,
-        MatListItemLine,
         MatIcon,
-        NgStyle,
         SimpleToolbarComponent,
     ],
     templateUrl: './users-details.component.html',

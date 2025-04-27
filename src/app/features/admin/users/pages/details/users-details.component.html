@@ -2,64 +2,67 @@
 <mat-tab-group headerPosition="below" dynamicHeight>
     <mat-tab *ngFor="let user of users; trackBy: trackById" [label]="user.email + ' (' + user.firstName + ')'">
         <app-container>
+            <span class="mat-headline-4">{{ user.firstName + ' ' + user.lastName }}</span>
             <mat-list>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.firstName }}</span>
-                    <span matListItemLine>{{ 'FIRST_NAME' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'EMAIL' | translate }}: </span>
+                        {{ user.email }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.lastName }}</span>
-                    <span matListItemLine>{{ 'LAST_NAME' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'PHONE_NUMBER' | translate }}: </span>
+                        {{ user.phoneNumber || '-' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.email }}</span>
-                    <span matListItemLine>{{ 'EMAIL' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'BIRTH_DATE' | translate }}: </span>
+                        {{ user.birthDate || '-' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.phoneNumber || '-' }}</span>
-                    <span matListItemLine>{{ 'PHONE_NUMBER' | translate }}</span>
-                </mat-list-item>
-                <mat-list-item>
-                    <span matListItemTitle>{{ user.birthDate || '-' }}</span>
-                    <span matListItemLine>{{ 'BIRTH_DATE' | translate }}</span>
-                </mat-list-item>
-                <mat-list-item>
-                    <div matListItemTitle>
+                    <div matListItemTitle style="display: inline-flex; align-items: center">
+                        <span class="primary-span mat-body-2">{{ 'ROLE' | translate }}: </span>
                         <span style="display: inline-flex; align-items: center">
-                            <mat-icon style="margin-right: 0.5rem; color: var(--mat-sys-primary)">
-                                {{ getRoleIcon(user.role) }}
-                            </mat-icon>
-                            <span>{{ user.role }}</span>
+                            <mat-icon style="margin-right: 0.25rem">{{ getRoleIcon(user.role) }}</mat-icon>
+                            <span>{{ user.role | translate }}</span>
                         </span>
                     </div>
-                    <span matListItemLine>{{ 'ROLE' | translate }}</span>
                 </mat-list-item>
                 <mat-list-item>
-                    <div matListItemTitle>
+                    <div matListItemTitle style="display: inline-flex; align-items: center">
+                        <span class="primary-span mat-body-2">{{ 'LOCKED' | translate }}: </span>
                         <span style="display: inline-flex; align-items: center">
-                            <mat-icon [ngStyle]="{marginRight: '0.5rem', color: user.locked ? 'var(--mat-sys-error)' : 'var(--mat-sys-primary)'}">
-                                {{ user.locked ? 'lock' : 'lock_open' }}
-                            </mat-icon>
+                            <mat-icon style="margin-right: 0.25rem">{{ user.locked ? 'lock' : 'lock_open' }}</mat-icon>
                             <span>{{ (user.locked ? 'YES' : 'NO') | translate }}</span>
                         </span>
                     </div>
-                    <span matListItemLine>{{ 'LOCKED' | translate }}</span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.createdAt | date: 'dd.MM.yyyy hh:mm' }}</span>
-                    <span matListItemLine>{{ 'CREATED_AT' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'CREATED_AT' | translate }}: </span>
+                        {{ user.createdAt | date: 'dd.MM.yyyy hh:mm' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ user.updatedAt | date: 'dd.MM.yyyy hh:mm' }}</span>
-                    <span matListItemLine>{{ 'UPDATED_AT' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'UPDATED_AT' | translate }}: </span>
+                        {{ user.updatedAt | date: 'dd.MM.yyyy hh:mm' }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ getCreatedBy(user) }}</span>
-                    <span matListItemLine>{{ 'CREATED_BY' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'CREATED_BY' | translate }}: </span>
+                        {{ getCreatedBy(user) }}
+                    </span>
                 </mat-list-item>
                 <mat-list-item>
-                    <span matListItemTitle>{{ getUpdatedBy(user) }}</span>
-                    <span matListItemLine>{{ 'UPDATED_BY' | translate }}</span>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'UPDATED_BY' | translate }}: </span>
+                        {{ getUpdatedBy(user) }}
+                    </span>
                 </mat-list-item>
             </mat-list>
         </app-container>

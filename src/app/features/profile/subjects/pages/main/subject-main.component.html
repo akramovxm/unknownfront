@@ -1,0 +1,10 @@
+<app-simple-toolbar title="SUBJECTS"/>
+<app-progress-bar [loading]="loading()"/>
+<app-container>
+    <div class="container">
+        <app-subject-card
+                *ngFor="let subject of subjects()"
+                [subject]="subject"
+        />
+    </div>
+</app-container>

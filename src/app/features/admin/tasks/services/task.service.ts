@@ -11,7 +11,7 @@ import {ListResponse} from "@models/list-response";
 export class TaskService {
     private readonly http = inject(HttpClient);
 
-    private readonly baseUrl = BACKEND_URL + '/tasks';
+    private readonly baseUrl = BACKEND_URL + '/admin/tasks';
 
     getAllSubjectId(subjectId: number, queryParams: { [key: string]: string | number }) {
         let params = new HttpParams();
@@ -20,7 +20,7 @@ export class TaskService {
             params = params.set(key, queryParams[key]);
         });
 
-        return this.http.get<ListResponse<AdminTask>>(BACKEND_URL + '/subjects/' + subjectId + '/tasks', { params });
+        return this.http.get<ListResponse<AdminTask>>(BACKEND_URL + '/admin/subjects/' + subjectId + '/tasks', { params });
     }
 
     update(data: any, id: number) {

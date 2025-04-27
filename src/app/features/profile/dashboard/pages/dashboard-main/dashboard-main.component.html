@@ -1,0 +1,16 @@
+<app-simple-toolbar [title]="'DASHBOARD' | translate">
+    @if (testStateService.testSession()) {
+        <a mat-button
+           *ngIf="testStateService.testSession()"
+           routerLink="/profile/test"
+        >
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'CONTINUE_TEST' | translate }}
+        </a>
+    } @else {
+        <button mat-button (click)="onStartClick()">
+            <mat-icon>checklist</mat-icon>
+            {{ 'START_TEST' | translate }}
+        </button>
+    }
+</app-simple-toolbar>

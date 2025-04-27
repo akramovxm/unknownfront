@@ -10,7 +10,7 @@ import {ListResponse} from "@models/list-response";
 })
 export class SourceService {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = BACKEND_URL + '/sources';
+    private readonly baseUrl = BACKEND_URL + '/admin/sources';
 
     getAll(queryParams?: { [key: string]: string | number }) {
         let params = new HttpParams();

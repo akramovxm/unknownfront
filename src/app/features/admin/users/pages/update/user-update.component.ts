@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
 import {UserFormComponent} from "@features/admin/users/components/user-form/user-form.component";
@@ -27,7 +27,7 @@ import {
     templateUrl: './user-update.component.html',
     styleUrl: './user-update.component.scss'
 })
-export class UserUpdateComponent implements OnInit, OnDestroy {
+export class UserUpdateComponent implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
     private readonly userStateService = inject(UserStateService);
     private readonly userSelectionService = inject(UserSelectionService);
@@ -36,10 +36,6 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.forms = this.users.map(user => this.createForm(user));
-    }
-
-    ngOnDestroy() {
-        this.userSelectionService.removeFromLocalStorage();
     }
 
     onSubmit(id?: number | null) {

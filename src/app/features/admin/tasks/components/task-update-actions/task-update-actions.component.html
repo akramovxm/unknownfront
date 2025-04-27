@@ -2,14 +2,14 @@
     <div>
         <a
                 mat-icon-button
-                routerLink="/admin/tasks/create"
+                routerLink="../create"
                 [matTooltip]="'CREATE' | translate"
         >
             <mat-icon>add</mat-icon>
         </a>
         <a
                 mat-icon-button
-                routerLink="/admin/tasks/details"
+                routerLink="../details"
                 [matTooltip]="'DETAILS' | translate"
         >
             <mat-icon>open_in_new</mat-icon>
@@ -25,14 +25,14 @@
     <div>
         <a
                 mat-button
-                routerLink="/admin/tasks/create"
+                routerLink="../create"
         >
             <mat-icon>add</mat-icon>
             {{ 'CREATE' | translate }}
         </a>
         <a
                 mat-button
-                routerLink="/admin/tasks/details"
+                routerLink="../details"
         >
             <mat-icon>open_in_new</mat-icon>
             {{ 'DETAILS' | translate }}

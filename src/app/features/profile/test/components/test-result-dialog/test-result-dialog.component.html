@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{ 'RESULT' | translate }}</h2>
+<mat-dialog-content>
+    <p>{{ 'TEST_FINISHED' | translate }}. {{ 'YOUR_RESULT' | translate }}:</p>
+    <div
+            *ngFor="let taskGroup of dialogData.testSession.taskGroups"
+            style="display: flex; justify-content: space-between"
+    >
+        <div>
+            <span class="mat-headline-6">{{ getSubjectTitle(taskGroup) }}</span>
+            <p>{{ taskGroup.type.toString() | translate }}</p>
+        </div>
+        <span class="mat-headline-6">{{ getResultBySubject(taskGroup) }}</span>
+    </div>
+    <p>
+        <span class="primary-span mat-caption">{{ 'STATUS' | translate }}: </span>
+        <span class="mat-body-2">{{ dialogData.testSession.status.toString() | translate }}</span>
+    </p>
+    <p>
+        <span class="primary-span mat-caption">{{ 'DURATION' | translate }}: </span>
+        <span class="mat-body-2">{{ testDuration }}</span>
+    </p>
+    <p>
+        <span class="primary-span mat-caption">{{ 'TEST_DATE' | translate }}: </span>
+        <span class="mat-body-2">{{ dialogData.testSession.startTime | date: 'dd.MM.yyyy hh:mm' }}</span>
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <a mat-button
+       [routerLink]="'/profile/my-tests/' + dialogData.testSession.id"
+       mat-dialog-close
+    >
+        <mat-icon>info</mat-icon>
+        {{ 'DETAILS' | translate }}
+    </a>
+</mat-dialog-actions>

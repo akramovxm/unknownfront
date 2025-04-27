@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {TaskSelectionService} from "@features/admin/tasks/services/task-selection.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {NgForOf} from "@angular/common";
@@ -29,7 +29,7 @@ import {
     templateUrl: './task-update.component.html',
     styleUrl: './task-update.component.scss'
 })
-export class TaskUpdateComponent implements OnInit, OnDestroy {
+export class TaskUpdateComponent implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
     private readonly taskStateService = inject(TaskStateService);
     private readonly taskSelectionService = inject(TaskSelectionService);
@@ -39,10 +39,6 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.forms = this.tasks.map(task => this.createForm(task));
-    }
-
-    ngOnDestroy() {
-        this.taskSelectionService.removeFromLocalStorage();
     }
 
     onSubmit(id?: number | null) {

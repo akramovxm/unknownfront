@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>{{ 'START_TEST' | translate }}</h2>
+<mat-dialog-content>
+    <form id="test-start-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'FIRST_SUBJECT' | translate }}</mat-label>
+            <input #firstSubjectInput
+                   required
+                   type="text"
+                   aria-label="Fist subject"
+                   matInput
+                   formControlName="firstSubjectId"
+                   [matAutocomplete]="firstSubject"
+                   (input)="filterFirstSubjects()"
+                   (focus)="filterFirstSubjects()">
+            <mat-autocomplete requireSelection autoActiveFirstOption #firstSubject="matAutocomplete"
+                              [displayWith]="subjectDisplayFn.bind(this)">
+                @for (subject of filteredFirstSubjects(); track subject.id) {
+                    <mat-option [value]="subject.id">
+                        <span>{{ getSubjectTitle(subject) }}</span>
+                    </mat-option>
+                }
+            </mat-autocomplete>
+            <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"
+                                  style="margin-right: 0.5rem" *ngIf="subjectLoading()"/>
+            <mat-error *ngIf="subjectError">{{ subjectError }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'SECOND_SUBJECT' | translate }}</mat-label>
+            <input #secondSubjectInput
+                   type="text"
+                   aria-label="Second subject"
+                   matInput
+                   formControlName="secondSubjectId"
+                   [matAutocomplete]="secondSubject"
+                   (input)="filterSecondSubjects()"
+                   (focus)="filterSecondSubjects()">
+            <mat-autocomplete requireSelection autoActiveFirstOption #secondSubject="matAutocomplete"
+                              [displayWith]="subjectDisplayFn.bind(this)">
+                @for (subject of filteredSecondSubjects(); track subject.id) {
+                    <mat-option [value]="subject.id">
+                        <span>{{ getSubjectTitle(subject) }}</span>
+                    </mat-option>
+                }
+            </mat-autocomplete>
+            <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"
+                                  style="margin-right: 0.5rem" *ngIf="subjectLoading()"/>
+        </mat-form-field>
+
+        <mat-radio-group aria-label="Select a language" formControlName="language">
+            <p [ngStyle]="{color: submitted() && languageError ? 'var(--mat-sys-error)' : ''}">{{ 'LANGUAGE' | translate }}
+                *</p>
+            <mat-radio-button value="uz">{{ 'UZBEK' | translate }}</mat-radio-button>
+            <mat-radio-button value="ru">{{ 'RUSSIAN' | translate }}</mat-radio-button>
+            <mat-error class="mat-small" style="margin-left: 1rem">
+                {{ submitted() && languageError ? languageError : '' }}
+            </mat-error>
+        </mat-radio-group>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            [disabled]="loading()"
+    >
+        {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button
+            [disabled]="loading()"
+            type="submit"
+            form="test-start-form"
+    >
+        @if (loading()) {
+            <app-button-progress-spinner/>
+        } @else {
+            {{ 'START' | translate }}
+        }
+    </button>
+</mat-dialog-actions>

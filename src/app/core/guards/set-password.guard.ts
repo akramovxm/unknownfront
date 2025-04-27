@@ -14,5 +14,5 @@ export const setPasswordGuard: CanActivateFn = (route, state) => {
         expiresAt = new Date(recovery.expiresAt);
     }
 
-    return (expiresAt && expiresAt > new Date()) || router.navigate(['/']);
+    return (expiresAt && expiresAt > new Date()) || router.createUrlTree(['/']);
 };

@@ -1,0 +1,48 @@
+<app-simple-toolbar [title]="'TEST_DETAILS' | translate"/>
+<app-progress-bar [loading]="loading()"/>
+<app-container>
+    <div class="test-group-container"
+         *ngFor="let taskGroup of test()?.taskGroups"
+    >
+        <div>
+            <span class="mat-headline-6">{{ getSubjectTitle(taskGroup) }}</span>
+            <p>{{ taskGroup.type.toString() | translate }}</p>
+        </div>
+        <span class="mat-headline-6">{{ getResultBySubject(taskGroup) }}</span>
+    </div>
+    <mat-list *ngIf="!loading() && test()">
+        <mat-list-item>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'STATUS' | translate }}: </span>
+                        {{ test()?.status?.toString() || '' | translate }}
+                    </span>
+        </mat-list-item>
+        <mat-list-item>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'DURATION' | translate }}: </span>
+                        {{ testDuration }}
+                    </span>
+        </mat-list-item>
+        <mat-list-item>
+                    <span matListItemTitle>
+                        <span class="primary-span mat-body-2">{{ 'TEST_DATE' | translate }}: </span>
+                        {{ test()?.startTime | date: 'dd.MM.yyyy hh:mm' }}
+                    </span>
+        </mat-list-item>
+    </mat-list>
+</app-container>
+<mat-tab-group headerPosition="below" dynamicHeight>
+    <mat-tab
+            *ngFor="let taskGroup of test()?.taskGroups; trackBy: trackById"
+            [label]="getLabel(taskGroup)"
+    >
+        <app-container>
+            <div class="task-container">
+                <app-task-view-card
+                        *ngFor="let task of taskGroup.tasks"
+                        [task]="task"
+                />
+            </div>
+        </app-container>
+    </mat-tab>
+</mat-tab-group>

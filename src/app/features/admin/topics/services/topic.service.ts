@@ -11,7 +11,7 @@ import {AdminTreeTopic} from "@features/admin/topics/models/admin-tree-topic";
 export class TopicService {
     private readonly http = inject(HttpClient);
 
-    private readonly baseUrl = BACKEND_URL + '/topics';
+    private readonly baseUrl = BACKEND_URL + '/admin/topics';
 
     getAllSubjectId(subjectId: number, queryParams?: { [key: string]: string | number }) {
         let params = new HttpParams();
@@ -22,11 +22,11 @@ export class TopicService {
             });
         }
 
-        return this.http.get<Response<AdminTopic[]>>(BACKEND_URL + '/subjects/' + subjectId + '/topics', { params });
+        return this.http.get<Response<AdminTopic[]>>(BACKEND_URL + '/admin/subjects/' + subjectId + '/topics', { params });
     }
 
     getAllBySubjectIdAsTree(subjectId: number) {
-        return this.http.get<Response<AdminTreeTopic[]>>(BACKEND_URL + '/subjects/' + subjectId + '/topics/as-tree');
+        return this.http.get<Response<AdminTreeTopic[]>>(BACKEND_URL + '/admin/subjects/' + subjectId + '/topics/as-tree');
     }
 
     create(data: any) {

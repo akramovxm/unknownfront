@@ -7,7 +7,7 @@ import {TaskSelectionService} from "@features/admin/tasks/services/task-selectio
 import {AdminTask} from "@features/admin/tasks/models/admin-task";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {TaskPreviewCardComponent} from "@features/admin/tasks/components/task-preview-card/task-preview-card.component";
-import {MatList, MatListItem, MatListItemLine, MatListItemTitle} from "@angular/material/list";
+import {MatList, MatListItem, MatListItemTitle} from "@angular/material/list";
 import {SimpleToolbarComponent} from "@shared/components/simple-toolbar/simple-toolbar.component";
 import {
     TaskDetailsActionsComponent
@@ -24,7 +24,6 @@ import {
         MatList,
         MatListItem,
         MatListItemTitle,
-        MatListItemLine,
         TranslatePipe,
         DatePipe,
         SimpleToolbarComponent,

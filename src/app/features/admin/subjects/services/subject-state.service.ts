@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {SubjectService} from "@features/admin/subjects/services/subject.service";
 import { ErrorService } from '@services/error.service';
-import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {AdminSubject} from "@features/admin/subjects/models/admin-subject";
 import {catchError, EMPTY, finalize, map, tap} from "rxjs";
 import {FormGroup} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
@@ -56,7 +56,7 @@ export class SubjectStateService {
                     dialogRef.disableClose = false;
                     dialogRef.close();
                 }
-                this.subjects.update(value => [res.data, ...value]);
+                this.subjects.update(value => [...value, res.data]);
                 this.snackbarService.open('SUBJECT_CREATED_SUCCESS');
             },
             error: err => {

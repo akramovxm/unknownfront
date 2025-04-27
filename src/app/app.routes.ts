@@ -2,12 +2,12 @@ import {Routes} from '@angular/router';
 import {HomeComponent} from "@features/home/home.component";
 import {AdminLayoutComponent} from "@layouts/admin-layout/admin-layout.component";
 import {adminGuard} from "@guards/admin.guard";
-import {ProfileComponent} from "@features/profile/profile.component";
 import {authGuard} from "@guards/auth.guard";
 import {Oauth2RedirectComponent} from "@features/oauth2-redirect/oauth2-redirect.component";
 import {appName} from "@constants";
 import {AuthLayoutComponent} from "@layouts/auth-layout/auth-layout.component";
 import {notAuthGuard} from "@guards/not-auth.guard";
+import {ProfileLayoutComponent} from "@layouts/profile-layout/profile-layout.component";
 
 export const routes: Routes = [
     {
@@ -35,7 +35,8 @@ export const routes: Routes = [
     {
         path: 'profile',
         title: appName + 'Profile',
-        component: ProfileComponent,
-        canActivate: [authGuard]
+        component: ProfileLayoutComponent,
+        canActivate: [authGuard],
+        loadChildren: () => import('@features/profile/profile.routes').then(m => m.PROFILE_ROUTES)
     },
 ];

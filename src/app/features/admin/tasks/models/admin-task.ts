@@ -1,7 +1,7 @@
 import {AdminTopic} from "@features/admin/topics/models/admin-topic";
 import {User} from "@models/user";
 import {AdminSource} from "@models/admin-source";
-import {AdminSubject} from "@features/admin/subjects/model/admin-subject";
+import {AdminSubject} from "@features/admin/subjects/models/admin-subject";
 
 export interface AdminTask {
     id: number;

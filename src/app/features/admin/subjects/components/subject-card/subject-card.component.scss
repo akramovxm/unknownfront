@@ -1,5 +1,21 @@
-mat-card-title {
+@use '@angular/material' as mat;
+
+mat-card {
+    height: 100%;
+}
+
+.title {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+mat-list {
+    @include mat.list-density(
+                    mat.define-theme((
+                            density: (
+                                    scale: -3
+                            )
+                    ))
+    )
 }

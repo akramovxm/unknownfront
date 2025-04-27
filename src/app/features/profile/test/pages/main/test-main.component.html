@@ -1,0 +1,36 @@
+<app-simple-toolbar title="TEST">
+    @if (!loading() && timeLeft() !== -1) {
+        <span class="mat-body" style="margin-right: 1rem">{{ 'LEFT' | translate }}:
+            <span class="primary-span">{{ timeLeft() | formatTime }}</span>
+        </span>
+        <button mat-button (click)="onFinishClick()" [disabled]="!testSession()">
+            <mat-icon>stop</mat-icon>
+            {{ 'FINISH' | translate }}
+        </button>
+    }
+</app-simple-toolbar>
+@if (loading()) {
+    <app-progress-bar [loading]="loading()"/>
+} @else if (testSession()) {
+    <mat-progress-bar
+            style="position: fixed; z-index: 2"
+            [value]="progress"
+    />
+    <span style="display: block; height: 10px"></span>
+}
+<mat-tab-group headerPosition="below" dynamicHeight>
+    <mat-tab
+            *ngFor="let taskGroup of testSession()?.taskGroups; trackBy: trackById"
+            [label]="getLabel(taskGroup)"
+    >
+        <app-container>
+            <div class="task-container">
+                <app-task-user-card
+                        *ngFor="let task of taskGroup.tasks"
+                        [task]="task"
+                        [taskGroup]="taskGroup"
+                />
+            </div>
+        </app-container>
+    </mat-tab>
+</mat-tab-group>

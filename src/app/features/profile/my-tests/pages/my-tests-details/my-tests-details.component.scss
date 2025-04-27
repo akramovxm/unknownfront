@@ -1,0 +1,45 @@
+.task-container {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+app-task-view-card {
+    width: 100%;
+}
+
+.test-group-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (min-width: 320px) {
+
+}
+@media (min-width: 375px) {
+
+}
+@media (min-width: 425px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+    .task-container {
+        column-gap: 0.5rem;
+    }
+    app-task-view-card {
+        width: calc(50% - 0.25rem);
+    }
+    .test-group-container {
+        max-width: 40%;
+    }
+}
+@media (min-width: 1440px) {
+
+}
+@media (min-width: 2560px) {
+
+}

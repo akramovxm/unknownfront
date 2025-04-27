@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title class="mat-headline-4" style="margin-bottom: 1rem">
+            {{ lang === 'uz' ? subject().titleUz : subject().titleRu }}
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="height: 100%; display: flex; align-items: end; justify-content: end">
+        <button mat-stroked-button (click)="onClickStartTest()" [disabled]="startDisabled">
+            <mat-icon>checklist</mat-icon>
+            {{ 'START_TEST' | translate }}
+        </button>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <a
+                [routerLink]="subject().id + '/topics'"
+                mat-button
+        >
+            <mat-icon>topic</mat-icon>
+            {{ 'TOPICS' | translate }}
+        </a>
+        <a
+                [routerLink]="subject().id + '/tasks'"
+                mat-button
+        >
+            <mat-icon>task</mat-icon>
+            {{ 'TASKS' | translate }}
+        </a>
+    </mat-card-actions>
+</mat-card>

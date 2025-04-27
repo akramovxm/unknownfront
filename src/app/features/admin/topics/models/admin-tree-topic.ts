@@ -1,4 +1,4 @@
-import {BasicTopic} from "@features/admin/topics/models/basic-topic";
+import {Topic} from "@models/topic";
 import {User} from "@models/user";
 
 export interface AdminTreeTopic {
@@ -6,10 +6,10 @@ export interface AdminTreeTopic {
     titleUz: string;
     titleRu: string;
     seq: number;
-    parent: BasicTopic | null;
+    parent: Topic | null;
     children: AdminTreeTopic[];
-    prev: BasicTopic | null;
-    next: BasicTopic | null;
+    prevId: number | null;
+    nextId: number | null;
     createdAt: Date;
     updatedAt: Date;
     createdBy: User | null;
